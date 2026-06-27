@@ -1,4 +1,4 @@
-<html>
+﻿<html>
     <head>
         <meta charset="utf-8">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,12 +56,12 @@
     </head>
 
 
-    <body>
+    <body><div style="position:fixed;top:16px;right:16px;z-index:1000;display:flex;gap:8px;font-family:'DM Mono',monospace;font-size:10px"><a href="grouped_reels.html" style="background:#0d0d0d;border:1px solid #333;color:#c7ff38;padding:5px 10px;border-radius:4px;text-decoration:none">Strategy Map</a><a href="protocol.html" style="background:#0d0d0d;border:1px solid #333;color:#4488ff;padding:5px 10px;border-radius:4px;text-decoration:none">Protocol</a></div>
     <style>
     * { box-sizing: border-box; }
     body { margin: 0; background: #0d0d0d; font-family: 'DM Mono', monospace; }
 
-    /* ── Stats bar ── */
+    /* â”€â”€ Stats bar â”€â”€ */
     #stats-bar {
         position: fixed; top: 0; left: 0; right: 0; z-index: 1002;
         background: rgba(10,10,10,0.97); border-bottom: 1px solid #1e1e1e;
@@ -82,7 +82,7 @@
     #search-box:focus { border-color: #c7ff38; }
     #search-box::placeholder { color: #383838; }
 
-    /* ── Legend ── */
+    /* â”€â”€ Legend â”€â”€ */
     #legend {
         position: fixed; top: 60px; left: 16px; z-index: 999;
         background: rgba(11,11,11,0.94); border: 1px solid #222;
@@ -101,7 +101,7 @@
     .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
     .legend-row { margin: 5px 0; color: #999; font-size: 10px; }
 
-    /* ── Cluster filters ── */
+    /* â”€â”€ Cluster filters â”€â”€ */
     #filters {
         position: fixed; top: 60px; left: 243px; z-index: 999;
         display: flex; flex-direction: column; gap: 4px;
@@ -115,7 +115,7 @@
     .filter-btn:hover { border-color: #444; color: #aaa; }
     .filter-btn.active { color: var(--cc); border-color: var(--cc); background: rgba(255,255,255,0.03); }
 
-    /* ── Detail panel ── */
+    /* â”€â”€ Detail panel â”€â”€ */
     #detail-panel {
         position: fixed; top: 44px; right: -380px; width: 360px;
         height: calc(100vh - 44px); z-index: 1001;
@@ -166,7 +166,7 @@
     .edge-item .enode { color: #999; }
     .no-edges { color: #333; font-size: 10px; font-style: italic; }
 
-    /* ── Enhanced node detail sections ── */
+    /* â”€â”€ Enhanced node detail sections â”€â”€ */
     .ph-label { font-size: 8px; color: #c7ff38; letter-spacing: 0.12em; text-transform: uppercase; margin: 14px 0 6px; }
     .ph-label:first-child { margin-top: 2px; }
     .ph-text { font-size: 11px; color: #c8c8c8; line-height: 1.7; }
@@ -182,16 +182,16 @@
     <!-- Stats bar -->
     <div id="stats-bar">
         <span><span class="stat-label">CRS</span><span class="stat-val">54/100</span></span>
-        <span class="stat-sep">·</span>
+        <span class="stat-sep">Â·</span>
         <span><span class="stat-label">Stage</span><span class="stat-val">Preparation</span></span>
-        <span class="stat-sep">·</span>
+        <span class="stat-sep">Â·</span>
         <span><span class="stat-label">Timeline</span><span class="stat-val">30-90 days</span></span>
-        <span class="stat-sep">·</span>
+        <span class="stat-sep">Â·</span>
         <span><span class="stat-label">Posts</span><span class="stat-val">56</span></span>
-        <span class="stat-sep">·</span>
-        <span><span class="stat-label">Graph</span><span class="stat-val">40 nodes · 47 edges</span></span>
+        <span class="stat-sep">Â·</span>
+        <span><span class="stat-label">Graph</span><span class="stat-val">40 nodes Â· 47 edges</span></span>
         <div id="search-wrap">
-            <input id="search-box" type="text" placeholder="search nodes…" autocomplete="off">
+            <input id="search-box" type="text" placeholder="search nodesâ€¦" autocomplete="off">
         </div>
         <span id="stats-title">BEHAVIOR MAP</span>
     </div>
@@ -200,7 +200,7 @@
     <div id="legend">
         <div id="legend-header" onclick="toggleLegend()">
             <h3>MOTIVATION ARCHITECTURE</h3>
-            <span id="legend-toggle">▾</span>
+            <span id="legend-toggle">â–¾</span>
         </div>
         <div id="legend-body">
             <div class="legend-row"><span class="dot" style="background:#ff4444"></span>Cortisol-Dopamine Trap</div>
@@ -215,17 +215,17 @@
     <!-- Cluster filter buttons -->
     <div id="filters">
         <button class="filter-btn active" data-cluster="all" style="--cc:#c7ff38" onclick="filterCluster(this,'all')">ALL</button>
-        <button class="filter-btn" data-cluster="#ff4444" style="--cc:#ff4444" onclick="filterCluster(this,'#ff4444')">● TRAP</button>
-        <button class="filter-btn" data-cluster="#c7ff38" style="--cc:#c7ff38" onclick="filterCluster(this,'#c7ff38')">● RECOVERY</button>
-        <button class="filter-btn" data-cluster="#4488ff" style="--cc:#4488ff" onclick="filterCluster(this,'#4488ff')">● PHASE MODEL</button>
-        <button class="filter-btn" data-cluster="#ff9900" style="--cc:#ff9900" onclick="filterCluster(this,'#ff9900')">● GOD NODES</button>
-        <button class="filter-btn" data-cluster="#888888" style="--cc:#888888" onclick="filterCluster(this,'#888888')">● MISSING</button>
-        <button class="filter-btn" data-cluster="#cc44ff" style="--cc:#cc44ff" onclick="filterCluster(this,'#cc44ff')">● IRONY</button>
+        <button class="filter-btn" data-cluster="#ff4444" style="--cc:#ff4444" onclick="filterCluster(this,'#ff4444')">â— TRAP</button>
+        <button class="filter-btn" data-cluster="#c7ff38" style="--cc:#c7ff38" onclick="filterCluster(this,'#c7ff38')">â— RECOVERY</button>
+        <button class="filter-btn" data-cluster="#4488ff" style="--cc:#4488ff" onclick="filterCluster(this,'#4488ff')">â— PHASE MODEL</button>
+        <button class="filter-btn" data-cluster="#ff9900" style="--cc:#ff9900" onclick="filterCluster(this,'#ff9900')">â— GOD NODES</button>
+        <button class="filter-btn" data-cluster="#888888" style="--cc:#888888" onclick="filterCluster(this,'#888888')">â— MISSING</button>
+        <button class="filter-btn" data-cluster="#cc44ff" style="--cc:#cc44ff" onclick="filterCluster(this,'#cc44ff')">â— IRONY</button>
     </div>
 
     <!-- Node detail panel -->
     <div id="detail-panel">
-        <button id="panel-close" onclick="closePanel()">✕</button>
+        <button id="panel-close" onclick="closePanel()">âœ•</button>
         <div id="panel-node-name"></div>
         <span id="panel-cluster-tag"></span>
         <div id="panel-tooltip"></div>
@@ -233,9 +233,9 @@
             <div id="panel-analysis-label">YOUR ANALYSIS</div>
             <div id="panel-analysis-text"></div>
         </div>
-        <div class="psec">← INCOMING</div>
+        <div class="psec">â† INCOMING</div>
         <div id="panel-incoming"></div>
-        <div class="psec">OUTGOING →</div>
+        <div class="psec">OUTGOING â†’</div>
         <div id="panel-outgoing"></div>
     </div>
 
@@ -334,7 +334,7 @@
 
                   network = new vis.Network(container, data, options);
 
-                  // ── Node click → detail panel ──
+                  // â”€â”€ Node click â†’ detail panel â”€â”€
                   network.on("click", function(params) {
                       if (params.nodes.length > 0) {
                           showPanel(params.nodes[0]);
@@ -347,21 +347,21 @@
               }
               drawGraph();
 
-              // ── Cluster metadata & per-node analysis ──
+              // â”€â”€ Cluster metadata & per-node analysis â”€â”€
               var clusterMeta = {
                   '#ff4444': { name: 'Cortisol-Dopamine Trap', desc: 'The feedback loop that keeps you scrolling instead of building.' },
                   '#c7ff38': { name: 'Flint Recovery Path', desc: "Justyn Amechi's framework for rebuilding self-trust through action." },
-                  '#4488ff': { name: '3-Phase Motivation Model', desc: 'Approach → Avoidance → Assertion. You are currently between phases 1 and 2.' },
+                  '#4488ff': { name: '3-Phase Motivation Model', desc: 'Approach â†’ Avoidance â†’ Assertion. You are currently between phases 1 and 2.' },
                   '#ff9900': { name: 'God Nodes (Technical Identity)', desc: 'Your real north star. The skills you are actually building.' },
-                  '#888888': { name: 'Missing Feed Content', desc: 'Content types absent from your saves — the gaps reveal what your algorithm avoids.' },
+                  '#888888': { name: 'Missing Feed Content', desc: 'Content types absent from your saves â€” the gaps reveal what your algorithm avoids.' },
                   '#cc44ff': { name: 'The Deepest Irony', desc: 'A correct framework, consumed as inspiration, delivered via the trap itself.' }
               };
 
               var nodeAnalysis = {
                 'Current Self': {
-                  learning: "You've shipped Hivemend, ConnectSphere, Learnix, invoice_baazi, video_editor — real products that are live. But your inner narrative treats you like someone who hasn't shipped anything yet. The gap between your actual evidence and your self-assessment is the source of the entire trap.",
+                  learning: "You've shipped Hivemend, ConnectSphere, Learnix, invoice_baazi, video_editor â€” real products that are live. But your inner narrative treats you like someone who hasn't shipped anything yet. The gap between your actual evidence and your self-assessment is the source of the entire trap.",
                   actions: [
-                    "Open your GitHub right now and count your public repos. Write that number down — it's your evidence floor, not your ceiling.",
+                    "Open your GitHub right now and count your public repos. Write that number down â€” it's your evidence floor, not your ceiling.",
                     "Set your phone wallpaper to the name of one project you shipped this month.",
                     "Block 45 minutes tonight: open your last unfinished project, commit one file, push it. That's the only task."
                   ],
@@ -369,17 +369,17 @@
                   quote: "The evidence says you ship. Your internal story is just behind the commits."
                 },
                 'Identity Gap': {
-                  learning: "The gap isn't skill — you have the AI stack already. It's the story you tell yourself between commits. Every saved post is a silent claim: 'I'll be this person when I learn X.' You already learned X. You just haven't claimed it yet.",
+                  learning: "The gap isn't skill â€” you have the AI stack already. It's the story you tell yourself between commits. Every saved post is a silent claim: 'I'll be this person when I learn X.' You already learned X. You just haven't claimed it yet.",
                   actions: [
                     "Write on paper: 'I am a developer who ships AI tools, like [name one real thing you built].' Read it aloud.",
-                    "Delete or archive every saved post older than 30 days — each unseen save silently widens the gap.",
+                    "Delete or archive every saved post older than 30 days â€” each unseen save silently widens the gap.",
                     "Run `git log --oneline -10` on any project right now. Read it. That's who you already are."
                   ],
                   urgency: "critical",
                   quote: "The gap isn't between you and the desired self. It's between what you've built and what you're willing to claim."
                 },
                 'Identity Threat': {
-                  learning: "The threat fires most intensely right before you sit down to work. That activation energy is real — it's being routed into scroll instead of code. The prefrontal cortex needs 2 minutes to take over from amygdala. The if-then plan buys those 2 minutes.",
+                  learning: "The threat fires most intensely right before you sit down to work. That activation energy is real â€” it's being routed into scroll instead of code. The prefrontal cortex needs 2 minutes to take over from amygdala. The if-then plan buys those 2 minutes.",
                   actions: [
                     "Name it the next time it fires: say aloud 'identity threat activated.' Then open VS Code instead of Instagram.",
                     "Write this if-then and put it on your monitor: 'When I feel the urge to check Instagram before coding, I open my project folder instead.'",
@@ -389,29 +389,29 @@
                   quote: "The discomfort before coding isn't a stop sign. It's the engine. You're just routing it wrong."
                 },
                 'Avoidance Loop': {
-                  learning: "The loop is working perfectly — it's just optimizing for relief, not output. Every scroll session is a successful avoidance event, and success reinforces the behavior. You've run this loop 56 times (one per save). The only break is a deliberate trigger placed before the loop starts.",
+                  learning: "The loop is working perfectly â€” it's just optimizing for relief, not output. Every scroll session is a successful avoidance event, and success reinforces the behavior. You've run this loop 56 times (one per save). The only break is a deliberate trigger placed before the loop starts.",
                   actions: [
                     "Delete Instagram from your phone for 7 days. This is the blunt intervention with the most evidence behind it.",
                     "Replace the first daily scroll with `git status` on your active project. Make the loop start with code context instead.",
-                    "Install Cold Turkey or Freedom with Instagram blocked 9am–6pm. Remove the option."
+                    "Install Cold Turkey or Freedom with Instagram blocked 9amâ€“6pm. Remove the option."
                   ],
                   urgency: "critical",
                   quote: "The loop isn't broken. It's working on the wrong objective. Change the trigger, not yourself."
                 },
                 'Shame Spiral': {
-                  learning: "In Indian developer culture, the comparison field is ambient — batchmates at FAANG, LinkedIn wins, Twitter devs posting launches. The shame spiral here is private and compounding. You're shaming yourself for not building things you haven't even planned yet. That's the loop eating itself.",
+                  learning: "In Indian developer culture, the comparison field is ambient â€” batchmates at FAANG, LinkedIn wins, Twitter devs posting launches. The shame spiral here is private and compounding. You're shaming yourself for not building things you haven't even planned yet. That's the loop eating itself.",
                   actions: [
                     "Write this sentence: 'The shame I feel means I care about this. That's useful.' Then open a project file.",
-                    "Block LinkedIn and Twitter between 9am and 12pm — peak shame-spiral fuel hours.",
+                    "Block LinkedIn and Twitter between 9am and 12pm â€” peak shame-spiral fuel hours.",
                     "For the next 3 days: when shame fires, write one line of code instead of opening any social app. Track the streak."
                   ],
                   urgency: "high",
                   quote: "Shame without a target just burns. Give it a file to edit."
                 },
                 'Scroll Session': {
-                  learning: "You open Instagram at the exact moment the resistance to starting spikes — this is the data. Not boredom, identity threat. And 56 saves means 56 successful avoidance events, each reinforcing that 'scroll when stuck' is a valid strategy. It isn't.",
+                  learning: "You open Instagram at the exact moment the resistance to starting spikes â€” this is the data. Not boredom, identity threat. And 56 saves means 56 successful avoidance events, each reinforcing that 'scroll when stuck' is a valid strategy. It isn't.",
                   actions: [
-                    "Check your screen time right now. Screenshot it. This is your baseline — you need the number to track change.",
+                    "Check your screen time right now. Screenshot it. This is your baseline â€” you need the number to track change.",
                     "Set a hard 20-minute daily cap for Instagram in iOS/Android screen time settings. Do it now.",
                     "Replace tomorrow's first scroll with `git log --oneline -5` on your active project. Read what you've built before consuming what others promise."
                   ],
@@ -419,11 +419,11 @@
                   quote: "Every scroll session is a vote for who you're afraid you'll stay."
                 },
                 'Shame Hook': {
-                  learning: "35% of your saves are shame/comparison hooks — 'mistakes that cost developers years,' 'why you're still stuck,' 'what separates good from great.' Each one activated your amygdala and got filed as 'useful.' It wasn't useful. It was a cortisol invoice your prefrontal cortex pays during your next coding session.",
+                  learning: "35% of your saves are shame/comparison hooks â€” 'mistakes that cost developers years,' 'why you're still stuck,' 'what separates good from great.' Each one activated your amygdala and got filed as 'useful.' It wasn't useful. It was a cortisol invoice your prefrontal cortex pays during your next coding session.",
                   actions: [
-                    "Open your saved posts folder now. Delete every post that made you feel behind when you first saw it — that's the exact test for shame hooks.",
+                    "Open your saved posts folder now. Delete every post that made you feel behind when you first saw it â€” that's the exact test for shame hooks.",
                     "Unfollow 3 accounts that primarily post comparison or gap content. Today, not this week.",
-                    "Replace with one account that posts messy work-in-progress — someone shipping ugly early versions of real tools."
+                    "Replace with one account that posts messy work-in-progress â€” someone shipping ugly early versions of real tools."
                   ],
                   urgency: "high",
                   quote: "Content that makes you feel behind isn't teaching you. It's billing your cortisol account."
@@ -431,7 +431,7 @@
                 'Amygdala Threat Response': {
                   learning: "Your amygdala cannot distinguish between 'I might fail to ship this RAG system' and 'predator approaching.' Both trigger cortisol. You're scrolling shame hooks, activating threat response, then expecting your PFC to architect a production AI system immediately after. The sequencing is the problem.",
                   actions: [
-                    "Before any coding session: 2 minutes of box breathing — 4 counts in, 4 hold, 4 out, 4 hold. This measurably reduces cortisol.",
+                    "Before any coding session: 2 minutes of box breathing â€” 4 counts in, 4 hold, 4 out, 4 hold. This measurably reduces cortisol.",
                     "Set a calendar block called 'downregulate' for 5 minutes before your daily coding session.",
                     "Hard rule: no shame-hook content within 1 hour of planned coding time."
                   ],
@@ -439,9 +439,9 @@
                   quote: "Your brain thinks the unfinished FastAPI project is a predator. Breathe first. Then build."
                 },
                 'Cortisol': {
-                  learning: "Chronic cortisol from shame-scroll cycles is why your evening coding sessions produce nothing. The stress hormone gets spent on the scroll. By the time you open VS Code at 10pm, the prefrontal cortex is running depleted. The problem isn't motivation — it's sequencing.",
+                  learning: "Chronic cortisol from shame-scroll cycles is why your evening coding sessions produce nothing. The stress hormone gets spent on the scroll. By the time you open VS Code at 10pm, the prefrontal cortex is running depleted. The problem isn't motivation â€” it's sequencing.",
                   actions: [
-                    "Move your primary coding block to morning — before any Instagram, any news, any Slack. Try this for 7 consecutive days.",
+                    "Move your primary coding block to morning â€” before any Instagram, any news, any Slack. Try this for 7 consecutive days.",
                     "Log cortisol-spike triggers for 3 days: note every moment you feel anxious, behind, or like you need to catch up.",
                     "Replace afternoon scroll with a 20-minute walk before your second coding session. Walk first, build second."
                   ],
@@ -452,16 +452,16 @@
                   learning: "The PFC handles planning, sequencing, and executing complex systems. Cortisol suppresses it. You're trying to design RAG architecture and FastAPI patterns after your PFC has already been taxed by shame hooks and comparison content. This is biological, not a motivation problem.",
                   actions: [
                     "Hard rule: no social media before your first coding block. Protect PFC availability at its peak.",
-                    "Schedule your most complex task in the first 2 hours after waking — this is your PFC's strongest window.",
+                    "Schedule your most complex task in the first 2 hours after waking â€” this is your PFC's strongest window.",
                     "Test tonight: code before opening Instagram. Compare the session quality. You'll notice the difference immediately."
                   ],
                   urgency: "high",
                   quote: "Your PFC is the most expensive tool you own. Stop running it after you've already depleted it."
                 },
                 'Framework Solution': {
-                  learning: "Every 'drop your email for the framework' CTA delivered a dopamine hit and nothing else. You have 56 frameworks saved, zero executed. The frameworks can be real — The Flint's model is scientifically valid — but the save mechanism delivers the satisfaction before any behavior change occurs.",
+                  learning: "Every 'drop your email for the framework' CTA delivered a dopamine hit and nothing else. You have 56 frameworks saved, zero executed. The frameworks can be real â€” The Flint's model is scientifically valid â€” but the save mechanism delivers the satisfaction before any behavior change occurs.",
                   actions: [
-                    "Pick one framework from your saves that you've 'understood.' Apply one step of it today — not as inspiration, as a system.",
+                    "Pick one framework from your saves that you've 'understood.' Apply one step of it today â€” not as inspiration, as a system.",
                     "Open Obsidian or a notes file. Write your own one-page framework for one recurring problem you face when starting a project.",
                     "Count your ratio: frameworks implemented vs. frameworks saved. That ratio is the only data point that matters."
                   ],
@@ -469,27 +469,27 @@
                   quote: "You saved 56 frameworks. One executed framework beats all of them combined."
                 },
                 'Nucleus Accumbens': {
-                  learning: "Your nucleus accumbens peaks on anticipation, not completion. The save button delivers reward before any behavior occurs. This is why you save the video, feel satisfied, and never open it again — the dopamine circuit completed at the tap.",
+                  learning: "Your nucleus accumbens peaks on anticipation, not completion. The save button delivers reward before any behavior occurs. This is why you save the video, feel satisfied, and never open it again â€” the dopamine circuit completed at the tap.",
                   actions: [
-                    "Disable post saves in Instagram for 7 days (Settings → Saved). Remove the reward from the pre-behavior moment.",
+                    "Disable post saves in Instagram for 7 days (Settings â†’ Saved). Remove the reward from the pre-behavior moment.",
                     "When you'd normally save a post, write the core idea in one sentence in your notes app instead. Then close Instagram.",
-                    "Build a 21-day deploy log — one shipped thing per day, any size. Redirect the accumbens hit to pushing code."
+                    "Build a 21-day deploy log â€” one shipped thing per day, any size. Redirect the accumbens hit to pushing code."
                   ],
                   urgency: "medium",
-                  quote: "The save is the reward. Execution never gets its dopamine — it was already spent."
+                  quote: "The save is the reward. Execution never gets its dopamine â€” it was already spent."
                 },
                 'Dopamine Anticipation': {
                   learning: "You've trained your brain to spike dopamine on anticipating future capability. Saving an 'AI Agents' post delivers a hit that represents the future version of you who knows agents. The actual work of building agents gets none of that hit. You're addicted to the preview, not the feature.",
                   actions: [
-                    "Start a 21-day deploy log: one shipped function, fix, or endpoint daily. This becomes your new dopamine source — earned, not borrowed.",
+                    "Start a 21-day deploy log: one shipped function, fix, or endpoint daily. This becomes your new dopamine source â€” earned, not borrowed.",
                     "For the next week: every time you feel excited about a piece of content, capture the idea in notes and immediately open your project. Redirect within 90 seconds.",
-                    "Build one agent today — even a 50-line script that calls Claude API with a system prompt. Ship it. Feel the difference between real completion and anticipated completion."
+                    "Build one agent today â€” even a 50-line script that calls Claude API with a system prompt. Ship it. Feel the difference between real completion and anticipated completion."
                   ],
                   urgency: "high",
                   quote: "You're high on the preview. Ship the actual thing and feel the difference."
                 },
                 'Symbolic Self-Completion': {
-                  learning: "This is the trap's boss node. Saving AI engineering content IS a proxy identity acquisition — you feel like an AI engineer when you save the post. That feeling is real enough that execution stops feeling necessary. Your folder is 56 units of borrowed identity that belongs to a future self you keep deferring.",
+                  learning: "This is the trap's boss node. Saving AI engineering content IS a proxy identity acquisition â€” you feel like an AI engineer when you save the post. That feeling is real enough that execution stops feeling necessary. Your folder is 56 units of borrowed identity that belongs to a future self you keep deferring.",
                   actions: [
                     "Open your saved posts folder right now. Archive or delete every post older than 14 days that you haven't acted on. Do this before writing any code today.",
                     "For every post you save this week, write one sentence: 'The action I will take within 48 hours because of this is ___.' If the answer is 'none,' don't save.",
@@ -499,17 +499,17 @@
                   quote: "Your saved folder is a museum of who you planned to become. Empty it."
                 },
                 'Moral Licensing': {
-                  learning: "Every Instagram scroll through technical content gets logged by your brain as 'I did something productive.' This is moral licensing — consuming AI engineering content grants you credit for AI engineering work. You've been redeeming that credit instead of shipping code. The math doesn't work.",
+                  learning: "Every Instagram scroll through technical content gets logged by your brain as 'I did something productive.' This is moral licensing â€” consuming AI engineering content grants you credit for AI engineering work. You've been redeeming that credit instead of shipping code. The math doesn't work.",
                   actions: [
                     "Define your one metric for today: only git commits count as productive. Nothing else. Track it tonight.",
-                    "Write this on a sticky note for your monitor: 'Reading about RAG ≠ RAG. Watching FastAPI ≠ FastAPI.'",
+                    "Write this on a sticky note for your monitor: 'Reading about RAG â‰  RAG. Watching FastAPI â‰  FastAPI.'",
                     "Log tomorrow: every Instagram interaction with tech content = 0. Only a pushed commit = +1. Check score at end of day."
                   ],
                   urgency: "high",
                   quote: "Consuming technical content is not technical work. Your brain thinks it is. Correct it."
                 },
                 'Phase 2: Avoidance Motivation': {
-                  learning: "35% of your saved content is Phase 2 fuel — fear of being left behind, comparison to faster developers, shame about current output. Phase 2 feels like drive but burns cortisol. Sustained Phase 2 is the definition of burnout, and it won't hold past 60 days of pressure.",
+                  learning: "35% of your saved content is Phase 2 fuel â€” fear of being left behind, comparison to faster developers, shame about current output. Phase 2 feels like drive but burns cortisol. Sustained Phase 2 is the definition of burnout, and it won't hold past 60 days of pressure.",
                   actions: [
                     "Count your Phase 2 signals today: every 'I'm behind,' 'they're ahead,' or direct comparison thought. Log the total.",
                     "Identify and unfollow 5 accounts that primarily trigger Phase 2 in you. Today, not this week.",
@@ -519,17 +519,17 @@
                   quote: "Fear gets you to the desk. It won't keep you there. And it will break you eventually."
                 },
                 'Desired Self': {
-                  learning: "'Technically elite AI builder, intentional not anxious' — you know exactly who you're becoming. The problem is measuring the gap to this person instead of counting your evidence toward it. You've already shipped multiple AI-adjacent products. The desired self isn't as far as the gap makes it feel.",
+                  learning: "'Technically elite AI builder, intentional not anxious' â€” you know exactly who you're becoming. The problem is measuring the gap to this person instead of counting your evidence toward it. You've already shipped multiple AI-adjacent products. The desired self isn't as far as the gap makes it feel.",
                   actions: [
-                    "Write one evidence statement: 'I am already an AI builder — I shipped [one real thing] last month.' Make it factual, not aspirational.",
-                    "Put the desired self description somewhere visible — not as aspiration, but as a description of a trend already in motion.",
+                    "Write one evidence statement: 'I am already an AI builder â€” I shipped [one real thing] last month.' Make it factual, not aspirational.",
+                    "Put the desired self description somewhere visible â€” not as aspiration, but as a description of a trend already in motion.",
                     "Set a weekly Friday review: list evidence gathered that week. Replace gap-counting with evidence-counting."
                   ],
                   urgency: "high",
                   quote: "You already know who you're becoming. Start counting the evidence instead of the distance."
                 },
                 'Hesitation': {
-                  learning: "Each hesitation is a vote against yourself, and it compounds. CRS=54 is the Preparation stage — if you act now, you hit the Action stage in 30 days. If you hesitate another 90 days, non-execution becomes the identity you're defending instead of overcoming.",
+                  learning: "Each hesitation is a vote against yourself, and it compounds. CRS=54 is the Preparation stage â€” if you act now, you hit the Action stage in 30 days. If you hesitate another 90 days, non-execution becomes the identity you're defending instead of overcoming.",
                   actions: [
                     "Name the next hesitation the moment it starts. Say aloud: 'I'm hesitating about [X].' Then write the first action for X.",
                     "Write an if-then for your most common hesitation point: 'When I open my laptop and feel stuck, I will open my project file and run the last test.'",
@@ -549,9 +549,9 @@
                   quote: "The pattern is just a score. You control the next digit."
                 },
                 'Self-Trust Erosion': {
-                  learning: "Self-trust erodes silently and compounds quietly. In Indian developer culture, the comparison field amplifies every gap — LinkedIn batchmates, Twitter devs posting launches, Hacker News founders. CRS=54 partially reflects this erosion. You're not watching it happen in real-time, but it's happening.",
+                  learning: "Self-trust erodes silently and compounds quietly. In Indian developer culture, the comparison field amplifies every gap â€” LinkedIn batchmates, Twitter devs posting launches, Hacker News founders. CRS=54 partially reflects this erosion. You're not watching it happen in real-time, but it's happening.",
                   actions: [
-                    "Write 3 things you said you'd do that you actually did this week — any domain, any size. Read them. This is your trust account audit.",
+                    "Write 3 things you said you'd do that you actually did this week â€” any domain, any size. Read them. This is your trust account audit.",
                     "Do this daily for 7 days: keep one promise to yourself per day, tracked in notes. Mechanical trust-rebuild.",
                     "Identify the one thing you've been saying 'I'll do it tomorrow' about the longest. Do 5 minutes of it right now."
                   ],
@@ -559,19 +559,19 @@
                   quote: "Your self-trust account is in overdraft. Every kept promise is a deposit."
                 },
                 'Identity toward Non-Execution': {
-                  learning: "This is the most dangerous node in your graph. An identity building around 'I'm someone who plans but doesn't ship' is the hardest to reverse — it requires narrative disruption, not just a new habit. You're not there yet. But every scroll session without a code session brings it closer.",
+                  learning: "This is the most dangerous node in your graph. An identity building around 'I'm someone who plans but doesn't ship' is the hardest to reverse â€” it requires narrative disruption, not just a new habit. You're not there yet. But every scroll session without a code session brings it closer.",
                   actions: [
                     "Right now: write 'I'm the kind of person who ships things, like when I [name one real thing you built].' Say it out loud. This is identity interrupt, not affirmation.",
-                    "Block 30 minutes tonight for code — not planning, not tutorials, not saving. Actual code. Anything counts.",
+                    "Block 30 minutes tonight for code â€” not planning, not tutorials, not saving. Actual code. Anything counts.",
                     "For the next 7 days: every day you don't commit code, write one sentence: 'Is this the identity I'm building?' Then commit something."
                   ],
                   urgency: "critical",
                   quote: "Non-execution isn't your default. It's just the current score. Change it tonight."
                 },
                 'Execution (despite unready)': {
-                  learning: "The 'unready' feeling never goes away on its own — it's produced by identity threat, not by actual unreadiness. Your RAG system doesn't need elegant architecture for v1. Your FastAPI endpoints don't need error handling. The Flint's entire system lives in this node. Unready + shipped is infinitely better than perfect + saved.",
+                  learning: "The 'unready' feeling never goes away on its own â€” it's produced by identity threat, not by actual unreadiness. Your RAG system doesn't need elegant architecture for v1. Your FastAPI endpoints don't need error handling. The Flint's entire system lives in this node. Unready + shipped is infinitely better than perfect + saved.",
                   actions: [
-                    "Pick one unfinished project — ConnectSphere is 95% done per your own notes. Deploy it in its current state to Railway or Vercel right now.",
+                    "Pick one unfinished project â€” ConnectSphere is 95% done per your own notes. Deploy it in its current state to Railway or Vercel right now.",
                     "Set a rule: the next feature you build, deploy it before it feels ready. Ship ugly as a practice.",
                     "Open any project, write one function, push it. Don't review. Don't refactor. Just push. Notice what completion feels like without the readiness gate."
                   ],
@@ -579,67 +579,67 @@
                   quote: "Ship ugly. Ship now. The readiness you're waiting for is the trap itself."
                 },
                 'Behavioral Evidence': {
-                  learning: "You already have evidence: ConnectSphere, Hivemend, Learnix, invoice_baazi, video_editor, trade_baazi — shipped things. The problem isn't evidence-scarcity, it's evidence-blindness. You're not counting what already exists because the identity gap makes it invisible.",
+                  learning: "You already have evidence: ConnectSphere, Hivemend, Learnix, invoice_baazi, video_editor, trade_baazi â€” shipped things. The problem isn't evidence-scarcity, it's evidence-blindness. You're not counting what already exists because the identity gap makes it invisible.",
                   actions: [
                     "Make a 'Ships' list right now: every project pushed to production or shared publicly. Name, date, one sentence what it does.",
                     "Put this list on your phone home screen. Read it every morning before opening any social app.",
-                    "Add to the list every time you ship something. Watch it grow. This is your real identity document — not your saved posts."
+                    "Add to the list every time you ship something. Watch it grow. This is your real identity document â€” not your saved posts."
                   ],
                   urgency: "critical",
                   quote: "The evidence already exists. You're just not looking at it."
                 },
                 'Self-Trust Rebuilt': {
-                  learning: "Self-trust rebuilds through repeated kept actions, not through realizations or feeling ready. You're at Preparation stage because you have enough trust to plan but not yet enough to sustain execution. Two weeks of daily kept commitments — even 30-minute coding sessions — mechanically moves the dial.",
+                  learning: "Self-trust rebuilds through repeated kept actions, not through realizations or feeling ready. You're at Preparation stage because you have enough trust to plan but not yet enough to sustain execution. Two weeks of daily kept commitments â€” even 30-minute coding sessions â€” mechanically moves the dial.",
                   actions: [
-                    "Commit to 14 consecutive days of one git commit per day. Any size — a comment, a fix, a line. Track the streak on GitHub.",
-                    "Not motivation, not inspiration — just the commit. The streak is the trust-rebuild metric.",
+                    "Commit to 14 consecutive days of one git commit per day. Any size â€” a comment, a fix, a line. Track the streak on GitHub.",
+                    "Not motivation, not inspiration â€” just the commit. The streak is the trust-rebuild metric.",
                     "At day 7, re-read your Ships list. Notice how your self-assessment shifts when evidence accumulates."
                   ],
                   urgency: "high",
                   quote: "Trust is built in deposits, not declarations. Make one today."
                 },
                 'Execution Identity': {
-                  learning: "This is where you're going. Execution Identity means shipping becomes automatic, not motivated — Phase 3 Assertion where you build because that's who you are. At CRS=54, you're 30-90 days from this if you start now. It's not aspiration — it's behavioral accumulation math.",
+                  learning: "This is where you're going. Execution Identity means shipping becomes automatic, not motivated â€” Phase 3 Assertion where you build because that's who you are. At CRS=54, you're 30-90 days from this if you start now. It's not aspiration â€” it's behavioral accumulation math.",
                   actions: [
                     "Make 'I ship things' your phone wallpaper today. It feels cringe now. It won't in 30 days when you're looking at your commit streak.",
-                    "Pick one maker you follow who ships constantly. Watch what they do (not what they say) — the behavior pattern, not the content.",
+                    "Pick one maker you follow who ships constantly. Watch what they do (not what they say) â€” the behavior pattern, not the content.",
                     "Write the Execution Identity statement: 'I am someone who ships AI tools. My evidence: [list 3 real things].' Keep it visible."
                   ],
                   urgency: "high",
-                  quote: "Identity isn't claimed. It's accumulated — one commit at a time."
+                  quote: "Identity isn't claimed. It's accumulated â€” one commit at a time."
                 },
                 'Implementation Intention': {
-                  learning: "Zero if-then plans detected in 56 saves. Gollwitzer's research (d=0.65) shows this single intervention doubles execution rate. This is the highest-leverage action available to you right now. The science is solid — the cost is 3 minutes of writing.",
+                  learning: "Zero if-then plans detected in 56 saves. Gollwitzer's research (d=0.65) shows this single intervention doubles execution rate. This is the highest-leverage action available to you right now. The science is solid â€” the cost is 3 minutes of writing.",
                   actions: [
                     "Write 3 if-then plans RIGHT NOW on paper: (1) 'When I open my laptop after dinner, I will open VS Code and run the test suite.' (2) 'When I feel the urge to scroll Instagram before coding, I will open my project folder instead.' (3) 'When a new project idea excites me, I will write it in notes and return to my current project.'",
                     "Put these in your phone notes labeled 'Flint Plans.' Review them every morning for 7 days.",
                     "Set a phone alarm called 'Flint: if-then' for tomorrow morning to write tomorrow's plan tonight."
                   ],
                   urgency: "critical",
-                  quote: "'When X happens, I will do Y' — this sentence is worth more than 56 saved motivational reels combined."
+                  quote: "'When X happens, I will do Y' â€” this sentence is worth more than 56 saved motivational reels combined."
                 },
                 'Medial PFC': {
-                  learning: "The medial PFC fires at 120ms — well below conscious deliberation. This is why if-then plans work: they pre-load the behavioral response before cortisol can route you into avoidance. The implementation intention is a neurological hack, not a motivational one. Pre-decision is the mechanism.",
+                  learning: "The medial PFC fires at 120ms â€” well below conscious deliberation. This is why if-then plans work: they pre-load the behavioral response before cortisol can route you into avoidance. The implementation intention is a neurological hack, not a motivational one. Pre-decision is the mechanism.",
                   actions: [
-                    "Pre-decide 3 concrete environmental triggers for today: 'When coffee finishes brewing → open VS Code.' 'When Slack notification clears → run test suite.' 'When I close a YouTube video → open project file.'",
+                    "Pre-decide 3 concrete environmental triggers for today: 'When coffee finishes brewing â†’ open VS Code.' 'When Slack notification clears â†’ run test suite.' 'When I close a YouTube video â†’ open project file.'",
                     "Write tomorrow's plan tonight, not tomorrow morning. Pre-load before cortisol has context to respond to.",
-                    "The trigger must be specific and environmental, not time-based. 'When X happens' — not 'at 9am.'"
+                    "The trigger must be specific and environmental, not time-based. 'When X happens' â€” not 'at 9am.'"
                   ],
                   urgency: "medium",
                   quote: "Wire the trigger before the cortisol has anything to fire at. Then it fires itself."
                 },
                 'Phase 1: Approach Motivation': {
-                  learning: "Instagram activates Phase 1 perfectly — wanting, excitement, anticipation. The scroll feels productive because it generates real motivation chemistry. The problem: Phase 1 burns fast and needs a conversion mechanism within 90 seconds or it dissipates into the next scroll.",
+                  learning: "Instagram activates Phase 1 perfectly â€” wanting, excitement, anticipation. The scroll feels productive because it generates real motivation chemistry. The problem: Phase 1 burns fast and needs a conversion mechanism within 90 seconds or it dissipates into the next scroll.",
                   actions: [
                     "Next time you feel approach motivation from a piece of content: you have 90 seconds. Write what you want in notes, then open the first project file that moves toward it.",
-                    "Track one week: every Phase 1 spike — did it convert to code? This is your conversion rate. It's probably zero.",
+                    "Track one week: every Phase 1 spike â€” did it convert to code? This is your conversion rate. It's probably zero.",
                     "Write your Phase 1 if-then: 'When I feel excited about a technical idea, I will write 3 lines toward it in my project before doing anything else.'"
                   ],
                   urgency: "medium",
                   quote: "The excitement is real. The question is whether you hand it to Instagram or your IDE."
                 },
                 'Phase 3: Assertion Motivation': {
-                  learning: "Phase 3 is when execution stops requiring motivation — it becomes identity-driven. You ship because that's what you do. At CRS=54, you're 30-90 days from this if you start building the behavioral evidence now. It's not fantasy — it's the compounding math of repeated small actions.",
+                  learning: "Phase 3 is when execution stops requiring motivation â€” it becomes identity-driven. You ship because that's what you do. At CRS=54, you're 30-90 days from this if you start building the behavioral evidence now. It's not fantasy â€” it's the compounding math of repeated small actions.",
                   actions: [
                     "Build toward Phase 3 by doing one thing daily you don't need motivation for. Small: fix a typo, commit a comment, push a draft. The repetition builds the reflex.",
                     "Write a Phase 3 statement: 'I ship because that's who I am, not because I feel like it.' Read it daily for 14 days.",
@@ -649,69 +649,69 @@
                   quote: "Phase 3 is just Phase 2 that got boring. Ship enough times and it becomes automatic."
                 },
                 'AI Engineering Skill Stack': {
-                  learning: "RAG, Agents, Evals, LLMOps, FastAPI — 7 edges in the graph, all saved content. Saving is not knowing, and knowing is not shipping. Check honestly: of these 7 areas, how many do you have a deployed, working implementation in? That number is your real stack depth.",
+                  learning: "RAG, Agents, Evals, LLMOps, FastAPI â€” 7 edges in the graph, all saved content. Saving is not knowing, and knowing is not shipping. Check honestly: of these 7 areas, how many do you have a deployed, working implementation in? That number is your real stack depth.",
                   actions: [
                     "List the 7 areas: RAG, Agents, Evals, Fine-tuning, LLMOps, FastAPI, Claude Automation. Circle the ONE you're closest to having a deployed implementation in.",
-                    "Spend 2 hours today on that one area only. Build the minimum — a RAG endpoint that returns actual results, not a tutorial half-read.",
+                    "Spend 2 hours today on that one area only. Build the minimum â€” a RAG endpoint that returns actual results, not a tutorial half-read.",
                     "Deploy it anywhere: Railway, Vercel, ngrok tunnel. The deploy is the behavioral evidence, not the code quality."
                   ],
                   urgency: "high",
                   quote: "You know about 7 areas. You need shipped implementations in all 7. Start with the closest to done."
                 },
                 'FastAPI Architecture Patterns': {
-                  learning: "FastAPI is your proven backend pattern. Hivemend, ConnectSphere, trade_baazi — you've shipped real products with it. This is your lowest-barrier execution path. If you want Behavioral Evidence fast, FastAPI is the move because the readiness problem doesn't exist here.",
+                  learning: "FastAPI is your proven backend pattern. Hivemend, ConnectSphere, trade_baazi â€” you've shipped real products with it. This is your lowest-barrier execution path. If you want Behavioral Evidence fast, FastAPI is the move because the readiness problem doesn't exist here.",
                   actions: [
                     "Open Hivemend or ConnectSphere right now. Add one endpoint you've been postponing. Deploy in the same session.",
-                    "The familiarity removes the readiness barrier — you don't need to learn FastAPI again. Just write another endpoint.",
+                    "The familiarity removes the readiness barrier â€” you don't need to learn FastAPI again. Just write another endpoint.",
                     "Add a /health endpoint to any existing FastAPI project today if it's missing. It's 3 lines. Ship it. Feel what small completion feels like."
                   ],
                   urgency: "high",
                   quote: "You already know FastAPI. Stop treating it like you don't. Build one more endpoint today."
                 },
                 'Claude AI Automation': {
-                  learning: "This is your most unique god node — you're not just using Claude, you're building the meta-layer: hooks, agent manager, memory system, orchestration. That's a rare position in the current market. Most developers are still figuring out basic API calls. You've built the infrastructure above that. It should be public.",
+                  learning: "This is your most unique god node â€” you're not just using Claude, you're building the meta-layer: hooks, agent manager, memory system, orchestration. That's a rare position in the current market. Most developers are still figuring out basic API calls. You've built the infrastructure above that. It should be public.",
                   actions: [
                     "Identify one Claude automation you've built that doesn't exist as a public open-source tool. The agent manager system, the hooks system, the memory orchestration.",
                     "Package it as a GitHub repo with a README today. Push it. This is your differentiated output in the current AI wave.",
-                    "Tweet one screenshot of a Claude automation running — even just the hook system output. Public proof of work, no polish required."
+                    "Tweet one screenshot of a Claude automation running â€” even just the hook system output. Public proof of work, no polish required."
                   ],
                   urgency: "high",
-                  quote: "You're building the meta-layer above Claude. That's worth shipping publicly — right now."
+                  quote: "You're building the meta-layer above Claude. That's worth shipping publicly â€” right now."
                 },
                 'One Complete Project': {
                   learning: "One shipped, deployed, publicly accessible AI project with RAG + FastAPI + your name on it generates the first behavioral evidence from your god nodes. You have multiple projects at 80-95% complete. ConnectSphere is 95% done and uncommitted. The gap to done is smaller than your imagination of it.",
                   actions: [
                     "Open your ConnectSphere project right now. It's 95% done per your own notes. List the 3 remaining tasks on paper.",
-                    "Complete one task today. Deploy tomorrow. Tell one person — anyone — what you shipped.",
+                    "Complete one task today. Deploy tomorrow. Tell one person â€” anyone â€” what you shipped.",
                     "Hard rule this week: do not start a new project. Finish one existing one. The first complete project is worth more than 5 at 95%."
                   ],
                   urgency: "critical",
                   quote: "'Almost done' is not shipped. Pick one, finish it, push it today."
                 },
                 'Rest Permission': {
-                  learning: "Zero saved posts on rest or recovery. In your content diet, rest doesn't exist as a legitimate value. Your nervous system has no model for 'productive rest' — every non-coding hour is implicitly failure. This is why scrolling feels like both rest AND shame simultaneously: there's no healthy rest category in your input.",
+                  learning: "Zero saved posts on rest or recovery. In your content diet, rest doesn't exist as a legitimate value. Your nervous system has no model for 'productive rest' â€” every non-coding hour is implicitly failure. This is why scrolling feels like both rest AND shame simultaneously: there's no healthy rest category in your input.",
                   actions: [
-                    "Save or bookmark one piece of content today that explicitly validates rest — not hustle-flavored balance advice, actual permission to stop working.",
-                    "Block 30 minutes this week in your calendar labeled 'rest' — no output required, no Instagram, no planning. Just rest.",
+                    "Save or bookmark one piece of content today that explicitly validates rest â€” not hustle-flavored balance advice, actual permission to stop working.",
+                    "Block 30 minutes this week in your calendar labeled 'rest' â€” no output required, no Instagram, no planning. Just rest.",
                     "When you take a coding break today, sit with it instead of opening Instagram. The discomfort is the muscle you're building."
                   ],
                   urgency: "high",
                   quote: "The absence of rest content in your feed is a decision you made. Rest is not failure."
                 },
                 'Process Joy': {
-                  learning: "Zero saves on enjoying the building process. Your entire motivation model is output-or-shame — binary. When a coding session produces no visible result (debugging, architecture, reading docs), it registers as failure. But your best technical work is often invisible. You're measuring the wrong thing.",
+                  learning: "Zero saves on enjoying the building process. Your entire motivation model is output-or-shame â€” binary. When a coding session produces no visible result (debugging, architecture, reading docs), it registers as failure. But your best technical work is often invisible. You're measuring the wrong thing.",
                   actions: [
                     "Tonight: write one line in your notes called 'What I enjoyed about building today.' Even one honest sentence. Do this for 7 days.",
-                    "Next time you're deep in a debugging session and it's frustrating but interesting — name the interest out loud. 'I'm actually enjoying figuring this out.'",
+                    "Next time you're deep in a debugging session and it's frustrating but interesting â€” name the interest out loud. 'I'm actually enjoying figuring this out.'",
                     "Find one creator who posts about the process of building (not the result). Follow them for 30 days."
                   ],
                   urgency: "high",
                   quote: "If you can't find joy in the process, you'll always need the outcome to validate you. That's a fragile setup."
                 },
                 'Honest Failure Content': {
-                  learning: "Zero saves normalizing failure. Your feed is binary: succeed or not-yet-succeed. Failure is invisible, which means when you fail — and you will — you'll have no framework for it. It will register as identity threat, not data. That's dangerous, and it's missing from your input entirely.",
+                  learning: "Zero saves normalizing failure. Your feed is binary: succeed or not-yet-succeed. Failure is invisible, which means when you fail â€” and you will â€” you'll have no framework for it. It will register as identity threat, not data. That's dangerous, and it's missing from your input entirely.",
                   actions: [
-                    "Find one creator who posts about ongoing failures — not 'failure that became success,' actual still-struggling. Follow them today.",
+                    "Find one creator who posts about ongoing failures â€” not 'failure that became success,' actual still-struggling. Follow them today.",
                     "Write one honest sentence about a project that didn't work out. Not lessons learned. Just: it didn't work. This builds the failure-tolerance muscle.",
                     "Next time a build fails or a bug beats you for 2 hours: write 'This is what building looks like. Normal.' Put it somewhere visible."
                   ],
@@ -719,9 +719,9 @@
                   quote: "You have no model for how good developers fail. Build one before you need it."
                 },
                 'Long-Form Patience': {
-                  learning: "Zero saves on long timelines. Instagram's 60-second format has given you an epistemology of urgency — transformation is fast, mastery is quick, progress is always visible. Your actual god nodes (LLMOps, production Agents, RAG at scale) take months to internalize. Your content diet is lying about timelines.",
+                  learning: "Zero saves on long timelines. Instagram's 60-second format has given you an epistemology of urgency â€” transformation is fast, mastery is quick, progress is always visible. Your actual god nodes (LLMOps, production Agents, RAG at scale) take months to internalize. Your content diet is lying about timelines.",
                   actions: [
-                    "Subscribe to one long-form source this week — a newsletter, Substack, or podcast operating on month-scale AI engineering thinking.",
+                    "Subscribe to one long-form source this week â€” a newsletter, Substack, or podcast operating on month-scale AI engineering thinking.",
                     "Spend 30 minutes reading one long-form piece about something in your stack. Notice the depth difference vs. a reel.",
                     "Write your actual timeline: 'I will have a production RAG system deployed by [date]. That's [X] weeks from now.' Name the real number."
                   ],
@@ -729,9 +729,9 @@
                   quote: "You're building on a months-long timescale while consuming a seconds-long epistemology. That mismatch is expensive."
                 },
                 "The Flint's Framework": {
-                  learning: "Justyn Amechi's model maps directly to self-efficacy theory and implementation intentions — it's scientifically valid and correctly applied here. The deepest irony: a framework about hesitation-driven identity erosion is being consumed via Instagram, which delivers it through exactly the hesitation mechanism it describes. You're eating the medicine as candy.",
+                  learning: "Justyn Amechi's model maps directly to self-efficacy theory and implementation intentions â€” it's scientifically valid and correctly applied here. The deepest irony: a framework about hesitation-driven identity erosion is being consumed via Instagram, which delivers it through exactly the hesitation mechanism it describes. You're eating the medicine as candy.",
                   actions: [
-                    "Take one element of the Flint framework and implement it as a system today — a written if-then plan, not a saved post.",
+                    "Take one element of the Flint framework and implement it as a system today â€” a written if-then plan, not a saved post.",
                     "Set a phone alarm called 'Flint: execute one thing' for tomorrow morning at whatever time you start work.",
                     "The framework says hesitation erodes identity. Name one specific hesitation you're holding right now. Write it down. Then do the first step."
                   ],
@@ -739,7 +739,7 @@
                   quote: "Knowing the framework and not using it is exactly what the framework warns against. The irony is completing itself."
                 },
                 'Inspirational Content Format': {
-                  learning: "The Instagram format (hook-body-CTA, 60 seconds max) delivers its payload before you can extract the behavioral change. The medium triggers Symbolic Self-Completion faster than the content can install a behavior. The Flint's framework, delivered this way, feeds the cycle it describes. The format is the trap — not the content.",
+                  learning: "The Instagram format (hook-body-CTA, 60 seconds max) delivers its payload before you can extract the behavioral change. The medium triggers Symbolic Self-Completion faster than the content can install a behavior. The Flint's framework, delivered this way, feeds the cycle it describes. The format is the trap â€” not the content.",
                   actions: [
                     "When you find inspirational content on Instagram: pause before saving. Write the single specific action implied in your notes app. Then close Instagram.",
                     "Test for one week: convert every potential save into a written action note. Count how many you actually execute vs. how many saves you execute currently (zero).",
@@ -749,10 +749,10 @@
                   quote: "The reel that would save you won't. The action you write down from it might."
                 },
                 'No Behavior Change': {
-                  learning: "This is the empirical output of 56 saves. Correct content + wrong mechanism = zero behavior change. This node exists because the entire system — trap, inspiration, symbolic completion — routes here. The fix is not more content, not more analysis, not more graph nodes. It's one action in the next 60 minutes.",
+                  learning: "This is the empirical output of 56 saves. Correct content + wrong mechanism = zero behavior change. This node exists because the entire system â€” trap, inspiration, symbolic completion â€” routes here. The fix is not more content, not more analysis, not more graph nodes. It's one action in the next 60 minutes.",
                   actions: [
                     "Close this graph. Open your code editor. Run one command. Push one commit. That is the only action that changes this node.",
-                    "Pick the smallest possible action on your most active project — even one line of code — and do it before you close this browser window.",
+                    "Pick the smallest possible action on your most active project â€” even one line of code â€” and do it before you close this browser window.",
                     "Set a 60-minute timer right now. Code until it goes off. No Instagram, no saves, no planning. Just build."
                   ],
                   urgency: "critical",
@@ -760,7 +760,7 @@
                 }
               };
 
-              // ── Panel logic ──
+              // â”€â”€ Panel logic â”€â”€
               function showPanel(nodeId) {
                   var node = nodes.get(nodeId);
                   if (!node) return;
@@ -792,9 +792,9 @@
                               return '<label class="act-item"><input type="checkbox"><span>' + (i+1) + '. ' + a + '</span></label>';
                           }).join('') +
                           '</div>' +
-                          '<div class="ph-quote">“' + nd.quote + '”</div>';
+                          '<div class="ph-quote">â€œ' + nd.quote + 'â€</div>';
                   } else {
-                      analysisHTML = '<span style="color:#666;font-size:11px">' + (nd || ('Part of the ' + meta.name + ' cluster — ' + meta.desc)) + '</span>';
+                      analysisHTML = '<span style="color:#666;font-size:11px">' + (nd || ('Part of the ' + meta.name + ' cluster â€” ' + meta.desc)) + '</span>';
                   }
                   document.getElementById('panel-analysis-text').innerHTML = analysisHTML;
 
@@ -813,7 +813,7 @@
                           var onode = nodes.get(other);
                           var oc = onode ? onode.color : '#888';
                           return '<div class="edge-item">' +
-                              '<span class="arr">' + (direction === 'in' ? '←' : '→') + '</span>' +
+                              '<span class="arr">' + (direction === 'in' ? 'â†' : 'â†’') + '</span>' +
                               '<span><span class="enode" style="color:' + oc + '">' + other + '</span>' +
                               '<br><span class="elabel">' + (e.label || '') + '</span></span>' +
                               '</div>';
@@ -830,7 +830,7 @@
                   document.getElementById('detail-panel').classList.remove('open');
               }
 
-              // ── Legend toggle ──
+              // â”€â”€ Legend toggle â”€â”€
               var legendOpen = true;
               function toggleLegend() {
                   legendOpen = !legendOpen;
@@ -838,7 +838,7 @@
                   document.getElementById('legend-toggle').style.transform = legendOpen ? '' : 'rotate(-90deg)';
               }
 
-              // ── Cluster filter ──
+              // â”€â”€ Cluster filter â”€â”€
               function filterCluster(btn, cluster) {
                   document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
                   btn.classList.add('active');
@@ -855,7 +855,7 @@
                   nodes.update(updates);
               }
 
-              // ── Search ──
+              // â”€â”€ Search â”€â”€
               document.getElementById('search-box').addEventListener('input', function() {
                   var term = this.value.toLowerCase().trim();
                   var allNodeData = nodes.get();
