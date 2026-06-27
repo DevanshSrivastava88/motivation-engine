@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Learnix Content Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#070707; color:#ddd; font-family:'DM Mono',monospace; min-height:100vh; }
+
+#top-bar {
+  background:rgba(7,7,7,0.97); border-bottom:1px solid #1a1a1a;
+  padding:12px 24px; display:flex; justify-content:space-between; align-items:center;
+  position:sticky; top:0; z-index:100;
+}
+#top-bar h1 { color:#c7ff38; font-size:14px; letter-spacing:0.1em; font-family:'Manrope',sans-serif; }
+.nav-links a { color:#555; font-size:10px; text-decoration:none; margin-left:16px; }
+.nav-links a:hover { color:#c7ff38; }
+
+#layout { display:flex; height:calc(100vh - 50px); }
+
+#sidebar {
+  width:240px; flex-shrink:0; border-right:1px solid #1a1a1a;
+  background:#0a0a0a; padding:16px 0; overflow-y:auto;
+}
+.sidebar-label {
+  font-size:9px; color:#444; letter-spacing:0.15em; padding:0 16px 8px;
+  text-transform:uppercase;
+}
+
+.stage-tab {
+  padding:10px 16px; cursor:pointer; border-left:3px solid #1a1a1a;
+  transition:all 0.15s; margin-bottom:2px;
+}
+.stage-tab:hover { background:#111; }
+.stage-tab.active { background:#111; border-left-color:inherit!important; }
+.tab-sub { font-size:9px; color:#555; margin-top:2px; }
+
+#content { flex:1; overflow-y:auto; padding:24px 32px; }
+
+.panel-header {
+  display:flex; align-items:center; gap:16px; margin-bottom:24px;
+  padding:16px; background:#0d0d0d; border-radius:8px;
+}
+.stage-icon { font-size:28px; }
+.stage-name { font-size:18px; font-family:'Manrope',sans-serif; font-weight:700; }
+.stage-sub { font-size:11px; color:#666; margin-top:2px; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.col-left, .col-right { display:flex; flex-direction:column; }
+
+.section-label {
+  font-size:9px; color:#c7ff38; letter-spacing:0.15em; text-transform:uppercase;
+  margin-bottom:6px;
+}
+.state-text { font-size:11px; color:#aaa; line-height:1.6; }
+.muted { color:#555!important; }
+.why-text { font-size:10px; color:#888; line-height:1.6; margin-top:6px; }
+
+.tag-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+.tag {
+  font-size:9px; padding:3px 8px; border-radius:3px;
+  letter-spacing:0.05em;
+}
+
+.reel-card {
+  background:#0d0d0d; border-radius:6px; padding:10px 12px;
+  margin-bottom:8px;
+}
+.reel-cluster { font-size:9px; letter-spacing:0.1em; margin-bottom:4px; }
+.reel-text { font-size:10px; color:#888; line-height:1.5; font-style:italic; }
+.reel-meta { font-size:9px; color:#444; margin-top:6px; }
+
+.quote {
+  font-size:10px; color:#666; font-style:italic; line-height:1.5;
+  padding:4px 0; border-left:2px solid #222; padding-left:8px; margin-bottom:4px;
+}
+
+.trigger-box {
+  background:#0d1a00; border:1px solid #c7ff3833; border-radius:4px;
+  padding:8px 10px; font-size:10px; color:#c7ff38; line-height:1.5;
+}
+
+.account {
+  font-size:10px; color:#666; padding:2px 0; line-height:1.6;
+}
+
+#crs-indicator {
+  background:#0a0a0a; border:1px solid #c7ff3844; border-radius:6px;
+  padding:8px 14px; font-size:10px; text-align:center;
+  margin:12px 16px;
+}
+
+#you-are-here {
+  background:#c7ff3815; border:1px solid #c7ff3866; border-radius:4px;
+  padding:6px 10px; font-size:9px; color:#c7ff38; text-align:center;
+  margin:0 16px 12px;
+}
+</style>
+</head>
+<body>
+
+<div id="top-bar">
+  <h1>LEARNIX // CONTENT PROTOCOL v1</h1>
+  <div class="nav-links">
+    <a href="index.html">← Behavior Graph</a>
+    <a href="grouped_reels.html">Strategy Map</a>
+  </div>
+</div>
+
+<div id="layout">
+  <div id="sidebar">
+    <div class="sidebar-label">TTM STAGES</div>
+
+    <div id="crs-indicator">
+      <div style="color:#c7ff38;font-size:12px;font-weight:bold">CRS 54/100</div>
+      <div style="color:#666;font-size:9px;margin-top:2px">Current User Score</div>
+    </div>
+
+    <div id="you-are-here">⚡ YOU ARE HERE</div>
+
+    
+        <div class="stage-tab " onclick="showStage('precontemplation')" id="tab-precontemplation"
+             style="border-left:3px solid #333">
+          <span style="color:#ff4444">🔴 Pre-contemplation</span>
+          <div class="tab-sub">They don't know they have a pr...</div>
+        </div>
+        <div class="stage-tab " onclick="showStage('contemplation')" id="tab-contemplation"
+             style="border-left:3px solid #333">
+          <span style="color:#ff8800">🟠 Contemplation</span>
+          <div class="tab-sub">They know, but aren't ready to...</div>
+        </div>
+        <div class="stage-tab active" onclick="showStage('preparation')" id="tab-preparation"
+             style="border-left:3px solid #c7ff38">
+          <span style="color:#c7ff38">🟢 Preparation</span>
+          <div class="tab-sub">Ready to act — needs the HOW...</div>
+        </div>
+        <div class="stage-tab " onclick="showStage('action')" id="tab-action"
+             style="border-left:3px solid #333">
+          <span style="color:#4488ff">🔵 Action</span>
+          <div class="tab-sub">Doing — needs fuel to continue...</div>
+        </div>
+        <div class="stage-tab " onclick="showStage('maintenance')" id="tab-maintenance"
+             style="border-left:3px solid #333">
+          <span style="color:#cc44ff">🟣 Maintenance</span>
+          <div class="tab-sub">Consistent — needs to stay eng...</div>
+        </div>
+
+    <div style="padding:16px;margin-top:16px;border-top:1px solid #1a1a1a;font-size:9px;color:#333;line-height:1.6">
+      Based on Prochaska TTM.<br>
+      Effect sizes: Gollwitzer if-then d=0.65,<br>
+      Lally habit formation 18-254 days.
+    </div>
+  </div>
+
+  <div id="content">
+    
+    <div class="stage-panel" id="panel-precontemplation" style="display:none">
+      <div class="panel-header" style="border-left:4px solid #ff4444">
+        <div class="stage-icon">🔴</div>
+        <div>
+          <div class="stage-name" style="color:#ff4444">Pre-contemplation</div>
+          <div class="stage-sub">They don't know they have a problem</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col-left">
+          <div class="section-label">PSYCHOLOGICAL STATE</div>
+          <div class="state-text">No awareness of the need to change. Defensive if challenged. May feel helpless or in denial.</div>
+
+          <div class="section-label" style="margin-top:12px">BRAIN STATE</div>
+          <div class="state-text muted">Low cortisol awareness. No identity gap activated yet. Comfortable in current pattern.</div>
+
+          <div class="section-label" style="margin-top:12px">WHAT THEY SAY</div>
+          <div class="quote">"I don't really have a problem with this"</div><div class="quote">"I'll deal with it later"</div><div class="quote">"Everyone else has this issue too"</div>
+
+          <div class="section-label" style="margin-top:12px">LEARNIX TRIGGER</div>
+          <div class="trigger-box">User skips tasks repeatedly without noting why. Low engagement with any content type.</div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">SERVE THIS ↓</div>
+          <div class="tag-row"><span class="tag" style="background:#ff444422;border:1px solid #ff4444;color:#ff4444">SHAME / FEAR HOOK</span></div>
+          <div class="why-text">Shame/fear hooks CREATE the awareness gap. They force confrontation with current identity vs desired identity. This is the ONLY content that works here.</div>
+
+          <div class="section-label" style="margin-top:12px">AVOID THIS ✗</div>
+          <div class="tag-row"><span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">IF-THEN PLANS</span> <span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">PROCESS / DISCIPLINE</span> <span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">TECHNICAL TUTORIAL</span></div>
+          <div class="why-text muted">If-then plans require decision to change. Technical tutorials assume readiness. Both bounce off — user isn't ready to act.</div>
+
+          <div class="section-label" style="margin-top:12px">CONTENT EXAMPLES</div>
+          
+            <div class="reel-card" style="border-left:3px solid #ff4444">
+              <div class="reel-cluster" style="color:#ff4444">SHAME / FEAR HOOK</div>
+              <div class="reel-text">"Brother, you've been infected your entire life and you still don't realize it.
+Not by laziness, not by lack of discipline, but something deeper.
+Here's what most people do.
+They no..."</div>
+              <div class="reel-meta">225 words · DZ0m9cKjGjX</div>
+            </div>
+
+          <div class="section-label" style="margin-top:12px">MOTIVATOR ACCOUNTS</div>
+          <div class="account">→ theflintmind (Pavlov, conditioning content)</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage-panel" id="panel-contemplation" style="display:none">
+      <div class="panel-header" style="border-left:4px solid #ff8800">
+        <div class="stage-icon">🟠</div>
+        <div>
+          <div class="stage-name" style="color:#ff8800">Contemplation</div>
+          <div class="stage-sub">They know, but aren't ready to commit</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col-left">
+          <div class="section-label">PSYCHOLOGICAL STATE</div>
+          <div class="state-text">Aware of the problem. Weighing pros/cons of change. Stuck in analysis paralysis. Saves motivation content without acting.</div>
+
+          <div class="section-label" style="margin-top:12px">BRAIN STATE</div>
+          <div class="state-text muted">Identity gap activated. Dopamine anticipation loop running. Shame hooks created initial awareness but moral licensing is resetting it.</div>
+
+          <div class="section-label" style="margin-top:12px">WHAT THEY SAY</div>
+          <div class="quote">"I know I should do this but..."</div><div class="quote">"I'll start next Monday"</div><div class="quote">"I need to learn more first"</div>
+
+          <div class="section-label" style="margin-top:12px">LEARNIX TRIGGER</div>
+          <div class="trigger-box">User sets goals but misses them consistently. High content engagement, low task completion.</div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">SERVE THIS ↓</div>
+          <div class="tag-row"><span class="tag" style="background:#ff880022;border:1px solid #ff8800;color:#ff8800">MINDSET / PHILOSOPHY</span> <span class="tag" style="background:#4488ff22;border:1px solid #4488ff;color:#4488ff">IDENTITY SHIFT</span> <span class="tag" style="background:#ff444422;border:1px solid #ff4444;color:#ff4444">SHAME / FEAR HOOK</span></div>
+          <div class="why-text">Identity shift content rewires self-concept BEFORE behavior change — Gollwitzer shows this doubles action follow-through. Mindset content builds the 'why' that survives the resistance phase.</div>
+
+          <div class="section-label" style="margin-top:12px">AVOID THIS ✗</div>
+          <div class="tag-row"><span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">TECHNICAL TUTORIAL</span> <span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">IF-THEN PLANS</span></div>
+          <div class="why-text muted">Technical tutorials require commitment they haven't made. If-then plans feel overwhelming without identity shift first.</div>
+
+          <div class="section-label" style="margin-top:12px">CONTENT EXAMPLES</div>
+          
+            <div class="reel-card" style="border-left:3px solid #ff8800">
+              <div class="reel-cluster" style="color:#ff8800">MINDSET / PHILOSOPHY</div>
+              <div class="reel-text">"You should be checking me out, the gonna get you.
+Sitting over there watching they just say your love's not even there,
+hello, baby, hello, baby, hello.
+So check ya' down behind yo..."</div>
+              <div class="reel-meta">49 words · DYhY-ThS3e6</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #4488ff">
+              <div class="reel-cluster" style="color:#4488ff">IDENTITY SHIFT</div>
+              <div class="reel-text">"Every time you hesitate on the life you know you want, your brain records it.
+That's the scary part.
+Your nervous system is always listening to your behavior.
+So when you constantl..."</div>
+              <div class="reel-meta">126 words · DZV4oBYtiOj</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #ff4444">
+              <div class="reel-cluster" style="color:#ff4444">SHAME / FEAR HOOK</div>
+              <div class="reel-text">"Brother, you've been infected your entire life and you still don't realize it.
+Not by laziness, not by lack of discipline, but something deeper.
+Here's what most people do.
+They no..."</div>
+              <div class="reel-meta">225 words · DZ0m9cKjGjX</div>
+            </div>
+
+          <div class="section-label" style="margin-top:12px">MOTIVATOR ACCOUNTS</div>
+          <div class="account">→ theflintmind (identity erosion/rebuild)</div><div class="account">→ @DZ5sIrlNs2k creator (ambitious feeling)</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage-panel" id="panel-preparation" style="display:none">
+      <div class="panel-header" style="border-left:4px solid #c7ff38">
+        <div class="stage-icon">🟢</div>
+        <div>
+          <div class="stage-name" style="color:#c7ff38">Preparation</div>
+          <div class="stage-sub">Ready to act — needs the HOW</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col-left">
+          <div class="section-label">PSYCHOLOGICAL STATE</div>
+          <div class="state-text">Decision made. Looking for specific plans. Knows WHAT but not WHEN/HOW. This is where most motivation content consumers live permanently.</div>
+
+          <div class="section-label" style="margin-top:12px">BRAIN STATE</div>
+          <div class="state-text muted">Prefrontal cortex engaged. Dopamine system primed for implementation intention. Medial PFC fires at 120ms if if-then plan is installed.</div>
+
+          <div class="section-label" style="margin-top:12px">WHAT THEY SAY</div>
+          <div class="quote">"I'm going to start this week"</div><div class="quote">"What's the best way to do X?"</div><div class="quote">"I need a plan"</div>
+
+          <div class="section-label" style="margin-top:12px">LEARNIX TRIGGER</div>
+          <div class="trigger-box">User completes onboarding, sets goals, but struggles with first steps. CRS 40-60. THIS USER.</div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">SERVE THIS ↓</div>
+          <div class="tag-row"><span class="tag" style="background:#c7ff3822;border:1px solid #c7ff38;color:#c7ff38">IF-THEN PLANS</span> <span class="tag" style="background:#00d4ff22;border:1px solid #00d4ff;color:#00d4ff">TECHNICAL TUTORIAL</span> <span class="tag" style="background:#00ffaa22;border:1px solid #00ffaa;color:#00ffaa">AI / TECH INSIGHT</span></div>
+          <div class="why-text">If-then plans (Gollwitzer, d=0.65 effect size) DOUBLE execution rate. Tutorials give specific capability. This is the critical transition point — every extra tutorial DELAYS action. Push if-then hard.</div>
+
+          <div class="section-label" style="margin-top:12px">AVOID THIS ✗</div>
+          <div class="tag-row"><span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">SHAME / FEAR HOOK</span> <span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">MINDSET / PHILOSOPHY</span></div>
+          <div class="why-text muted">More mindset content extends contemplation. More shame feeds the Symbolic Self-Completion loop — they save the content and feel they've acted.</div>
+
+          <div class="section-label" style="margin-top:12px">CONTENT EXAMPLES</div>
+          
+            <div class="reel-card" style="border-left:3px solid #c7ff38">
+              <div class="reel-cluster" style="color:#c7ff38">IF-THEN PLANS</div>
+              <div class="reel-text">"Figma has a 50,000-star open-source rival.
+Penpot is the self-hosted design platform where designers and developers finally speak the same language.
+Real-time collaboration, design..."</div>
+              <div class="reel-meta">56 words · DZ452wBk1of</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #00d4ff">
+              <div class="reel-cluster" style="color:#00d4ff">TECHNICAL TUTORIAL</div>
+              <div class="reel-text">"I scored 100% on my AWS Machine Learning Certification and you can do it too.
+Two resources help me the most. The first resource is that I followed only one Udemy
+course for 60 day..."</div>
+              <div class="reel-meta">100 words · DTNhHi2CB66</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #00ffaa">
+              <div class="reel-cluster" style="color:#00ffaa">AI / TECH INSIGHT</div>
+              <div class="reel-text">"AI just learned to generate video and audio together.
+LTX-2 is the first open-source model creating fully synchronized audio-visual content from a single prompt.
+Ten pipelines, tex..."</div>
+              <div class="reel-meta">56 words · DZ2ORc-ldtB</div>
+            </div>
+
+          <div class="section-label" style="margin-top:12px">MOTIVATOR ACCOUNTS</div>
+          <div class="account">→ DXUZKm8iO2u creator (FastAPI structures)</div><div class="account">→ DZ-TpqTzsuS creator (RAG/agents project guide)</div><div class="account">→ DTNhHi2CB66 creator (AWS 60-day plan)</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage-panel" id="panel-action" style="display:none">
+      <div class="panel-header" style="border-left:4px solid #4488ff">
+        <div class="stage-icon">🔵</div>
+        <div>
+          <div class="stage-name" style="color:#4488ff">Action</div>
+          <div class="stage-sub">Doing — needs fuel to continue</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col-left">
+          <div class="section-label">PSYCHOLOGICAL STATE</div>
+          <div class="state-text">Active behavior change underway. High risk of relapse at plateau. Needs evidence their effort is working. Identity is still fragile.</div>
+
+          <div class="section-label" style="margin-top:12px">BRAIN STATE</div>
+          <div class="state-text muted">Dopamine reward system calibrating. If-then habits forming (21-66 day window). Self-trust rebuilding through behavioral evidence.</div>
+
+          <div class="section-label" style="margin-top:12px">WHAT THEY SAY</div>
+          <div class="quote">"I've been doing this for 2 weeks"</div><div class="quote">"It's hard but I'm trying"</div><div class="quote">"How do I know if this is working?"</div>
+
+          <div class="section-label" style="margin-top:12px">LEARNIX TRIGGER</div>
+          <div class="trigger-box">User has 7+ consecutive days of task completion. CRS 60-80. Starting to build streak.</div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">SERVE THIS ↓</div>
+          <div class="tag-row"><span class="tag" style="background:#cc44ff22;border:1px solid #cc44ff;color:#cc44ff">PROCESS / DISCIPLINE</span> <span class="tag" style="background:#ff990022;border:1px solid #ff9900;color:#ff9900">ACHIEVEMENT PROOF</span> <span class="tag" style="background:#4488ff22;border:1px solid #4488ff;color:#4488ff">IDENTITY SHIFT</span></div>
+          <div class="why-text">Process/discipline content (floor, minimums, non-negotiables) protects against plateau collapse. Achievement proof shows the timeline. Identity shift content converts action into permanent self-concept.</div>
+
+          <div class="section-label" style="margin-top:12px">AVOID THIS ✗</div>
+          <div class="tag-row"><span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">SHAME / FEAR HOOK</span></div>
+          <div class="why-text muted">Shame hooks during action phase cause shame spiral → Avoidance Loop → regression. Most dangerous content type at this stage.</div>
+
+          <div class="section-label" style="margin-top:12px">CONTENT EXAMPLES</div>
+          
+            <div class="reel-card" style="border-left:3px solid #cc44ff">
+              <div class="reel-cluster" style="color:#cc44ff">PROCESS / DISCIPLINE</div>
+              <div class="reel-text">"It's honestly disgusting that you keep trying to be more disciplined when the real problem
+is that you never install the floor. Here's the cycle you're running. You're trying to ex..."</div>
+              <div class="reel-meta">274 words · DZs4sd5jFMy</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #4488ff">
+              <div class="reel-cluster" style="color:#4488ff">IDENTITY SHIFT</div>
+              <div class="reel-text">"Every time you hesitate on the life you know you want, your brain records it.
+That's the scary part.
+Your nervous system is always listening to your behavior.
+So when you constantl..."</div>
+              <div class="reel-meta">126 words · DZV4oBYtiOj</div>
+            </div>
+
+          <div class="section-label" style="margin-top:12px">MOTIVATOR ACCOUNTS</div>
+          <div class="account">→ DZs4sd5jFMy creator (floor/minimums)</div><div class="account">→ kushal_vijay__ (clarity framework)</div>
+        </div>
+      </div>
+    </div>
+    <div class="stage-panel" id="panel-maintenance" style="display:none">
+      <div class="panel-header" style="border-left:4px solid #cc44ff">
+        <div class="stage-icon">🟣</div>
+        <div>
+          <div class="stage-name" style="color:#cc44ff">Maintenance</div>
+          <div class="stage-sub">Consistent — needs to stay engaged</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col-left">
+          <div class="section-label">PSYCHOLOGICAL STATE</div>
+          <div class="state-text">New behavior is habitual. Risk of complacency. Needs challenge to maintain identity investment. Ready for advanced domain content.</div>
+
+          <div class="section-label" style="margin-top:12px">BRAIN STATE</div>
+          <div class="state-text muted">Execution Identity established. Phase 3 Assertion Motivation active. Behavior is identity-congruent — no motivation energy required for basics.</div>
+
+          <div class="section-label" style="margin-top:12px">WHAT THEY SAY</div>
+          <div class="quote">"This is just who I am now"</div><div class="quote">"Looking for the next challenge"</div><div class="quote">"I want to go deeper"</div>
+
+          <div class="section-label" style="margin-top:12px">LEARNIX TRIGGER</div>
+          <div class="trigger-box">User has 30+ day streak. CRS 80+. Behavior change complete — now optimize.</div>
+        </div>
+
+        <div class="col-right">
+          <div class="section-label">SERVE THIS ↓</div>
+          <div class="tag-row"><span class="tag" style="background:#00ffaa22;border:1px solid #00ffaa;color:#00ffaa">AI / TECH INSIGHT</span> <span class="tag" style="background:#00d4ff22;border:1px solid #00d4ff;color:#00d4ff">TECHNICAL TUTORIAL</span> <span class="tag" style="background:#ff990022;border:1px solid #ff9900;color:#ff9900">ACHIEVEMENT PROOF</span></div>
+          <div class="why-text">Advanced technical content matches their execution identity. Achievement proof shows next-level possibilities. They're ready for compound skill building.</div>
+
+          <div class="section-label" style="margin-top:12px">AVOID THIS ✗</div>
+          <div class="tag-row"><span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">SHAME / FEAR HOOK</span> <span class="tag" style="background:#ff000011;border:1px solid #ff444444;color:#ff4444;text-decoration:line-through">MINDSET / PHILOSOPHY</span></div>
+          <div class="why-text muted">Shame hooks can destabilize established identity. Basic mindset content is condescending at this stage.</div>
+
+          <div class="section-label" style="margin-top:12px">CONTENT EXAMPLES</div>
+          
+            <div class="reel-card" style="border-left:3px solid #00ffaa">
+              <div class="reel-cluster" style="color:#00ffaa">AI / TECH INSIGHT</div>
+              <div class="reel-text">"AI just learned to generate video and audio together.
+LTX-2 is the first open-source model creating fully synchronized audio-visual content from a single prompt.
+Ten pipelines, tex..."</div>
+              <div class="reel-meta">56 words · DZ2ORc-ldtB</div>
+            </div>
+            <div class="reel-card" style="border-left:3px solid #00d4ff">
+              <div class="reel-cluster" style="color:#00d4ff">TECHNICAL TUTORIAL</div>
+              <div class="reel-text">"I scored 100% on my AWS Machine Learning Certification and you can do it too.
+Two resources help me the most. The first resource is that I followed only one Udemy
+course for 60 day..."</div>
+              <div class="reel-meta">100 words · DTNhHi2CB66</div>
+            </div>
+
+          <div class="section-label" style="margin-top:12px">MOTIVATOR ACCOUNTS</div>
+          <div class="account">→ aryanagainnn (AI career content)</div><div class="account">→ casey__ai (AI tools)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showStage(id) {
+  document.querySelectorAll('.stage-panel').forEach(p => p.style.display='none');
+  document.querySelectorAll('.stage-tab').forEach(t => {
+    t.classList.remove('active');
+    t.style.borderLeftColor = '#333';
+  });
+  document.getElementById('panel-' + id).style.display = 'block';
+  const tab = document.getElementById('tab-' + id);
+  tab.classList.add('active');
+  tab.style.borderLeftColor = tab.querySelector('span').style.color;
+}
+
+// Show Preparation by default
+showStage('preparation');
+</script>
+</body>
+</html>
