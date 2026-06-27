@@ -1,6 +1,6 @@
 {
   "MINDSET / PHILOSOPHY": {
-    "count": 18,
+    "count": 19,
     "learnix_stage": "Contemplation → Preparation",
     "learnix_use": "Deploy in Contemplation — primes mindset before habit formation",
     "color": "#ff8800",
@@ -41,19 +41,24 @@
         "preview": "Yeah, how does it change from yourself?\nChange!\nOh, my darling!"
       },
       {
+        "id": "DYT5fbCT-ub",
+        "words": 42,
+        "preview": "You are the fruit of my long journey.\nOh, yeah, yeah, let me grab you, girl.\nI'll take your O and G.\nIt's a tight jean with a D and G.\nAll the love be"
+      },
+      {
         "id": "DYzTC_cCMXg_2",
         "words": 8,
         "preview": "优优独播剧场——YoYo Television Series Exclusive\n优优独播剧场——YoYo Television Series Exclusive"
       },
       {
+        "id": "DZ5sIrlNs2k",
+        "words": 153,
+        "preview": "There is a feeling that ambitious people get, that nobody really names properly.\nAnd I want to give you the language for it right now.\nIt is not excit"
+      },
+      {
         "id": "DZj0Z7CRZRC",
         "words": 5,
         "preview": "I just get so nuffy."
-      },
-      {
-        "id": "DZkb99HCkGm",
-        "words": 174,
-        "preview": "Stewie, you must never visit this GitHub repository in your life.\nWhy not?\nBecause once you do, you'll realize you've been solving coding problems the"
       },
       {
         "id": "DZnTh9tMpkh",
@@ -64,11 +69,6 @@
         "id": "DZowHfHoTWw",
         "words": 105,
         "preview": "You get things done. From the outside, it even works impressive.\nBut if someone asked you why you push so hard, you wouldn't say passion.\nWould you? I"
-      },
-      {
-        "id": "DZvCUhSoh0_",
-        "words": 313,
-        "preview": "If you are clueless and you don't have direction, purpose, and vision, believe me, at the end of this video, you'll have all three of them, and this t"
       },
       {
         "id": "DZycvKJt5Du",
@@ -94,11 +94,16 @@
         "id": "gamb1nogirl_1781133617_3916754917329952099_62143907621",
         "words": 7,
         "preview": "Thanks for watching and subscribe for more."
+      },
+      {
+        "id": "queenkalin_1782161564_3925377870120155395_50450770487",
+        "words": 14,
+        "preview": "If you want me, you've got to put the word in, that's how y'all..."
       }
     ]
   },
   "TECHNICAL TUTORIAL": {
-    "count": 11,
+    "count": 9,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy when user has a specific skill gap — direct capability building",
     "color": "#00d4ff",
@@ -124,24 +129,14 @@
         "preview": "If you want to learn RAG, then build this project. If you want to learn agents, then build this project.\nIf you want to learn evals, then build this p"
       },
       {
-        "id": "DZ0m9cKjGjX",
-        "words": 225,
-        "preview": "Brother, you've been infected your entire life and you still don't realize it.\nNot by laziness, not by lack of discipline, but something deeper.\nHere'"
-      },
-      {
-        "id": "DZ452wBk1of",
-        "words": 56,
-        "preview": "Figma has a 50,000-star open-source rival.\nPenpot is the self-hosted design platform where designers and developers finally speak the same language.\nR"
+        "id": "DZ7Plg6BIkz",
+        "words": 150,
+        "preview": "There is a restaurant behind a petrol pump in CP that's not as popular as Kaki or Bhaapira\nbut is a favorite of the working class.\nIn an area where a "
       },
       {
         "id": "DZksdJCu5pr",
         "words": 82,
         "preview": "What's up, guys? So we got a 100% open-source, self-hosted WhatsApp API that you run on your\nown server. So WhatsApp API costs you per message. And so"
-      },
-      {
-        "id": "DZs4sd5jFMy",
-        "words": 274,
-        "preview": "It's honestly disgusting that you keep trying to be more disciplined when the real problem\nis that you never install the floor. Here's the cycle you'r"
       },
       {
         "id": "DZseoL5hUA9",
@@ -160,26 +155,8 @@
       }
     ]
   },
-  "IDENTITY SHIFT": {
-    "count": 2,
-    "learnix_stage": "Contemplation → Preparation",
-    "learnix_use": "Deploy in Contemplation — shifts self-image before behavior change",
-    "color": "#4488ff",
-    "reels": [
-      {
-        "id": "DYT5fbCT-ub",
-        "words": 42,
-        "preview": "You are the fruit of my long journey.\nOh, yeah, yeah, let me grab you, girl.\nI'll take your O and G.\nIt's a tight jean with a D and G.\nAll the love be"
-      },
-      {
-        "id": "DZ5sIrlNs2k",
-        "words": 153,
-        "preview": "There is a feeling that ambitious people get, that nobody really names properly.\nAnd I want to give you the language for it right now.\nIt is not excit"
-      }
-    ]
-  },
   "AI / TECH INSIGHT": {
-    "count": 10,
+    "count": 12,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy for tech users in Preparation — builds domain confidence",
     "color": "#00ffaa",
@@ -198,6 +175,16 @@
         "id": "DZ4srOgjGLc",
         "words": 90,
         "preview": "Nobody waits to be told what to do. Meetings actually end in decisions.\nThe best person in the room isn't doing the smallest task.\nNobody's scared to "
+      },
+      {
+        "id": "DZePQPEuXBG",
+        "words": 112,
+        "preview": "The Cats 2\nThe Cats 2?\nSee, it may be different players, but it's still the same game.\nWhile they may all be street cats, this one especially is for t"
+      },
+      {
+        "id": "DZkb99HCkGm",
+        "words": 174,
+        "preview": "Stewie, you must never visit this GitHub repository in your life.\nWhy not?\nBecause once you do, you'll realize you've been solving coding problems the"
       },
       {
         "id": "DZkjjZopA-O",
@@ -236,36 +223,65 @@
       }
     ]
   },
-  "IF-THEN PLANS": {
-    "count": 5,
-    "learnix_stage": "Preparation → Action",
-    "learnix_use": "Deploy when user is in Preparation — helps bridge intention to action",
-    "color": "#c7ff38",
+  "SHAME / FEAR HOOK": {
+    "count": 2,
+    "learnix_stage": "Pre-contemplation → Contemplation",
+    "learnix_use": "Use sparingly in Pre-contemplation — creates urgency but risks disengagement",
+    "color": "#ff4444",
     "reels": [
       {
-        "id": "DZ7Plg6BIkz",
-        "words": 150,
-        "preview": "There is a restaurant behind a petrol pump in CP that's not as popular as Kaki or Bhaapira\nbut is a favorite of the working class.\nIn an area where a "
+        "id": "DZ0m9cKjGjX",
+        "words": 225,
+        "preview": "Brother, you've been infected your entire life and you still don't realize it.\nNot by laziness, not by lack of discipline, but something deeper.\nHere'"
       },
       {
         "id": "DZ8VciLDrMa",
         "words": 222,
         "preview": "You're no different than a dog.\nIn Pavlov's experiment, a dog was trained to associate food with the ringing of a bell.\nRing the bell, the dog salivat"
+      }
+    ]
+  },
+  "IF-THEN PLANS": {
+    "count": 2,
+    "learnix_stage": "Preparation → Action",
+    "learnix_use": "Deploy when user is in Preparation — helps bridge intention to action",
+    "color": "#c7ff38",
+    "reels": [
+      {
+        "id": "DZ452wBk1of",
+        "words": 56,
+        "preview": "Figma has a 50,000-star open-source rival.\nPenpot is the self-hosted design platform where designers and developers finally speak the same language.\nR"
       },
       {
-        "id": "DZePQPEuXBG",
-        "words": 112,
-        "preview": "The Cats 2\nThe Cats 2?\nSee, it may be different players, but it's still the same game.\nWhile they may all be street cats, this one especially is for t"
-      },
+        "id": "DZvCUhSoh0_",
+        "words": 313,
+        "preview": "If you are clueless and you don't have direction, purpose, and vision, believe me, at the end of this video, you'll have all three of them, and this t"
+      }
+    ]
+  },
+  "PROCESS / DISCIPLINE": {
+    "count": 1,
+    "learnix_stage": "Action → Maintenance",
+    "learnix_use": "Deploy in Action — helps user stay consistent through plateau",
+    "color": "#cc44ff",
+    "reels": [
+      {
+        "id": "DZs4sd5jFMy",
+        "words": 274,
+        "preview": "It's honestly disgusting that you keep trying to be more disciplined when the real problem\nis that you never install the floor. Here's the cycle you'r"
+      }
+    ]
+  },
+  "IDENTITY SHIFT": {
+    "count": 1,
+    "learnix_stage": "Contemplation → Preparation",
+    "learnix_use": "Deploy in Contemplation — shifts self-image before behavior change",
+    "color": "#4488ff",
+    "reels": [
       {
         "id": "DZV4oBYtiOj",
         "words": 126,
         "preview": "Every time you hesitate on the life you know you want, your brain records it.\nThat's the scary part.\nYour nervous system is always listening to your b"
-      },
-      {
-        "id": "queenkalin_1782161564_3925377870120155395_50450770487",
-        "words": 14,
-        "preview": "If you want me, you've got to put the word in, that's how y'all..."
       }
     ]
   }
