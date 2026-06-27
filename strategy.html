@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strategy Playbook — Learnix Content Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070a0e;
+  --surface:#0d1117;
+  --glass:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.07);
+  --green:#c7ff38;
+  --red:#ff4444;
+  --blue:#4488ff;
+  --text:#e8eaf0;
+  --muted:#8892a0;
+  --mono:'DM Mono',monospace;
+  --sans:'Manrope',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,10,14,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 32px;
+  display:flex;align-items:center;gap:24px;
+}
+.nav-logo{font-family:var(--mono);font-size:12px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase}
+.nav-links{display:flex;gap:16px;margin-left:auto}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;font-family:var(--mono);letter-spacing:0.05em;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+
+/* HERO */
+.hero{
+  padding:64px 32px 48px;
+  max-width:1200px;margin:0 auto;
+  border-bottom:1px solid var(--border);
+}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px}
+.hero h1 span{color:var(--green)}
+.hero-sub{font-size:16px;color:var(--muted);max-width:680px;line-height:1.7}
+
+/* ANTI-PATTERNS BANNER */
+.antipatterns{
+  background:linear-gradient(135deg,rgba(255,68,68,0.08),rgba(255,68,68,0.03));
+  border:1px solid rgba(255,68,68,0.2);
+  border-radius:12px;
+  padding:28px;
+  margin:32px auto;
+  max-width:1200px;
+}
+.antipatterns h2{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px}
+.ap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.ap-card{
+  background:rgba(255,68,68,0.05);
+  border:1px solid rgba(255,68,68,0.12);
+  border-radius:8px;padding:20px;
+}
+.ap-name{font-weight:700;font-size:14px;color:#ff8888;margin-bottom:4px}
+.ap-author{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:10px}
+.ap-what{font-size:13px;color:var(--text);margin-bottom:10px;line-height:1.6}
+.ap-trap{font-size:12px;color:#cc8888;background:rgba(255,68,68,0.08);padding:8px 12px;border-radius:6px;margin-bottom:10px;line-height:1.6}
+.ap-fix{font-size:12px;color:#88cc88;background:rgba(0,255,128,0.06);padding:8px 12px;border-radius:6px;line-height:1.6}
+.ap-fix::before{content:"→ FIX: ";font-family:var(--mono);font-weight:700;color:#c7ff38}
+
+/* TTM STAGE CARDS */
+.stages-section{max-width:1200px;margin:0 auto;padding:48px 32px}
+.section-header{margin-bottom:32px}
+.section-header h2{font-size:24px;font-weight:800;margin-bottom:8px}
+.section-header p{font-size:14px;color:var(--muted);line-height:1.6}
+
+.stage-card{
+  background:var(--surface);
+  border-radius:16px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  margin-bottom:24px;
+  transition:border-color 0.3s;
+}
+.stage-card:hover{border-color:rgba(255,255,255,0.15)}
+
+.stage-header{
+  padding:24px 28px;
+  display:flex;align-items:flex-start;gap:20px;
+  cursor:pointer;
+  user-select:none;
+}
+.stage-indicator{
+  width:52px;height:52px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.08em;
+  flex-shrink:0;
+}
+.stage-meta{flex:1}
+.stage-title{font-size:20px;font-weight:800;margin-bottom:4px}
+.stage-sub{font-size:13px;color:var(--muted);font-family:var(--mono)}
+.stage-pct{
+  font-family:var(--mono);font-size:11px;
+  padding:4px 10px;border-radius:6px;
+  background:rgba(255,255,255,0.06);color:var(--muted);
+  flex-shrink:0;align-self:flex-start;
+}
+
+.stage-body{
+  padding:0 28px 28px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.stage-block{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+}
+.block-label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.block-text{font-size:13px;line-height:1.7;color:var(--text)}
+.block-text em{font-style:normal;color:#aaa}
+
+.serve-block{grid-column:span 2;background:rgba(199,255,56,0.04);border-color:rgba(199,255,56,0.12)}
+.avoid-block{grid-column:span 2;background:rgba(255,68,68,0.04);border-color:rgba(255,68,68,0.12)}
+
+.clusters-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+.mechanism-box{
+  grid-column:span 2;
+  background:rgba(68,136,255,0.05);
+  border:1px solid rgba(68,136,255,0.2);
+  border-radius:10px;padding:18px;
+}
+.mechanism-name{font-weight:700;font-size:14px;color:#88aaff;margin-bottom:4px}
+.mechanism-science{font-size:12px;color:var(--muted);line-height:1.7}
+
+.trigger-row{
+  grid-column:span 2;
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.trigger-card{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border);
+  border-radius:8px;padding:14px;
+}
+.trigger-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.trigger-val{font-size:12px;color:var(--text);line-height:1.6}
+.trigger-val code{background:rgba(199,255,56,0.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:11px}
+
+.accounts-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.account-chip{
+  font-family:var(--mono);font-size:11px;
+  padding:4px 12px;border-radius:20px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--muted);
+}
+.account-chip::before{content:"@";opacity:0.5}
+
+/* TTM FLOW BAR */
+.flow-section{
+  max-width:1200px;margin:0 auto;
+  padding:0 32px 48px;
+}
+.flow-bar{
+  display:flex;align-items:stretch;
+  border-radius:12px;overflow:hidden;
+  border:1px solid var(--border);
+  margin-bottom:16px;
+}
+.flow-seg{
+  flex:1;padding:14px 12px;text-align:center;
+  position:relative;cursor:pointer;transition:filter 0.2s;
+}
+.flow-seg:hover{filter:brightness(1.3)}
+.flow-seg-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
+.flow-seg-crs{font-size:11px;opacity:0.7;margin-top:3px}
+.flow-arrow{
+  width:1px;background:rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.2);font-size:16px;
+}
+
+/* MATRIX TABLE */
+.matrix-section{max-width:1200px;margin:0 auto;padding:0 32px 64px}
+.matrix-table{width:100%;border-collapse:collapse;font-size:12px}
+.matrix-table th{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted);padding:10px 14px;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.matrix-table td{
+  padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.04);
+  vertical-align:top;line-height:1.6;
+}
+.matrix-table tr:hover td{background:rgba(255,255,255,0.02)}
+.yes{color:#c7ff38;font-weight:700;font-family:var(--mono)}
+.partial{color:#ff8800;font-family:var(--mono)}
+.no{color:#ff4444;font-family:var(--mono);opacity:0.6}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:32px;text-align:center;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  max-width:1200px;margin:0 auto;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">⬡ Learnix Strategy</span>
+  <div class="nav-links">
+    <a href="index.html">Behavior Graph</a>
+    <a href="grouped_reels.html">Strategy Map</a>
+    <a href="protocol.html">Content Protocol</a>
+    <a href="action_plan.html">Action Plan</a>
+    <a href="strategy.html" style="color:var(--green)">Playbook</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Learnix Content Engine · Deep Research</div>
+  <h1>The <span>Strategy</span> Playbook</h1>
+  <p class="hero-sub">Which content to serve, to whom, when — and the psychological mechanisms behind each decision. This is the full Learnix recommendation engine spec, grounded in Prochaska TTM, Gollwitzer Implementation Intentions, and Berridge's wanting-vs-liking framework.</p>
+</div>
+
+<!-- ANTI-PATTERNS -->
+<div style="max-width:1200px;margin:32px auto 0;padding:0 32px">
+  <div class="antipatterns">
+    <h2>⚠ Anti-Patterns That Kill Behavior Change</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">These 5 mechanisms are why motivational content consumption <em>substitutes for</em> rather than drives change. Learnix must be designed to short-circuit all of them.</p>
+    <div class="ap-grid">
+
+      <div class="ap-card">
+        <div class="ap-name">Symbolic Self-Completion</div>
+        <div class="ap-author">Wicklund & Gollwitzer, 1982</div>
+        <div class="ap-what">Saving motivational content feels like progress. It is not.</div>
+        <div class="ap-trap">⚡ When users save a video about discipline, their brain logs 'identity acquired'. The urgency to actually be disciplined drops. This is why heavy savers rarely act.</div>
+        <div class="ap-fix">Do not let saves substitute for tasks. Every save prompts: 'What's one thing you'll do today based on this?' Force the bridge.</div>
+      </div>
+
+      <div class="ap-card">
+        <div class="ap-name">Moral Licensing</div>
+        <div class="ap-author">Khan & Dhar, 2006</div>
+        <div class="ap-what">Engaging with virtue content creates a 'virtue credential' that licenses vice.</div>
+        <div class="ap-trap">⚡ A user who watches a 10-minute Goggins video feels they've done their 'discipline work' for the day. They're less likely to work out afterwards, not more.</div>
+        <div class="ap-fix">Never serve discipline/shame content right before a task reminder. Serve it after task completion as celebration fuel.</div>
+      </div>
+
+      <div class="ap-card">
+        <div class="ap-name">Berridge Wanting vs Liking</div>
+        <div class="ap-author">Kent Berridge, 1998</div>
+        <div class="ap-what">Dopamine drives wanting (seeking), not liking (pleasure). Save = the dopamine hit.</div>
+        <div class="ap-trap">⚡ The act of saving is the reward. Once saved, dopamine drops. There is no further pull toward action from the content itself.</div>
+        <div class="ap-fix">Make the TASK the dopamine trigger, not the content. Content should be an after-action reward, not a pre-action ritual.</div>
+      </div>
+
+      <div class="ap-card">
+        <div class="ap-name">Implementation Intentions</div>
+        <div class="ap-author">Gollwitzer, 1999</div>
+        <div class="ap-what">IF-THEN plans double execution rate (meta-analysis d=0.65).</div>
+        <div class="ap-trap">⚡ Most motivation content says WHAT to do, not WHEN + WHERE + HOW EXACTLY. Specificity is the active ingredient.</div>
+        <div class="ap-fix">Every IF-THEN content piece should prompt the user to write their own version: 'When X happens, I will do Y.' Store this in their Learnix profile.</div>
+      </div>
+
+      <div class="ap-card">
+        <div class="ap-name">Self-Discrepancy Theory</div>
+        <div class="ap-author">Higgins, 1987</div>
+        <div class="ap-what">Gap between actual-self and ideal-self creates emotional tension that drives change.</div>
+        <div class="ap-trap">⚡ Too much gap = hopelessness. Too little gap = complacency. The sweet spot is 'I can almost reach it.'</div>
+        <div class="ap-fix">Calibrate content difficulty to the user's current CRS. Show them someone 1-2 steps ahead, not 10 steps ahead.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOW BAR -->
+<div class="flow-section" style="margin-top:48px">
+  <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px">TTM Stage Progression</div>
+  <div class="flow-bar">
+    <div class="flow-seg" style="background:#ff444418">
+      <div class="flow-seg-label" style="color:#ff4444">PRE</div>
+      <div class="flow-seg-crs" style="color:#ff4444">0–30</div>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-seg" style="background:#ff880018">
+      <div class="flow-seg-label" style="color:#ff8800">CONT</div>
+      <div class="flow-seg-crs" style="color:#ff8800">30–50</div>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-seg" style="background:#c7ff3818">
+      <div class="flow-seg-label" style="color:#c7ff38">PREP</div>
+      <div class="flow-seg-crs" style="color:#c7ff38">50–70</div>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-seg" style="background:#00ffaa18">
+      <div class="flow-seg-label" style="color:#00ffaa">ACT</div>
+      <div class="flow-seg-crs" style="color:#00ffaa">70–85</div>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-seg" style="background:#4488ff18">
+      <div class="flow-seg-label" style="color:#4488ff">MAINT</div>
+      <div class="flow-seg-crs" style="color:#4488ff">85–100</div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:var(--muted);text-align:center">CRS (Change Readiness Score) 0–100 · Higher = more ready to act</div>
+</div>
+
+<!-- STAGE CARDS -->
+<div class="stages-section">
+  <div class="section-header">
+    <h2>Per-Stage Playbook</h2>
+    <p>Each card shows: psychological state · core mechanism · what to serve · what to avoid · Learnix trigger conditions.</p>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-indicator" style="background:#ff444418;border:1px solid #ff444444;color:#ff4444">PRE</div>
+      <div class="stage-meta">
+        <div class="stage-title" style="color:#ff4444">Pre-contemplation</div>
+        <div class="stage-sub">CRS 0–30 · ~20% of users</div>
+      </div>
+      <div class="stage-pct">~20% of users</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="stage-block">
+        <div class="block-label">Psychological State</div>
+        <div class="block-text">"I don't have a problem. Everyone else is the problem."</div>
+      </div>
+
+      <div class="stage-block">
+        <div class="block-label">What They Do</div>
+        <div class="block-text">Scrolls motivational content passively. Never starts. Doesn't notice the pattern.</div>
+      </div>
+
+      <div class="stage-block serve-block">
+        <div class="block-label" style="color:var(--green)">✓ Serve</div>
+        <div class="clusters-row"><span style="background:#ff444422;border:1px solid #ff4444;color:#ff4444;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">SHAME / FEAR HOOK</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Shame/Fear creates cognitive dissonance. Dissonance is the only thing that moves pre-cons — they need to feel the gap before they can close it.</div>
+        <div style="margin-top:12px">
+          <div class="block-label">Accounts</div>
+          <div class="accounts-row"><span class="account-chip">theflintmind</span><span class="account-chip">davidgoggins</span></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)">DOSE: 1 per 3 days max. Overuse → emotional fatigue → ghosting.</div>
+      </div>
+
+      <div class="stage-block avoid-block">
+        <div class="block-label" style="color:var(--red)">✗ Avoid</div>
+        <div class="clusters-row"><span style="background:#00d4ff22;border:1px solid #00d4ff;color:#00d4ff;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">TECHNICAL TUTORIAL</span> <span style="background:#c7ff3822;border:1px solid #c7ff38;color:#c7ff38;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">IF-THEN PLANS</span> <span style="background:#cc44ff22;border:1px solid #cc44ff;color:#cc44ff;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">PROCESS / DISCIPLINE</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Tutorials and plans signal readiness they don't have. Serving plans to pre-cons accelerates Symbolic Self-Completion: they feel like they've 'started' by watching a plan video.</div>
+      </div>
+
+      <div class="mechanism-box">
+        <div class="block-label" style="color:#88aaff">Core Mechanism</div>
+        <div class="mechanism-name">Pattern Interruption + Loss Aversion</div>
+        <div class="mechanism-science" style="margin-top:6px">Kahneman: losses hurt 2× more than equal gains feel good. Pre-cons respond to vivid loss framing, not gain framing. Interrupt the existing narrative — don't add to it.</div>
+      </div>
+
+      <div class="trigger-row">
+        <div class="trigger-card">
+          <div class="trigger-label">Learnix Trigger</div>
+          <div class="trigger-val"><code>CRS < 30 OR 3+ passive saves in 7 days with zero task completions</code></div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-label">Upgrade Signal</div>
+          <div class="trigger-val">User adds a goal OR opens the planner for the first time.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-indicator" style="background:#ff880018;border:1px solid #ff880044;color:#ff8800">CONT</div>
+      <div class="stage-meta">
+        <div class="stage-title" style="color:#ff8800">Contemplation</div>
+        <div class="stage-sub">CRS 30–50 · ~35% of users</div>
+      </div>
+      <div class="stage-pct">~35% of users</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="stage-block">
+        <div class="block-label">Psychological State</div>
+        <div class="block-text">"I know I should change. I'm just not ready yet."</div>
+      </div>
+
+      <div class="stage-block">
+        <div class="block-label">What They Do</div>
+        <div class="block-text">Heavy consumer. Saves everything. Rarely acts. The archive IS the comfort.</div>
+      </div>
+
+      <div class="stage-block serve-block">
+        <div class="block-label" style="color:var(--green)">✓ Serve</div>
+        <div class="clusters-row"><span style="background:#4488ff22;border:1px solid #4488ff;color:#4488ff;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">IDENTITY SHIFT</span> <span style="background:#ff880022;border:1px solid #ff8800;color:#ff8800;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">MINDSET / PHILOSOPHY</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Identity Shift content works on the 'who I am' layer, not the 'what I do' layer. Contemplators need to see themselves differently before they can act differently. Mindset/Philosophy gives them language for the change they're sensing.</div>
+        <div style="margin-top:12px">
+          <div class="block-label">Accounts</div>
+          <div class="accounts-row"><span class="account-chip">theflintmind</span><span class="account-chip">jayshetty</span></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)">DOSE: Identity Shift 2×/week, Mindset 1×/week.</div>
+      </div>
+
+      <div class="stage-block avoid-block">
+        <div class="block-label" style="color:var(--red)">✗ Avoid</div>
+        <div class="clusters-row"><span style="background:#ff444422;border:1px solid #ff4444;color:#ff4444;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">SHAME / FEAR HOOK</span> <span style="background:#00d4ff22;border:1px solid #00d4ff;color:#00d4ff;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">TECHNICAL TUTORIAL</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">More shame deepens paralysis — they already know. Tutorials show HOW before they've decided IF — this triggers Moral Licensing ('I watched the tutorial, I basically did the thing').</div>
+      </div>
+
+      <div class="mechanism-box">
+        <div class="block-label" style="color:#88aaff">Core Mechanism</div>
+        <div class="mechanism-name">Self-Concept Gap + Possibility Expansion</div>
+        <div class="mechanism-science" style="margin-top:6px">Higgins' Self-Discrepancy Theory: gap between actual-self and ideal-self creates discomfort. The goal isn't more discomfort — it's expanding what they believe is POSSIBLE for someone like them.</div>
+      </div>
+
+      <div class="trigger-row">
+        <div class="trigger-card">
+          <div class="trigger-label">Learnix Trigger</div>
+          <div class="trigger-val"><code>CRS 30–50 OR Engagement Rate (saves/views) > 40% without completions</code></div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-label">Upgrade Signal</div>
+          <div class="trigger-val">User completes their first task OR writes their first goal with specificity (not 'get fit', but 'run 3km on Tuesday').</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-indicator" style="background:#c7ff3818;border:1px solid #c7ff3844;color:#c7ff38">PREP</div>
+      <div class="stage-meta">
+        <div class="stage-title" style="color:#c7ff38">Preparation</div>
+        <div class="stage-sub">CRS 50–70 · ~25% of users</div>
+      </div>
+      <div class="stage-pct">~25% of users</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="stage-block">
+        <div class="block-label">Psychological State</div>
+        <div class="block-text">"I've decided. I'm planning. But I haven't done it yet."</div>
+      </div>
+
+      <div class="stage-block">
+        <div class="block-label">What They Do</div>
+        <div class="block-text">Makes lists. Reorganizes notes. Watches 'how to start' videos. Hasn't started.</div>
+      </div>
+
+      <div class="stage-block serve-block">
+        <div class="block-label" style="color:var(--green)">✓ Serve</div>
+        <div class="clusters-row"><span style="background:#c7ff3822;border:1px solid #c7ff38;color:#c7ff38;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">IF-THEN PLANS</span> <span style="background:#cc44ff22;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">PROCESS / DISCIPLINE</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">If-Then Plans bridge intention to action — the exact gap Preparation users are stuck in. Process/Discipline shows them what the early grind looks like so they don't quit when it gets boring.</div>
+        <div style="margin-top:12px">
+          <div class="block-label">Accounts</div>
+          <div class="accounts-row"><span class="account-chip">theflintmind</span><span class="account-chip">jamesclear</span><span class="account-chip">mattdavella</span></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)">DOSE: IF-THEN daily (it's short, it's structural). Process/Discipline 3×/week.</div>
+      </div>
+
+      <div class="stage-block avoid-block">
+        <div class="block-label" style="color:var(--red)">✗ Avoid</div>
+        <div class="clusters-row"><span style="background:#ff880022;border:1px solid #ff8800;color:#ff8800;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">MINDSET / PHILOSOPHY</span> <span style="background:#00ffaa22;border:1px solid #00ffaa;color:#00ffaa;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">AI / TECH INSIGHT</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">More philosophy keeps them in 'thinking mode'. AI/Tech insights are new information that REPLACES action ('I need to learn this first before I can start').</div>
+      </div>
+
+      <div class="mechanism-box">
+        <div class="block-label" style="color:#88aaff">Core Mechanism</div>
+        <div class="mechanism-name">Implementation Intentions (Gollwitzer)</div>
+        <div class="mechanism-science" style="margin-top:6px">Gollwitzer 1999: IF-THEN plans double execution rate (d=0.65). The magic isn't motivation — it's specificity. 'I will study at 8pm in my room when I sit down with coffee' beats 'I will study more'.</div>
+      </div>
+
+      <div class="trigger-row">
+        <div class="trigger-card">
+          <div class="trigger-label">Learnix Trigger</div>
+          <div class="trigger-val"><code>CRS 50–70 OR goal written but zero tasks completed in 5 days</code></div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-label">Upgrade Signal</div>
+          <div class="trigger-val">User completes 3 tasks in a single week OR streak > 5 days.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-indicator" style="background:#00ffaa18;border:1px solid #00ffaa44;color:#00ffaa">ACT</div>
+      <div class="stage-meta">
+        <div class="stage-title" style="color:#00ffaa">Action</div>
+        <div class="stage-sub">CRS 70–85 · ~15% of users</div>
+      </div>
+      <div class="stage-pct">~15% of users</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="stage-block">
+        <div class="block-label">Psychological State</div>
+        <div class="block-text">"I'm doing it. But it's hard and I'm not sure I can sustain it."</div>
+      </div>
+
+      <div class="stage-block">
+        <div class="block-label">What They Do</div>
+        <div class="block-text">Completes tasks. Slips occasionally. Needs proof the effort is worth it.</div>
+      </div>
+
+      <div class="stage-block serve-block">
+        <div class="block-label" style="color:var(--green)">✓ Serve</div>
+        <div class="clusters-row"><span style="background:#cc44ff22;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">PROCESS / DISCIPLINE</span> <span style="background:#88822;border:1px solid #888;color:#888;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">ACHIEVEMENT PROOF</span> <span style="background:#00d4ff22;border:1px solid #00d4ff;color:#00d4ff;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">TECHNICAL TUTORIAL</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Discipline content normalizes the plateau — 'This is what consistency looks like, not inspiration.' Achievement Proof shows proof the effort compounds. Tutorials give them the next skill so they stay in flow.</div>
+        <div style="margin-top:12px">
+          <div class="block-label">Accounts</div>
+          <div class="accounts-row"><span class="account-chip">davidgoggins</span><span class="account-chip">hubermanlab</span><span class="account-chip">mattdavella</span></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)">DOSE: Process/Discipline daily. Achievement Proof 2×/week as emotional fuel.</div>
+      </div>
+
+      <div class="stage-block avoid-block">
+        <div class="block-label" style="color:var(--red)">✗ Avoid</div>
+        <div class="clusters-row"><span style="background:#ff444422;border:1px solid #ff4444;color:#ff4444;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">SHAME / FEAR HOOK</span> <span style="background:#ff880022;border:1px solid #ff8800;color:#ff8800;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">MINDSET / PHILOSOPHY</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Shame is corrosive when someone is already trying — it triggers discouragement not urgency. Philosophy is fine but it's a DISTRACTION from doing. Action users need doing content, not thinking content.</div>
+      </div>
+
+      <div class="mechanism-box">
+        <div class="block-label" style="color:#88aaff">Core Mechanism</div>
+        <div class="mechanism-name">Competence Building + Vicarious Achievement</div>
+        <div class="mechanism-science" style="margin-top:6px">Bandura's Self-Efficacy: vicarious mastery (watching others do it) is the second strongest predictor of persistence, after direct mastery. Also: Huberman's work on dopamine timing — rewarding the EFFORT (not the outcome) keeps the motivation circuit healthy.</div>
+      </div>
+
+      <div class="trigger-row">
+        <div class="trigger-card">
+          <div class="trigger-label">Learnix Trigger</div>
+          <div class="trigger-val"><code>CRS 70–85 OR task completion rate > 60% for 2+ weeks</code></div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-label">Upgrade Signal</div>
+          <div class="trigger-val">CRS > 85 OR 6+ week streak OR user completes a milestone goal.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-indicator" style="background:#4488ff18;border:1px solid #4488ff44;color:#4488ff">MAINT</div>
+      <div class="stage-meta">
+        <div class="stage-title" style="color:#4488ff">Maintenance</div>
+        <div class="stage-sub">CRS 85–100 · ~5% of users</div>
+      </div>
+      <div class="stage-pct">~5% of users</div>
+    </div>
+    <div class="stage-body">
+
+      <div class="stage-block">
+        <div class="block-label">Psychological State</div>
+        <div class="block-text">"This IS who I am now. I need a deeper why to keep going."</div>
+      </div>
+
+      <div class="stage-block">
+        <div class="block-label">What They Do</div>
+        <div class="block-text">Consistent. Seeks depth. Optimizes. Mentors others occasionally.</div>
+      </div>
+
+      <div class="stage-block serve-block">
+        <div class="block-label" style="color:var(--green)">✓ Serve</div>
+        <div class="clusters-row"><span style="background:#ff880022;border:1px solid #ff8800;color:#ff8800;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">MINDSET / PHILOSOPHY</span> <span style="background:#88822;border:1px solid #888;color:#888;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">ACHIEVEMENT PROOF</span> <span style="background:#00ffaa22;border:1px solid #00ffaa;color:#00ffaa;text-decoration:none;opacity:1;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">AI / TECH INSIGHT</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">Philosophy now serves at a deeper level — they have the behavior, they need the WHY to sustain it across years. Achievement Proof keeps the identity strong. Tech Insights let them expand into new domains.</div>
+        <div style="margin-top:12px">
+          <div class="block-label">Accounts</div>
+          <div class="accounts-row"><span class="account-chip">jayshetty</span><span class="account-chip">jamesclear</span><span class="account-chip">hubermanlab</span></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted)">DOSE: Let them lead. Serve based on what they engage with, not prescriptive doses.</div>
+      </div>
+
+      <div class="stage-block avoid-block">
+        <div class="block-label" style="color:var(--red)">✗ Avoid</div>
+        <div class="clusters-row"><span style="background:#c7ff3822;border:1px solid #c7ff38;color:#c7ff38;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">IF-THEN PLANS</span> <span style="background:#ff444422;border:1px solid #ff4444;color:#ff4444;text-decoration:line-through;opacity:0.5;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;font-family:'DM Mono',monospace">SHAME / FEAR HOOK</span> </div>
+        <div class="block-text" style="margin-top:10px;color:#aaa">If-Then plans are patronizing — they already execute. Shame content targets people who aren't acting; maintenance users ARE acting — it misattributes their identity.</div>
+      </div>
+
+      <div class="mechanism-box">
+        <div class="block-label" style="color:#88aaff">Core Mechanism</div>
+        <div class="mechanism-name">Identity Consolidation + Purpose Anchoring</div>
+        <div class="mechanism-science" style="margin-top:6px">Prochaska's relapse research: maintenance users don't quit from lack of will — they quit from loss of meaning. Serving discipline content to maintenance users is insulting. They need PURPOSE escalation.</div>
+      </div>
+
+      <div class="trigger-row">
+        <div class="trigger-card">
+          <div class="trigger-label">Learnix Trigger</div>
+          <div class="trigger-val"><code>CRS > 85 AND streak > 30 days</code></div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-label">Upgrade Signal</div>
+          <div class="trigger-val">User creates their own content, teaches others, or expands into a new goal domain.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MATRIX -->
+<div class="matrix-section">
+  <div class="section-header">
+    <h2>Cluster × Stage Matrix</h2>
+    <p>Quick reference: which clusters to serve at each TTM stage.</p>
+  </div>
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th>Content Cluster</th>
+<th style="color:#ff4444">PRE</th>
+<th style="color:#ff8800">CONT</th>
+<th style="color:#c7ff38">PREP</th>
+<th style="color:#00ffaa">ACT</th>
+<th style="color:#4488ff">MAINT</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr><td style="color:#ff4444;font-weight:700;font-family:var(--mono);font-size:11px">SHAME / FEAR HOOK</td><td class="yes">✓ YES</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+<tr><td style="color:#4488ff;font-weight:700;font-family:var(--mono);font-size:11px">IDENTITY SHIFT</td><td class="partial">◐ partial</td><td class="yes">✓ YES</td><td class="no">—</td><td class="no">—</td><td class="partial">◐ partial</td></tr>
+<tr><td style="color:#ff8800;font-weight:700;font-family:var(--mono);font-size:11px">MINDSET / PHILOSOPHY</td><td class="no">—</td><td class="yes">✓ YES</td><td class="no">✗ avoid</td><td class="no">—</td><td class="yes">✓ YES</td></tr>
+<tr><td style="color:#c7ff38;font-weight:700;font-family:var(--mono);font-size:11px">IF-THEN PLANS</td><td class="no">—</td><td class="partial">◐ partial</td><td class="yes">✓ YES</td><td class="partial">◐ partial</td><td class="no">✗ avoid</td></tr>
+<tr><td style="color:#cc44ff;font-weight:700;font-family:var(--mono);font-size:11px">PROCESS / DISCIPLINE</td><td class="no">—</td><td class="no">—</td><td class="yes">✓ YES</td><td class="yes">✓ YES</td><td class="partial">◐ partial</td></tr>
+<tr><td style="color:#888;font-weight:700;font-family:var(--mono);font-size:11px">ACHIEVEMENT PROOF</td><td class="no">—</td><td class="partial">◐ partial</td><td class="no">—</td><td class="yes">✓ YES</td><td class="yes">✓ YES</td></tr>
+<tr><td style="color:#00d4ff;font-weight:700;font-family:var(--mono);font-size:11px">TECHNICAL TUTORIAL</td><td class="no">✗ avoid</td><td class="no">✗ avoid</td><td class="partial">◐ partial</td><td class="yes">✓ YES</td><td class="yes">✓ YES</td></tr>
+<tr><td style="color:#00ffaa;font-weight:700;font-family:var(--mono);font-size:11px">AI / TECH INSIGHT</td><td class="no">—</td><td class="no">—</td><td class="no">✗ avoid</td><td class="partial">◐ partial</td><td class="yes">✓ YES</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  Learnix Strategy Playbook · Built from 34 real transcripts + 5 psychological frameworks
+  · <a href="https://github.com/DevanshSrivastava88/motivation-engine" style="color:var(--green);text-decoration:none">GitHub</a>
+</footer>
+
+</body>
+</html>
