@@ -1,0 +1,340 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #0d0d0d;
+                 background-image:
+                     linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+                 background-size: 44px 44px;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+    <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0d0d0d; font-family: 'DM Mono', monospace; }
+
+    /* ── Stats bar ── */
+    #stats-bar {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1002;
+        background: rgba(10,10,10,0.97); border-bottom: 1px solid #1e1e1e;
+        height: 44px; display: flex; align-items: center; padding: 0 18px;
+        gap: 18px; font-family: 'DM Mono', monospace; font-size: 11px;
+    }
+    .stat-label { color: #444; text-transform: uppercase; letter-spacing: 0.07em; }
+    .stat-val { color: #c7ff38; font-weight: 500; margin-left: 5px; }
+    .stat-sep { color: #252525; }
+    #stats-title { margin-left: auto; color: #c7ff38; font-size: 11px; letter-spacing: 0.12em; opacity: 0.8; }
+    #search-wrap { display: flex; align-items: center; gap: 6px; margin-left: 8px; }
+    #search-box {
+        background: rgba(255,255,255,0.04); border: 1px solid #2a2a2a;
+        border-radius: 4px; color: #ccc; font-family: 'DM Mono', monospace;
+        font-size: 11px; padding: 4px 10px; width: 150px; outline: none;
+        transition: border-color 0.2s;
+    }
+    #search-box:focus { border-color: #c7ff38; }
+    #search-box::placeholder { color: #383838; }
+
+    /* ── Legend ── */
+    #legend {
+        position: fixed; top: 60px; left: 16px; z-index: 999;
+        background: rgba(11,11,11,0.94); border: 1px solid #222;
+        border-radius: 7px; color: #ccc; font-size: 11px;
+        font-family: 'DM Mono', monospace; overflow: hidden;
+        min-width: 210px;
+    }
+    #legend-header {
+        display: flex; align-items: center; justify-content: space-between;
+        cursor: pointer; user-select: none; padding: 10px 14px 8px;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    #legend h3 { color: #c7ff38; margin: 0; font-size: 11px; letter-spacing: 0.07em; }
+    #legend-toggle { color: #444; font-size: 10px; transition: transform 0.2s; }
+    #legend-body { padding: 8px 14px 10px; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .legend-row { margin: 5px 0; color: #999; font-size: 10px; }
+
+    /* ── Cluster filters ── */
+    #filters {
+        position: fixed; top: 60px; left: 243px; z-index: 999;
+        display: flex; flex-direction: column; gap: 4px;
+    }
+    .filter-btn {
+        background: rgba(11,11,11,0.9); border: 1px solid #222;
+        border-radius: 4px; color: #555; font-family: 'DM Mono', monospace;
+        font-size: 9px; padding: 4px 10px; cursor: pointer;
+        transition: all 0.15s; letter-spacing: 0.08em; text-align: left;
+    }
+    .filter-btn:hover { border-color: #444; color: #aaa; }
+    .filter-btn.active { color: var(--cc); border-color: var(--cc); background: rgba(255,255,255,0.03); }
+
+    /* ── Detail panel ── */
+    #detail-panel {
+        position: fixed; top: 44px; right: -380px; width: 360px;
+        height: calc(100vh - 44px); z-index: 1001;
+        background: rgba(10,10,10,0.98); border-left: 1px solid #1e1e1e;
+        overflow-y: auto; padding: 20px 18px;
+        transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        font-family: 'DM Mono', monospace;
+    }
+    #detail-panel.open { right: 0; }
+    #panel-close {
+        position: absolute; top: 14px; right: 14px;
+        color: #444; cursor: pointer; font-size: 14px; line-height: 1;
+        background: none; border: none; padding: 4px 6px; border-radius: 3px;
+    }
+    #panel-close:hover { color: #c7ff38; background: rgba(199,255,56,0.08); }
+    #panel-node-name {
+        font-size: 15px; font-weight: 500; margin: 0 28px 6px 0;
+        line-height: 1.35; color: #fff;
+    }
+    #panel-cluster-tag {
+        display: inline-block; font-size: 8px; letter-spacing: 0.1em;
+        padding: 2px 8px; border-radius: 3px; margin-bottom: 12px;
+        border: 1px solid; text-transform: uppercase;
+    }
+    #panel-tooltip {
+        color: #777; font-size: 10px; line-height: 1.65;
+        border-left: 2px solid #222; padding-left: 10px;
+        margin-bottom: 14px; font-style: italic;
+    }
+    #panel-analysis {
+        background: rgba(199,255,56,0.04); border: 1px solid rgba(199,255,56,0.15);
+        border-radius: 5px; padding: 12px; margin-bottom: 16px;
+    }
+    #panel-analysis-label {
+        font-size: 8px; color: #c7ff38; letter-spacing: 0.12em;
+        text-transform: uppercase; margin-bottom: 7px;
+    }
+    #panel-analysis-text { font-size: 11px; color: #c8c8c8; line-height: 1.7; }
+    .psec { font-size: 8px; color: #333; letter-spacing: 0.1em;
+        text-transform: uppercase; margin: 14px 0 5px; }
+    .edge-item {
+        font-size: 10px; color: #666; padding: 5px 0;
+        border-bottom: 1px solid #141414; display: flex; gap: 6px;
+        align-items: baseline; line-height: 1.4;
+    }
+    .edge-item .arr { color: #333; flex-shrink: 0; }
+    .edge-item .elabel { color: #3a3a3a; font-size: 9px; }
+    .edge-item .enode { color: #999; }
+    .no-edges { color: #333; font-size: 10px; font-style: italic; }
+    </style>
+
+    <!-- Stats bar -->
+    <div id="stats-bar">
+        <span><span class="stat-label">CRS</span><span class="stat-val">54/100</span></span>
+        <span class="stat-sep">·</span>
+        <span><span class="stat-label">Stage</span><span class="stat-val">Preparation</span></span>
+        <span class="stat-sep">·</span>
+        <span><span class="stat-label">Timeline</span><span class="stat-val">30-90 days</span></span>
+        <span class="stat-sep">·</span>
+        <span><span class="stat-label">Posts</span><span class="stat-val">56</span></span>
+        <span class="stat-sep">·</span>
+        <span><span class="stat-label">Graph</span><span class="stat-val">40 nodes · 47 edges</span></span>
+        <div id="search-wrap">
+            <input id="search-box" type="text" placeholder="search nodes…" autocomplete="off">
+        </div>
+        <span id="stats-title">BEHAVIOR MAP</span>
+    </div>
+
+    <!-- Legend -->
+    <div id="legend">
+        <div id="legend-header" onclick="toggleLegend()">
+            <h3>MOTIVATION ARCHITECTURE</h3>
+            <span id="legend-toggle">▾</span>
+        </div>
+        <div id="legend-body">
+            <div class="legend-row"><span class="dot" style="background:#ff4444"></span>Cortisol-Dopamine Trap</div>
+            <div class="legend-row"><span class="dot" style="background:#c7ff38"></span>Flint Recovery Path</div>
+            <div class="legend-row"><span class="dot" style="background:#4488ff"></span>3-Phase Model</div>
+            <div class="legend-row"><span class="dot" style="background:#ff9900"></span>God Nodes</div>
+            <div class="legend-row"><span class="dot" style="background:#888888"></span>Missing Content</div>
+            <div class="legend-row"><span class="dot" style="background:#cc44ff"></span>The Deepest Irony</div>
+        </div>
+    </div>
+
+    <!-- Cluster filter buttons -->
+    <div id="filters">
+        <button class="filter-btn active" data-cluster="all" style="--cc:#c7ff38" onclick="filterCluster(this,'all')">ALL</button>
+        <button class="filter-btn" data-cluster="#ff4444" style="--cc:#ff4444" onclick="filterCluster(this,'#ff4444')">● TRAP</button>
+        <button class="filter-btn" data-cluster="#c7ff38" style="--cc:#c7ff38" onclick="filterCluster(this,'#c7ff38')">● RECOVERY</button>
+        <button class="filter-btn" data-cluster="#4488ff" style="--cc:#4488ff" onclick="filterCluster(this,'#4488ff')">● PHASE MODEL</button>
+        <button class="filter-btn" data-cluster="#ff9900" style="--cc:#ff9900" onclick="filterCluster(this,'#ff9900')">● GOD NODES</button>
+        <button class="filter-btn" data-cluster="#888888" style="--cc:#888888" onclick="filterCluster(this,'#888888')">● MISSING</button>
+        <button class="filter-btn" data-cluster="#cc44ff" style="--cc:#cc44ff" onclick="filterCluster(this,'#cc44ff')">● IRONY</button>
+    </div>
+
+    <!-- Node detail panel -->
+    <div id="detail-panel">
+        <button id="panel-close" onclick="closePanel()">✕</button>
+        <div id="panel-node-name"></div>
+        <span id="panel-cluster-tag"></span>
+        <div id="panel-tooltip"></div>
+        <div id="panel-analysis">
+            <div id="panel-analysis-label">YOUR ANALYSIS</div>
+            <div id="panel-analysis-text"></div>
+        </div>
+        <div class="psec">← INCOMING</div>
+        <div id="panel-incoming"></div>
+        <div class="psec">OUTGOING →</div>
+        <div id="panel-outgoing"></div>
+    </div>
+
+        <div class="card" style="width: 100%; margin-top: 44px;">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Current Self", "label": "Current Self", "shape": "dot", "size": 20, "title": "Trapped in waiting room between potential and execution"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Desired Self", "label": "Desired Self", "shape": "dot", "size": 30, "title": "Technically elite AI builder, intentional not anxious"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Identity Gap", "label": "Identity Gap", "shape": "dot", "size": 20, "title": "Gap between current and desired self"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Identity Threat", "label": "Identity Threat", "shape": "dot", "size": 20, "title": "Activated when gap becomes conscious"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Avoidance Loop", "label": "Avoidance Loop", "shape": "dot", "size": 20, "title": "Triggered by Identity Threat"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Shame Spiral", "label": "Shame Spiral", "shape": "dot", "size": 20, "title": "Triggers Scroll Session"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Scroll Session", "label": "Scroll Session", "shape": "dot", "size": 20, "title": "Numbing behavior"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Shame Hook", "label": "Shame Hook", "shape": "dot", "size": 20, "title": "35% of saved content \u2014 shames, diagnoses, compares"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Amygdala Threat Response", "label": "Amygdala Threat Response", "shape": "dot", "size": 20, "title": "Cortisol spike \u2014 threat detected"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Cortisol", "label": "Cortisol", "shape": "dot", "size": 20, "title": "Suppresses Prefrontal Cortex"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Prefrontal Cortex", "label": "Prefrontal Cortex", "shape": "dot", "size": 20, "title": "Blocked by cortisol \u2014 can\u0027t execute"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Framework Solution", "label": "Framework Solution", "shape": "dot", "size": 20, "title": "Promised behind comment gate \u2014 CTA"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Nucleus Accumbens", "label": "Nucleus Accumbens", "shape": "dot", "size": 20, "title": "Dopamine anticipation \u2014 peaks before reward"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Dopamine Anticipation", "label": "Dopamine Anticipation", "shape": "dot", "size": 20, "title": "Peaks before reward delivery, drops after save"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Symbolic Self-Completion", "label": "Symbolic Self-Completion", "shape": "dot", "size": 35, "title": "Saving video = proxy identity acquisition"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Moral Licensing", "label": "Moral Licensing", "shape": "dot", "size": 20, "title": "Engaging content = virtue credential \u2192 permission to pause"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Hesitation", "label": "Hesitation", "shape": "dot", "size": 30, "title": "Single decision to not act"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Hesitation Pattern", "label": "Hesitation Pattern", "shape": "dot", "size": 30, "title": "Repeated hesitation \u2192 behavioral record"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Self-Trust Erosion", "label": "Self-Trust Erosion", "shape": "dot", "size": 30, "title": "Quiet, not catastrophic \u2014 compounding"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Identity toward Non-Execution", "label": "Identity toward Non-Execution", "shape": "dot", "size": 30, "title": "Identity reshapes around inaction"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Execution (despite unready)", "label": "Execution (despite unready)", "shape": "dot", "size": 35, "title": "The Flint\u0027s core mechanism"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Behavioral Evidence", "label": "Behavioral Evidence", "shape": "dot", "size": 35, "title": "Proof accumulated through action"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Self-Trust Rebuilt", "label": "Self-Trust Rebuilt", "shape": "dot", "size": 30, "title": "Built through proof not feeling"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Execution Identity", "label": "Execution Identity", "shape": "dot", "size": 30, "title": "Target state \u2014 identity around agency"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Implementation Intention", "label": "Implementation Intention", "shape": "dot", "size": 35, "title": "If-then plan: \u0027When X, I will Y\u0027 \u2014 d=0.65"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Medial PFC", "label": "Medial PFC", "shape": "dot", "size": 30, "title": "Fires at 120ms \u2014 below deliberation threshold"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 1: Approach Motivation", "label": "Phase 1: Approach Motivation", "shape": "dot", "size": 20, "title": "Dopamine wanting \u2014 what Instagram activates"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 2: Avoidance Motivation", "label": "Phase 2: Avoidance Motivation", "shape": "dot", "size": 20, "title": "Cortisol threat \u2014 what shame hooks activate \u2192 burnout"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 3: Assertion Motivation", "label": "Phase 3: Assertion Motivation", "shape": "dot", "size": 20, "title": "Identity congruence \u2014 what consistency builds"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "AI Engineering Skill Stack", "label": "AI Engineering Skill Stack", "shape": "dot", "size": 30, "title": "7 edges \u2014 RAG, Agents, Evals, Fine-tuning, LLMOps"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "FastAPI Architecture Patterns", "label": "FastAPI Architecture Patterns", "shape": "dot", "size": 30, "title": "5 edges \u2014 progressive architecture"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "Claude AI Automation", "label": "Claude AI Automation", "shape": "dot", "size": 30, "title": "Self-prompting system \u2014 meta level"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "One Complete Project", "label": "One Complete Project", "shape": "dot", "size": 30, "title": "RAG + FastAPI + deployed = first Behavioral Evidence"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Rest Permission", "label": "Rest Permission", "shape": "dot", "size": 20, "title": "Zero saved posts on rest/recovery"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Process Joy", "label": "Process Joy", "shape": "dot", "size": 20, "title": "Zero saved posts on enjoying process"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Honest Failure Content", "label": "Honest Failure Content", "shape": "dot", "size": 20, "title": "Zero saved posts normalizing failure"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Long-Form Patience", "label": "Long-Form Patience", "shape": "dot", "size": 20, "title": "Zero saved posts on long timelines"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "The Flint\u0027s Framework", "label": "The Flint\u0027s Framework", "shape": "dot", "size": 20, "title": "Correct insight \u2014 hesitation \u2192 identity erosion"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "Inspirational Content Format", "label": "Inspirational Content Format", "shape": "dot", "size": 20, "title": "Distributed on Instagram \u2014 triggers Symbolic Self-Completion"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "No Behavior Change", "label": "No Behavior Change", "shape": "dot", "size": 20, "title": "Correct framework + wrong channel = no output"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Current Self", "label": "feels", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Gap"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Gap", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Threat"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Threat", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Avoidance Loop"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Threat", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Shame Spiral"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Avoidance Loop", "label": "leads to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Spiral", "label": "triggers", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Scroll Session", "label": "encounters", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Shame Hook"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Scroll Session", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 1: Approach Motivation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Amygdala Threat Response"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "promises", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Framework Solution"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "creates virtue credential", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Moral Licensing"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 2: Avoidance Motivation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Amygdala Threat Response", "label": "spikes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Cortisol"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Cortisol", "label": "suppresses", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Prefrontal Cortex"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Prefrontal Cortex", "label": "blocked by cortisol", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Framework Solution", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Nucleus Accumbens"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Nucleus Accumbens", "label": "generates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Dopamine Anticipation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Dopamine Anticipation", "label": "via save", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Symbolic Self-Completion"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Dopamine Anticipation", "label": "drop triggers new", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Symbolic Self-Completion", "label": "partially closes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Gap"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Symbolic Self-Completion", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "No Behavior Change"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Moral Licensing", "label": "extends via permission", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Hesitation", "label": "repeated becomes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Hesitation Pattern"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Hesitation Pattern", "label": "erodes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Self-Trust Erosion"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Self-Trust Erosion", "label": "reshapes identity", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity toward Non-Execution"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity toward Non-Execution", "label": "makes next more likely", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Hesitation"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution (despite unready)", "label": "creates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Behavioral Evidence", "label": "builds", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Self-Trust Rebuilt"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Self-Trust Rebuilt", "label": "reshapes toward", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution Identity"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution Identity", "label": "makes easier", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution Identity", "label": "reaches", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Implementation Intention", "label": "activates at 120ms", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Medial PFC"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Implementation Intention", "label": "converts intention to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Medial PFC", "label": "bypasses cortisol block", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#4488ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Phase 2: Avoidance Motivation", "label": "generates chronic", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Cortisol"}, {"arrows": "to", "color": "#4488ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Phase 3: Assertion Motivation", "label": "no motivation energy needed", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "AI Engineering Skill Stack", "label": "operationalized via", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "FastAPI Architecture Patterns", "label": "enables", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Claude AI Automation", "label": "adjacent to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "One Complete Project", "label": "generates first", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Rest Permission", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Process Joy", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Honest Failure Content", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "is essentially", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Implementation Intention"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "distributed as", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Inspirational Content Format"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "correct insight \u2192 wrong channel", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "No Behavior Change"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Inspirational Content Format", "label": "triggers", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Symbolic Self-Completion"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -8000,
+            "springConstant": 0.04,
+            "springLength": 200
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
