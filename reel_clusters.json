@@ -1,6 +1,6 @@
 {
   "TECHNICAL TUTORIAL": {
-    "count": 9,
+    "count": 11,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy when user has a specific skill gap — direct capability building",
     "color": "#00d4ff",
@@ -44,6 +44,16 @@
         "id": "kushal_vijay__1782314810_3926662350925384594_45615392566",
         "words": 95,
         "preview": "If you want to learn RAG, then build this project. If you want to learn agents, then build this project.\nIf you want to learn evals, then build this p"
+      },
+      {
+        "id": "theflintmind_DaD6VnJNOtE",
+        "words": 135,
+        "preview": "You don't bet on the world being predictable.\nYou bet on your ability to respond.\nThat's a completely different mentality.\nAnd it's powerful.\nBecause "
+      },
+      {
+        "id": "theflintmind_Q5egjdz7",
+        "words": 48,
+        "preview": "Because the version of you that can handle more, earn more, lead more is created in the\nmoments where you choose to stay with the challenge instead of"
       },
       {
         "id": "wassimyounes__1780781464_3913800719442319812_61181962009",
@@ -99,7 +109,7 @@
     ]
   },
   "AI / TECH INSIGHT": {
-    "count": 7,
+    "count": 8,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy for tech users in Preparation — builds domain confidence",
     "color": "#00ffaa",
@@ -135,6 +145,11 @@
         "preview": "You're not supposed to prompt Claude. You're supposed to build a system that prompts itself.\nI mean writing one prompt a day is the slowest way to act"
       },
       {
+        "id": "theflintmind_4",
+        "words": 101,
+        "preview": "You know what's quietly destroying ambitious people?\nWaiting for the world to feel safe enough to fully commit.\nThe economy is uncertain.\nTechnology i"
+      },
+      {
         "id": "thetimchao_1781740809_3921848327696118203_74162276054",
         "words": 107,
         "preview": "You're not supposed to prompt Claude. You're supposed to build a system that prompts itself.\nI mean writing one prompt a day is the slowest way to act"
@@ -142,7 +157,7 @@
     ]
   },
   "IF-THEN PLANS": {
-    "count": 2,
+    "count": 4,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy when user is in Preparation — helps bridge intention to action",
     "color": "#c7ff38",
@@ -156,6 +171,16 @@
         "id": "DZvCUhSoh0_",
         "words": 313,
         "preview": "If you are clueless and you don't have direction, purpose, and vision, believe me, at the end of this video, you'll have all three of them, and this t"
+      },
+      {
+        "id": "theflintmind_DaC0mjsNBuj",
+        "words": 107,
+        "preview": "The mistake people make is trying to become a completely new person.\nNo.\nYour next chapter isn't about reinvention.\nIt's about reunion.\nReintroducing "
+      },
+      {
+        "id": "theflintmind_DaDlfUyNyCN",
+        "words": 94,
+        "preview": "This is where your thinking needs to change.\nYou keep asking,\nwhat if I try and it doesn't work?\nWrong question.\nAsk yourself,\nwhat happens if I spend"
       }
     ]
   },
@@ -173,7 +198,7 @@
     ]
   },
   "IDENTITY SHIFT": {
-    "count": 1,
+    "count": 4,
     "learnix_stage": "Contemplation → Preparation",
     "learnix_use": "Deploy in Contemplation — shifts self-image before behavior change",
     "color": "#4488ff",
@@ -182,6 +207,21 @@
         "id": "DZV4oBYtiOj",
         "words": 126,
         "preview": "Every time you hesitate on the life you know you want, your brain records it.\nThat's the scary part.\nYour nervous system is always listening to your b"
+      },
+      {
+        "id": "theflintmind_DaC2NPENjvC",
+        "words": 87,
+        "preview": "The version of you that's coming back isn't the old you.\nIt's the old fire with new wisdom, the old ambition with more perspective, the old drive with"
+      },
+      {
+        "id": "theflintmind_DWJ1mZbDTmr",
+        "words": 104,
+        "preview": "The point isn't to convince yourself everything will be perfect.\nThe point is to remove the illusion that the negative outcome is the only possibility"
+      },
+      {
+        "id": "theflintmind_DYk9xRXtq0H",
+        "words": 99,
+        "preview": "One of the fastest ways to destroy your momentum is allowing too many people access to your mental space while you're building something important.\nBe"
       }
     ]
   }
