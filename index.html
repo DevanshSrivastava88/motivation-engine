@@ -322,19 +322,141 @@
 
                   network = new vis.Network(container, data, options);
 
-                  
-
-                  
-
-                  
-
-
-                  
+                  // ── Node click → detail panel ──
+                  network.on("click", function(params) {
+                      if (params.nodes.length > 0) {
+                          showPanel(params.nodes[0]);
+                      } else {
+                          closePanel();
+                      }
+                  });
 
                   return network;
-
               }
               drawGraph();
+
+              // ── Cluster metadata & per-node analysis ──
+              var clusterMeta = {
+                  '#ff4444': { name: 'Cortisol-Dopamine Trap', desc: 'The feedback loop that keeps you scrolling instead of building.' },
+                  '#c7ff38': { name: 'Flint Recovery Path', desc: "Justyn Amechi's framework for rebuilding self-trust through action." },
+                  '#4488ff': { name: '3-Phase Motivation Model', desc: 'Approach → Avoidance → Assertion. You are currently between phases 1 and 2.' },
+                  '#ff9900': { name: 'God Nodes (Technical Identity)', desc: 'Your real north star. The skills you are actually building.' },
+                  '#888888': { name: 'Missing Feed Content', desc: 'Content types absent from your saves — the gaps reveal what your algorithm avoids.' },
+                  '#cc44ff': { name: 'The Deepest Irony', desc: 'A correct framework, consumed as inspiration, delivered via the trap itself.' }
+              };
+
+              var nodeAnalysis = {
+                  'Scroll Session': "You open Instagram when the gap between current and desired self becomes conscious. Average session likely triggered by identity threat, not boredom.",
+                  'Symbolic Self-Completion': "Your save folder has 56 posts. Each save gave a small dopamine hit that replaced the action. The folder IS the problem.",
+                  'Execution (despite unready)': "CRS score shows you're at Preparation stage (54/100). You don't need more inspiration — you need one if-then plan executed TODAY.",
+                  'AI Engineering Skill Stack': "7 edges in your knowledge graph. RAG + FastAPI + LLMOps saved from 3 different sources. This is your real north star — not mindset content.",
+                  'Implementation Intention': "Zero if-then plans detected in your 56 saves. d=0.65 effect size means this single change would double your execution rate.",
+                  'Phase 3: Assertion Motivation': "You haven't reached this yet. CRS=54 puts you in Preparation. Phase 3 only comes through consistent repetition — not more scrolling.",
+                  "The Flint's Framework": "Justyn Amechi's model is scientifically valid — maps directly to self-efficacy theory and implementation intentions. But you're consuming it as inspiration, not applying it as a system.",
+                  'Dopamine Anticipation': "The scroll IS the dopamine event. Saving the video = reward delivered. Execution never gets the dopamine — it's already been spent."
+              };
+
+              // ── Panel logic ──
+              function showPanel(nodeId) {
+                  var node = nodes.get(nodeId);
+                  if (!node) return;
+                  var color = node.color || '#888888';
+                  var meta = clusterMeta[color] || { name: 'Unknown', desc: '' };
+
+                  document.getElementById('panel-node-name').textContent = nodeId;
+                  document.getElementById('panel-node-name').style.color = color === '#c7ff38' ? '#c7ff38' : color;
+
+                  var tag = document.getElementById('panel-cluster-tag');
+                  tag.textContent = meta.name;
+                  tag.style.color = color;
+                  tag.style.borderColor = color;
+
+                  document.getElementById('panel-tooltip').textContent = node.title || '';
+
+                  var analysis = nodeAnalysis[nodeId] ||
+                      "This node is part of the " + meta.name + " cluster — " + meta.desc;
+                  document.getElementById('panel-analysis-text').textContent = analysis;
+
+                  // Incoming edges
+                  var edgeList = edges.get();
+                  var incoming = edgeList.filter(function(e) { return e.to === nodeId; });
+                  var outgoing = edgeList.filter(function(e) { return e.from === nodeId; });
+
+                  function renderEdges(arr, container, direction) {
+                      var el = document.getElementById(container);
+                      if (arr.length === 0) {
+                          el.innerHTML = '<div class="no-edges">none</div>'; return;
+                      }
+                      el.innerHTML = arr.map(function(e) {
+                          var other = direction === 'in' ? e.from : e.to;
+                          var onode = nodes.get(other);
+                          var oc = onode ? onode.color : '#888';
+                          return '<div class="edge-item">' +
+                              '<span class="arr">' + (direction === 'in' ? '←' : '→') + '</span>' +
+                              '<span><span class="enode" style="color:' + oc + '">' + other + '</span>' +
+                              '<br><span class="elabel">' + (e.label || '') + '</span></span>' +
+                              '</div>';
+                      }).join('');
+                  }
+
+                  renderEdges(incoming, 'panel-incoming', 'in');
+                  renderEdges(outgoing, 'panel-outgoing', 'out');
+
+                  document.getElementById('detail-panel').classList.add('open');
+              }
+
+              function closePanel() {
+                  document.getElementById('detail-panel').classList.remove('open');
+              }
+
+              // ── Legend toggle ──
+              var legendOpen = true;
+              function toggleLegend() {
+                  legendOpen = !legendOpen;
+                  document.getElementById('legend-body').style.display = legendOpen ? '' : 'none';
+                  document.getElementById('legend-toggle').style.transform = legendOpen ? '' : 'rotate(-90deg)';
+              }
+
+              // ── Cluster filter ──
+              function filterCluster(btn, cluster) {
+                  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                  btn.classList.add('active');
+                  var allNodeData = nodes.get();
+                  var updates = allNodeData.map(function(n) {
+                      var nodeColor = nodeColors[n.id] || n.color;
+                      var match = cluster === 'all' || nodeColor === cluster;
+                      return {
+                          id: n.id,
+                          opacity: match ? 1 : 0.12,
+                          font: { color: match ? '#e0e0e0' : 'rgba(224,224,224,0.15)' }
+                      };
+                  });
+                  nodes.update(updates);
+              }
+
+              // ── Search ──
+              document.getElementById('search-box').addEventListener('input', function() {
+                  var term = this.value.toLowerCase().trim();
+                  var allNodeData = nodes.get();
+                  if (!term) {
+                      // restore
+                      var updates = allNodeData.map(function(n) {
+                          return { id: n.id, opacity: 1, borderWidth: 2, font: { color: '#e0e0e0' } };
+                      });
+                      nodes.update(updates);
+                      return;
+                  }
+                  var updates = allNodeData.map(function(n) {
+                      var match = n.id.toLowerCase().indexOf(term) !== -1;
+                      return {
+                          id: n.id,
+                          opacity: match ? 1 : 0.1,
+                          borderWidth: match ? 5 : 2,
+                          font: { color: match ? '#ffffff' : 'rgba(224,224,224,0.1)' }
+                      };
+                  });
+                  nodes.update(updates);
+              });
         </script>
     </body>
 </html>
