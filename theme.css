@@ -1,0 +1,173 @@
+/* ── Theme v1: Dark HUD (default) ───────────────────────── */
+:root {
+  --bg: #070a0e;
+  --surface: #0d1117;
+  --glass: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.07);
+  --green: #c7ff38;
+  --red: #ff4444;
+  --blue: #4488ff;
+  --text: #e8eaf0;
+  --muted: #8892a0;
+  --card-bg: #0d1117;
+  --card-border: rgba(255,255,255,0.08);
+  --nav-bg: rgba(7,10,14,0.95);
+  --mono: 'DM Mono', monospace;
+  --sans: 'Manrope', sans-serif;
+}
+
+/* ── Theme v2: White + Black boxes ──────────────────────── */
+html[data-theme="white"] {
+  --bg: #f5f5f5;
+  --surface: #111111;
+  --glass: rgba(0,0,0,0.06);
+  --border: rgba(0,0,0,0.12);
+  --green: #1a1a1a;
+  --red: #cc0000;
+  --blue: #1155cc;
+  --text: #ffffff;
+  --muted: #aaaaaa;
+  --card-bg: #111111;
+  --card-border: #333333;
+  --nav-bg: rgba(245,245,245,0.97);
+}
+html[data-theme="white"] body { background: #f5f5f5; color: #111; }
+html[data-theme="white"] nav { background: var(--nav-bg); border-bottom-color: rgba(0,0,0,0.1); }
+html[data-theme="white"] .nav-logo { color: #111111; }
+html[data-theme="white"] .nav-links a { color: #555; }
+html[data-theme="white"] .nav-links a:hover,
+html[data-theme="white"] .nav-links a.active { color: #000; }
+html[data-theme="white"] .hero h1 span { color: #000; }
+html[data-theme="white"] .stage-card,
+html[data-theme="white"] .step-body,
+html[data-theme="white"] .ap-card,
+html[data-theme="white"] .archetype-card { background: #111; border-color: #333; color: #fff; }
+html[data-theme="white"] .stage-title,
+html[data-theme="white"] .arch-name { color: #ffffff !important; }
+html[data-theme="white"] .block-text,
+html[data-theme="white"] .arch-desc,
+html[data-theme="white"] .step-why { color: #aaa; }
+html[data-theme="white"] .hero-sub { color: #444; }
+html[data-theme="white"] .section-header p { color: #555; }
+html[data-theme="white"] .hero h1 { color: #111; }
+html[data-theme="white"] #header { background: rgba(245,245,245,0.97); border-color: rgba(0,0,0,0.1); }
+html[data-theme="white"] #main-title { color: #111; }
+html[data-theme="white"] #crs-badge { background: #11111122; border-color: #111; color: #111; }
+
+/* ── Theme v3: Cat / Day Glass ──────────────────────────── */
+html[data-theme="cat"] {
+  --bg: transparent;
+  --surface: rgba(255,255,255,0.18);
+  --glass: rgba(255,255,255,0.22);
+  --border: rgba(255,255,255,0.35);
+  --green: #6b21a8;
+  --red: #dc2626;
+  --blue: #7c3aed;
+  --text: #1a0533;
+  --muted: #4a1f7c;
+  --card-bg: rgba(255,255,255,0.18);
+  --card-border: rgba(255,255,255,0.4);
+  --nav-bg: rgba(255,255,255,0.25);
+}
+html[data-theme="cat"] body {
+  background: url('focus-bg.png') center center / cover fixed;
+  color: #1a0533;
+}
+html[data-theme="cat"] body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: rgba(255,240,255,0.15);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+  z-index: 0;
+}
+html[data-theme="cat"] nav {
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(24px);
+  border-bottom-color: rgba(255,255,255,0.4);
+  position: relative; z-index: 100;
+}
+html[data-theme="cat"] .nav-logo { color: #5b1a8e; }
+html[data-theme="cat"] .nav-links a { color: #7c3aed; }
+html[data-theme="cat"] .nav-links a:hover,
+html[data-theme="cat"] .nav-links a.active { color: #3b0764; }
+html[data-theme="cat"] .hero,
+html[data-theme="cat"] .stages-section,
+html[data-theme="cat"] .flow-section,
+html[data-theme="cat"] .matrix-section,
+html[data-theme="cat"] .quiz-section,
+html[data-theme="cat"] #path-output,
+html[data-theme="cat"] .compare-note { position: relative; z-index: 1; }
+html[data-theme="cat"] .hero h1 { color: #1a0533; }
+html[data-theme="cat"] .hero h1 span { color: #6b21a8; }
+html[data-theme="cat"] .hero-sub { color: #4a1f7c; }
+html[data-theme="cat"] .hero-tag { color: #7c3aed; }
+html[data-theme="cat"] .stage-card,
+html[data-theme="cat"] .step-body,
+html[data-theme="cat"] .ap-card,
+html[data-theme="cat"] .archetype-card,
+html[data-theme="cat"] .mechanism-box,
+html[data-theme="cat"] .trigger-card,
+html[data-theme="cat"] .avoid-section,
+html[data-theme="cat"] .upgrade-section,
+html[data-theme="cat"] .compare-col,
+html[data-theme="cat"] .antipatterns {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  border-color: rgba(255,255,255,0.45);
+  color: #1a0533;
+}
+html[data-theme="cat"] .stage-title { color: inherit !important; }
+html[data-theme="cat"] .block-label { color: #7c3aed; }
+html[data-theme="cat"] .block-text,
+html[data-theme="cat"] .arch-desc,
+html[data-theme="cat"] .step-why,
+html[data-theme="cat"] .hero-sub { color: #4a1f7c; }
+html[data-theme="cat"] .section-header p { color: #6b21a8; }
+html[data-theme="cat"] .section-header h2,
+html[data-theme="cat"] .steps-label,
+html[data-theme="cat"] .quiz-label { color: #3b0764; }
+html[data-theme="cat"] .flow-bar { border-color: rgba(255,255,255,0.4); }
+html[data-theme="cat"] .matrix-table th { color: #7c3aed; border-color: rgba(107,33,168,0.2); }
+html[data-theme="cat"] .matrix-table td { border-color: rgba(107,33,168,0.08); }
+html[data-theme="cat"] #header {
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(20px);
+  border-color: rgba(255,255,255,0.4);
+}
+html[data-theme="cat"] #main-title { color: #3b0764; }
+html[data-theme="cat"] #crs-badge { background: rgba(107,33,168,0.15); border-color: #7c3aed; color: #3b0764; }
+html[data-theme="cat"] #network { background-color: rgba(255,240,255,0.4) !important; }
+html[data-theme="cat"] #legend,
+html[data-theme="cat"] #motivators,
+html[data-theme="cat"] #tooltip-box {
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px);
+  border-color: rgba(255,255,255,0.45);
+  color: #1a0533;
+}
+html[data-theme="cat"] #legend h4,
+html[data-theme="cat"] #motivators h4 { color: #6b21a8; }
+
+/* ── Theme toggle button ────────────────────────────────── */
+.theme-toggle {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 4px 6px;
+  cursor: pointer; transition: background 0.2s;
+  margin-left: 12px;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.1); }
+.theme-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; cursor: pointer; transition: opacity 0.2s;
+  opacity: 0.4; flex-shrink: 0;
+}
+.theme-dot.active { opacity: 1; }
+.theme-dot[data-theme="dark"] { background: #0d1117; border: 1.5px solid #c7ff38; }
+.theme-dot[data-theme="white"] { background: #f5f5f5; border: 1.5px solid #333; }
+.theme-dot[data-theme="cat"] { background: url('focus-bg.png') center/cover; border: 1.5px solid #7c3aed; }
+html[data-theme="white"] .theme-toggle { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.15); }
+html[data-theme="cat"] .theme-toggle { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); backdrop-filter: blur(10px); }

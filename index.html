@@ -1,883 +1,195 @@
-﻿<html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Motivation Engine — Learnix Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box }
+body { background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh }
 
-            <script src="lib/bindings/utils.js"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            
-        
-<center>
-<h1></h1>
-</center>
+nav {
+  position:sticky; top:0; z-index:100;
+  background:var(--nav-bg,rgba(7,10,14,0.95));
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 32px; display:flex; align-items:center; gap:24px;
+}
+.nav-logo { font-family:'DM Mono',monospace; font-size:12px; color:var(--green); letter-spacing:0.1em }
+.nav-links { display:flex; gap:16px; margin-left:auto }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:12px; font-family:'DM Mono',monospace; letter-spacing:0.05em; transition:color 0.2s }
+.nav-links a:hover, .nav-links a.active { color:var(--green) }
 
-<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
-<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
-          crossorigin="anonymous"
-        />
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
-          crossorigin="anonymous"
-        ></script>
+.hero {
+  max-width:1200px; margin:0 auto;
+  padding:72px 32px 56px;
+  border-bottom:1px solid var(--border);
+}
+.hero-tag { font-family:'DM Mono',monospace; font-size:11px; color:var(--green); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px }
+.hero h1 { font-size:clamp(36px,5.5vw,64px); font-weight:800; line-height:1.05; letter-spacing:-0.02em; margin-bottom:16px }
+.hero h1 em { font-style:normal; color:var(--green) }
+.hero-sub { font-size:16px; color:var(--muted); line-height:1.75; max-width:560px; margin-bottom:32px }
+.hero-stats { display:flex; gap:24px; flex-wrap:wrap }
+.stat { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted) }
+.stat strong { color:var(--text); font-size:20px; display:block; font-family:'Manrope',sans-serif; font-weight:800 }
 
+.pages-grid {
+  max-width:1200px; margin:0 auto;
+  padding:56px 32px 80px;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
+.page-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:28px;
+  text-decoration:none; color:inherit;
+  transition:border-color 0.25s, transform 0.15s, background 0.25s;
+  display:block;
+}
+.page-card:hover { transform:translateY(-3px) }
+.card-num { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:0.1em; margin-bottom:16px }
+.card-icon { font-size:32px; margin-bottom:14px }
+.card-title { font-size:18px; font-weight:800; margin-bottom:8px }
+.card-desc { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:16px }
+.card-meta { display:flex; flex-wrap:wrap; gap:6px }
+.card-tag { font-family:'DM Mono',monospace; font-size:10px; padding:3px 8px; border-radius:4px; border:1px solid; opacity:0.7 }
+.card-arrow { margin-top:20px; font-family:'DM Mono',monospace; font-size:11px; color:var(--green); opacity:0; transition:opacity 0.2s }
+.page-card:hover .card-arrow { opacity:1 }
 
-        <center>
-          <h1></h1>
-        </center>
-        <style type="text/css">
+footer {
+  border-top:1px solid var(--border); padding:28px 32px;
+  max-width:1200px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:'DM Mono',monospace; font-size:11px; color:var(--muted);
+}
+footer a { color:var(--green); text-decoration:none }
 
-             #mynetwork {
-                 width: 100%;
-                 height: 900px;
-                 background-color: #0d0d0d;
-                 background-image:
-                     linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-                     linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-                 background-size: 44px 44px;
-                 border: 1px solid lightgray;
-                 position: relative;
-                 float: left;
-             }
+html[data-theme="white"] .card-title { color: #fff }
+html[data-theme="white"] .stat strong { color: #fff }
+html[data-theme="white"] .hero h1 { color: #111 }
+html[data-theme="white"] .hero h1 em { color: #111 }
+html[data-theme="white"] .page-card:hover { border-color: #555 }
+html[data-theme="cat"] .page-card { color: #1a0533 }
+html[data-theme="cat"] .card-title { color: #1a0533 }
+html[data-theme="cat"] .stat strong { color: #1a0533 }
+</style>
+</head>
+<body>
 
-             
+<nav>
+  <span class="nav-logo">⬡ Motivation Engine</span>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="grouped_reels.html">Strategy Map</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="action_plan.html">Action Plan</a>
+    <a href="strategy.html">Playbook</a>
+    <a href="pathfinder.html">PathFinder</a>
+  </div>
+</nav>
 
-             
+<div class="hero">
+  <div class="hero-tag">Learnix Content Engine</div>
+  <h1>Motivation<br><em>Strategy</em> Hub</h1>
+  <p class="hero-sub">85 real reels classified. 8 content clusters mapped. 4 user archetypes defined. 5 psychological frameworks applied. Everything you need to know which content to serve, to whom, when.</p>
+  <div class="hero-stats">
+    <div class="stat"><strong>85</strong>transcripts</div>
+    <div class="stat"><strong>8</strong>clusters</div>
+    <div class="stat"><strong>5</strong>TTM stages</div>
+    <div class="stat"><strong>4</strong>archetypes</div>
+    <div class="stat"><strong>6</strong>accounts</div>
+  </div>
+</div>
 
-             
-        </style>
-    </head>
+<div class="pages-grid">
 
-
-    <body><div style="position:fixed;top:16px;right:16px;z-index:1000;display:flex;gap:8px;font-family:'DM Mono',monospace;font-size:10px"><a href="grouped_reels.html" style="background:#0d0d0d;border:1px solid #333;color:#c7ff38;padding:5px 10px;border-radius:4px;text-decoration:none">Strategy Map</a><a href="protocol.html" style="background:#0d0d0d;border:1px solid #333;color:#4488ff;padding:5px 10px;border-radius:4px;text-decoration:none">Protocol</a></div>
-    <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #0d0d0d; font-family: 'DM Mono', monospace; }
-
-    /* â”€â”€ Stats bar â”€â”€ */
-    #stats-bar {
-        position: fixed; top: 0; left: 0; right: 0; z-index: 1002;
-        background: rgba(10,10,10,0.97); border-bottom: 1px solid #1e1e1e;
-        height: 44px; display: flex; align-items: center; padding: 0 18px;
-        gap: 18px; font-family: 'DM Mono', monospace; font-size: 11px;
-    }
-    .stat-label { color: #444; text-transform: uppercase; letter-spacing: 0.07em; }
-    .stat-val { color: #c7ff38; font-weight: 500; margin-left: 5px; }
-    .stat-sep { color: #252525; }
-    #stats-title { margin-left: auto; color: #c7ff38; font-size: 11px; letter-spacing: 0.12em; opacity: 0.8; }
-    #search-wrap { display: flex; align-items: center; gap: 6px; margin-left: 8px; }
-    #search-box {
-        background: rgba(255,255,255,0.04); border: 1px solid #2a2a2a;
-        border-radius: 4px; color: #ccc; font-family: 'DM Mono', monospace;
-        font-size: 11px; padding: 4px 10px; width: 150px; outline: none;
-        transition: border-color 0.2s;
-    }
-    #search-box:focus { border-color: #c7ff38; }
-    #search-box::placeholder { color: #383838; }
-
-    /* â”€â”€ Legend â”€â”€ */
-    #legend {
-        position: fixed; top: 60px; left: 16px; z-index: 999;
-        background: rgba(11,11,11,0.94); border: 1px solid #222;
-        border-radius: 7px; color: #ccc; font-size: 11px;
-        font-family: 'DM Mono', monospace; overflow: hidden;
-        min-width: 210px;
-    }
-    #legend-header {
-        display: flex; align-items: center; justify-content: space-between;
-        cursor: pointer; user-select: none; padding: 10px 14px 8px;
-        border-bottom: 1px solid #1a1a1a;
-    }
-    #legend h3 { color: #c7ff38; margin: 0; font-size: 11px; letter-spacing: 0.07em; }
-    #legend-toggle { color: #444; font-size: 10px; transition: transform 0.2s; }
-    #legend-body { padding: 8px 14px 10px; }
-    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
-    .legend-row { margin: 5px 0; color: #999; font-size: 10px; }
-
-    /* â”€â”€ Cluster filters â”€â”€ */
-    #filters {
-        position: fixed; top: 60px; left: 243px; z-index: 999;
-        display: flex; flex-direction: column; gap: 4px;
-    }
-    .filter-btn {
-        background: rgba(11,11,11,0.9); border: 1px solid #222;
-        border-radius: 4px; color: #555; font-family: 'DM Mono', monospace;
-        font-size: 9px; padding: 4px 10px; cursor: pointer;
-        transition: all 0.15s; letter-spacing: 0.08em; text-align: left;
-    }
-    .filter-btn:hover { border-color: #444; color: #aaa; }
-    .filter-btn.active { color: var(--cc); border-color: var(--cc); background: rgba(255,255,255,0.03); }
-
-    /* â”€â”€ Detail panel â”€â”€ */
-    #detail-panel {
-        position: fixed; top: 44px; right: -380px; width: 360px;
-        height: calc(100vh - 44px); z-index: 1001;
-        background: rgba(10,10,10,0.98); border-left: 1px solid #1e1e1e;
-        overflow-y: auto; padding: 20px 18px;
-        transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        font-family: 'DM Mono', monospace;
-    }
-    #detail-panel.open { right: 0; }
-    #panel-close {
-        position: absolute; top: 14px; right: 14px;
-        color: #444; cursor: pointer; font-size: 14px; line-height: 1;
-        background: none; border: none; padding: 4px 6px; border-radius: 3px;
-    }
-    #panel-close:hover { color: #c7ff38; background: rgba(199,255,56,0.08); }
-    #panel-node-name {
-        font-size: 15px; font-weight: 500; margin: 0 28px 6px 0;
-        line-height: 1.35; color: #fff;
-    }
-    #panel-cluster-tag {
-        display: inline-block; font-size: 8px; letter-spacing: 0.1em;
-        padding: 2px 8px; border-radius: 3px; margin-bottom: 12px;
-        border: 1px solid; text-transform: uppercase;
-    }
-    #panel-tooltip {
-        color: #777; font-size: 10px; line-height: 1.65;
-        border-left: 2px solid #222; padding-left: 10px;
-        margin-bottom: 14px; font-style: italic;
-    }
-    #panel-analysis {
-        background: rgba(199,255,56,0.04); border: 1px solid rgba(199,255,56,0.15);
-        border-radius: 5px; padding: 12px; margin-bottom: 16px;
-    }
-    #panel-analysis-label {
-        font-size: 8px; color: #c7ff38; letter-spacing: 0.12em;
-        text-transform: uppercase; margin-bottom: 7px;
-    }
-    #panel-analysis-text { font-size: 11px; color: #c8c8c8; line-height: 1.7; }
-    .psec { font-size: 8px; color: #333; letter-spacing: 0.1em;
-        text-transform: uppercase; margin: 14px 0 5px; }
-    .edge-item {
-        font-size: 10px; color: #666; padding: 5px 0;
-        border-bottom: 1px solid #141414; display: flex; gap: 6px;
-        align-items: baseline; line-height: 1.4;
-    }
-    .edge-item .arr { color: #333; flex-shrink: 0; }
-    .edge-item .elabel { color: #3a3a3a; font-size: 9px; }
-    .edge-item .enode { color: #999; }
-    .no-edges { color: #333; font-size: 10px; font-style: italic; }
-
-    /* â”€â”€ Enhanced node detail sections â”€â”€ */
-    .ph-label { font-size: 8px; color: #c7ff38; letter-spacing: 0.12em; text-transform: uppercase; margin: 14px 0 6px; }
-    .ph-label:first-child { margin-top: 2px; }
-    .ph-text { font-size: 11px; color: #c8c8c8; line-height: 1.7; }
-    .urgency-badge { font-size: 8px; letter-spacing: 0.1em; padding: 2px 10px; border-radius: 3px; font-family: 'DM Mono', monospace; display: inline-block; font-weight: 500; }
-    .act-list { margin: 6px 0 10px; }
-    .act-item { display: flex; gap: 8px; align-items: flex-start; margin: 9px 0; cursor: pointer; }
-    .act-item input[type=checkbox] { margin-top: 2px; flex-shrink: 0; accent-color: #c7ff38; cursor: pointer; }
-    .act-item span { font-size: 10.5px; color: #bbb; line-height: 1.6; }
-    .act-item:has(input:checked) span { color: #555; text-decoration: line-through; }
-    .ph-quote { margin-top: 14px; font-size: 12px; color: #c7ff38; line-height: 1.6; border-left: 2px solid #c7ff38; padding-left: 10px; font-style: italic; opacity: 0.9; }
-    </style>
-
-    <!-- Stats bar -->
-    <div id="stats-bar">
-        <span><span class="stat-label">CRS</span><span class="stat-val">54/100</span></span>
-        <span class="stat-sep">Â·</span>
-        <span><span class="stat-label">Stage</span><span class="stat-val">Preparation</span></span>
-        <span class="stat-sep">Â·</span>
-        <span><span class="stat-label">Timeline</span><span class="stat-val">30-90 days</span></span>
-        <span class="stat-sep">Â·</span>
-        <span><span class="stat-label">Posts</span><span class="stat-val">56</span></span>
-        <span class="stat-sep">Â·</span>
-        <span><span class="stat-label">Graph</span><span class="stat-val">40 nodes Â· 47 edges</span></span>
-        <div id="search-wrap">
-            <input id="search-box" type="text" placeholder="search nodesâ€¦" autocomplete="off">
-        </div>
-        <span id="stats-title">BEHAVIOR MAP</span>
+  <a class="page-card" href="grouped_reels.html" style="--hover-c:#c7ff38" onmouseenter="this.style.borderColor='#c7ff3844'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">01</div>
+    <div class="card-icon">🕸</div>
+    <div class="card-title">Strategy Map</div>
+    <div class="card-desc">Interactive network graph. Every reel as a node, clustered by psychological function. Filter by cluster. See which accounts dominate which strategies.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#c7ff38;border-color:#c7ff3844">85 reels</span>
+      <span class="card-tag" style="color:#c7ff38;border-color:#c7ff3844">8 clusters</span>
+      <span class="card-tag" style="color:#c7ff38;border-color:#c7ff3844">interactive</span>
     </div>
+    <div class="card-arrow">Open →</div>
+  </a>
 
-    <!-- Legend -->
-    <div id="legend">
-        <div id="legend-header" onclick="toggleLegend()">
-            <h3>MOTIVATION ARCHITECTURE</h3>
-            <span id="legend-toggle">â–¾</span>
-        </div>
-        <div id="legend-body">
-            <div class="legend-row"><span class="dot" style="background:#ff4444"></span>Cortisol-Dopamine Trap</div>
-            <div class="legend-row"><span class="dot" style="background:#c7ff38"></span>Flint Recovery Path</div>
-            <div class="legend-row"><span class="dot" style="background:#4488ff"></span>3-Phase Model</div>
-            <div class="legend-row"><span class="dot" style="background:#ff9900"></span>God Nodes</div>
-            <div class="legend-row"><span class="dot" style="background:#888888"></span>Missing Content</div>
-            <div class="legend-row"><span class="dot" style="background:#cc44ff"></span>The Deepest Irony</div>
-        </div>
+  <a class="page-card" href="protocol.html" style="--hover-c:#ff8800" onmouseenter="this.style.borderColor='#ff880044'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">02</div>
+    <div class="card-icon">📋</div>
+    <div class="card-title">Content Protocol</div>
+    <div class="card-desc">Per TTM-stage prescription. Click any stage — see which clusters to serve, which to avoid, example reels from the corpus, and the psychology behind each decision.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#ff8800;border-color:#ff880044">5 stages</span>
+      <span class="card-tag" style="color:#ff8800;border-color:#ff880044">TTM model</span>
+      <span class="card-tag" style="color:#ff8800;border-color:#ff880044">real examples</span>
     </div>
+    <div class="card-arrow">Open →</div>
+  </a>
 
-    <!-- Cluster filter buttons -->
-    <div id="filters">
-        <button class="filter-btn active" data-cluster="all" style="--cc:#c7ff38" onclick="filterCluster(this,'all')">ALL</button>
-        <button class="filter-btn" data-cluster="#ff4444" style="--cc:#ff4444" onclick="filterCluster(this,'#ff4444')">â— TRAP</button>
-        <button class="filter-btn" data-cluster="#c7ff38" style="--cc:#c7ff38" onclick="filterCluster(this,'#c7ff38')">â— RECOVERY</button>
-        <button class="filter-btn" data-cluster="#4488ff" style="--cc:#4488ff" onclick="filterCluster(this,'#4488ff')">â— PHASE MODEL</button>
-        <button class="filter-btn" data-cluster="#ff9900" style="--cc:#ff9900" onclick="filterCluster(this,'#ff9900')">â— GOD NODES</button>
-        <button class="filter-btn" data-cluster="#888888" style="--cc:#888888" onclick="filterCluster(this,'#888888')">â— MISSING</button>
-        <button class="filter-btn" data-cluster="#cc44ff" style="--cc:#cc44ff" onclick="filterCluster(this,'#cc44ff')">â— IRONY</button>
+  <a class="page-card" href="action_plan.html" style="--hover-c:#4488ff" onmouseenter="this.style.borderColor='#4488ff44'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">03</div>
+    <div class="card-icon">⚡</div>
+    <div class="card-title">Action Plan</div>
+    <div class="card-desc">Personal dashboard. CRS gauge at 54/100, current TTM stage, 3 concrete if-then actions, what to consume vs stop consuming, 30-day CRS prediction.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#4488ff;border-color:#4488ff44">CRS 54/100</span>
+      <span class="card-tag" style="color:#4488ff;border-color:#4488ff44">Preparation stage</span>
+      <span class="card-tag" style="color:#4488ff;border-color:#4488ff44">personal</span>
     </div>
+    <div class="card-arrow">Open →</div>
+  </a>
 
-    <!-- Node detail panel -->
-    <div id="detail-panel">
-        <button id="panel-close" onclick="closePanel()">âœ•</button>
-        <div id="panel-node-name"></div>
-        <span id="panel-cluster-tag"></span>
-        <div id="panel-tooltip"></div>
-        <div id="panel-analysis">
-            <div id="panel-analysis-label">YOUR ANALYSIS</div>
-            <div id="panel-analysis-text"></div>
-        </div>
-        <div class="psec">â† INCOMING</div>
-        <div id="panel-incoming"></div>
-        <div class="psec">OUTGOING â†’</div>
-        <div id="panel-outgoing"></div>
+  <a class="page-card" href="strategy.html" style="--hover-c:#00ffaa" onmouseenter="this.style.borderColor='#00ffaa44'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">04</div>
+    <div class="card-icon">🧠</div>
+    <div class="card-title">Strategy Playbook</div>
+    <div class="card-desc">Deep research doc. 5 anti-patterns that kill behavior change (Symbolic Self-Completion, Moral Licensing, Berridge). Full per-stage prescriptions with mechanism science + cluster matrix.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#00ffaa;border-color:#00ffaa44">5 anti-patterns</span>
+      <span class="card-tag" style="color:#00ffaa;border-color:#00ffaa44">mechanisms</span>
+      <span class="card-tag" style="color:#00ffaa;border-color:#00ffaa44">Learnix spec</span>
     </div>
+    <div class="card-arrow">Open →</div>
+  </a>
 
-        <div class="card" style="width: 100%; margin-top: 44px;">
-            
-            
-            <div id="mynetwork" class="card-body"></div>
-        </div>
+  <a class="page-card" href="pathfinder.html" style="--hover-c:#cc44ff" onmouseenter="this.style.borderColor='#cc44ff44'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">05</div>
+    <div class="card-icon">🗺</div>
+    <div class="card-title">PathFinder</div>
+    <div class="card-desc">Pick a user archetype — get the optimal 5-step content path. Knowledge Hoarder, Burster, Identity Doubter, Analytical Paralytic. Each path has specific reel picks + timing rules.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#cc44ff;border-color:#cc44ff44">4 archetypes</span>
+      <span class="card-tag" style="color:#cc44ff;border-color:#cc44ff44">5-step paths</span>
+      <span class="card-tag" style="color:#cc44ff;border-color:#cc44ff44">reel picks</span>
+    </div>
+    <div class="card-arrow">Open →</div>
+  </a>
 
-        
-        
+  <a class="page-card" href="https://github.com/DevanshSrivastava88/motivation-engine" target="_blank" style="--hover-c:#888" onmouseenter="this.style.borderColor='#88888844'" onmouseleave="this.style.borderColor=''">
+    <div class="card-num">06</div>
+    <div class="card-icon">⚙</div>
+    <div class="card-title">Source + Corpus</div>
+    <div class="card-desc">All scripts, cluster JSON, transcripts, and the full pipeline — group_reels.py, pathfinder.py, learnix_protocol.py. Raw data for the Learnix integration.</div>
+    <div class="card-meta">
+      <span class="card-tag" style="color:#888;border-color:#88888844">GitHub</span>
+      <span class="card-tag" style="color:#888;border-color:#88888844">open source</span>
+    </div>
+    <div class="card-arrow">View →</div>
+  </a>
 
-        <script type="text/javascript">
+</div>
 
-              // initialize global variables.
-              var edges;
-              var nodes;
-              var allNodes;
-              var allEdges;
-              var nodeColors;
-              var originalNodes;
-              var network;
-              var container;
-              var options, data;
-              var filter = {
-                  item : '',
-                  property : '',
-                  value : []
-              };
+<footer>
+  <span>Motivation Engine · Learnix Strategy Research · 85 transcripts · 6 accounts</span>
+  <a href="https://github.com/DevanshSrivastava88/motivation-engine">GitHub ↗</a>
+</footer>
 
-              
-
-              
-
-              // This method is responsible for drawing the graph, returns the drawn network
-              function drawGraph() {
-                  var container = document.getElementById('mynetwork');
-
-                  
-
-                  // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Current Self", "label": "Current Self", "shape": "dot", "size": 20, "title": "Trapped in waiting room between potential and execution"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Desired Self", "label": "Desired Self", "shape": "dot", "size": 30, "title": "Technically elite AI builder, intentional not anxious"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Identity Gap", "label": "Identity Gap", "shape": "dot", "size": 20, "title": "Gap between current and desired self"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Identity Threat", "label": "Identity Threat", "shape": "dot", "size": 20, "title": "Activated when gap becomes conscious"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Avoidance Loop", "label": "Avoidance Loop", "shape": "dot", "size": 20, "title": "Triggered by Identity Threat"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Shame Spiral", "label": "Shame Spiral", "shape": "dot", "size": 20, "title": "Triggers Scroll Session"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Scroll Session", "label": "Scroll Session", "shape": "dot", "size": 20, "title": "Numbing behavior"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Shame Hook", "label": "Shame Hook", "shape": "dot", "size": 20, "title": "35% of saved content \u2014 shames, diagnoses, compares"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Amygdala Threat Response", "label": "Amygdala Threat Response", "shape": "dot", "size": 20, "title": "Cortisol spike \u2014 threat detected"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Cortisol", "label": "Cortisol", "shape": "dot", "size": 20, "title": "Suppresses Prefrontal Cortex"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Prefrontal Cortex", "label": "Prefrontal Cortex", "shape": "dot", "size": 20, "title": "Blocked by cortisol \u2014 can\u0027t execute"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Framework Solution", "label": "Framework Solution", "shape": "dot", "size": 20, "title": "Promised behind comment gate \u2014 CTA"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Nucleus Accumbens", "label": "Nucleus Accumbens", "shape": "dot", "size": 20, "title": "Dopamine anticipation \u2014 peaks before reward"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Dopamine Anticipation", "label": "Dopamine Anticipation", "shape": "dot", "size": 20, "title": "Peaks before reward delivery, drops after save"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Symbolic Self-Completion", "label": "Symbolic Self-Completion", "shape": "dot", "size": 35, "title": "Saving video = proxy identity acquisition"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff4444", "font": {"color": "#e0e0e0"}, "id": "Moral Licensing", "label": "Moral Licensing", "shape": "dot", "size": 20, "title": "Engaging content = virtue credential \u2192 permission to pause"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Hesitation", "label": "Hesitation", "shape": "dot", "size": 30, "title": "Single decision to not act"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Hesitation Pattern", "label": "Hesitation Pattern", "shape": "dot", "size": 30, "title": "Repeated hesitation \u2192 behavioral record"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Self-Trust Erosion", "label": "Self-Trust Erosion", "shape": "dot", "size": 30, "title": "Quiet, not catastrophic \u2014 compounding"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Identity toward Non-Execution", "label": "Identity toward Non-Execution", "shape": "dot", "size": 30, "title": "Identity reshapes around inaction"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Execution (despite unready)", "label": "Execution (despite unready)", "shape": "dot", "size": 35, "title": "The Flint\u0027s core mechanism"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Behavioral Evidence", "label": "Behavioral Evidence", "shape": "dot", "size": 35, "title": "Proof accumulated through action"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Self-Trust Rebuilt", "label": "Self-Trust Rebuilt", "shape": "dot", "size": 30, "title": "Built through proof not feeling"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Execution Identity", "label": "Execution Identity", "shape": "dot", "size": 30, "title": "Target state \u2014 identity around agency"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Implementation Intention", "label": "Implementation Intention", "shape": "dot", "size": 35, "title": "If-then plan: \u0027When X, I will Y\u0027 \u2014 d=0.65"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#c7ff38", "font": {"color": "#e0e0e0"}, "id": "Medial PFC", "label": "Medial PFC", "shape": "dot", "size": 30, "title": "Fires at 120ms \u2014 below deliberation threshold"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 1: Approach Motivation", "label": "Phase 1: Approach Motivation", "shape": "dot", "size": 20, "title": "Dopamine wanting \u2014 what Instagram activates"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 2: Avoidance Motivation", "label": "Phase 2: Avoidance Motivation", "shape": "dot", "size": 20, "title": "Cortisol threat \u2014 what shame hooks activate \u2192 burnout"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#4488ff", "font": {"color": "#e0e0e0"}, "id": "Phase 3: Assertion Motivation", "label": "Phase 3: Assertion Motivation", "shape": "dot", "size": 20, "title": "Identity congruence \u2014 what consistency builds"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "AI Engineering Skill Stack", "label": "AI Engineering Skill Stack", "shape": "dot", "size": 30, "title": "7 edges \u2014 RAG, Agents, Evals, Fine-tuning, LLMOps"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "FastAPI Architecture Patterns", "label": "FastAPI Architecture Patterns", "shape": "dot", "size": 30, "title": "5 edges \u2014 progressive architecture"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "Claude AI Automation", "label": "Claude AI Automation", "shape": "dot", "size": 30, "title": "Self-prompting system \u2014 meta level"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#ff9900", "font": {"color": "#e0e0e0"}, "id": "One Complete Project", "label": "One Complete Project", "shape": "dot", "size": 30, "title": "RAG + FastAPI + deployed = first Behavioral Evidence"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Rest Permission", "label": "Rest Permission", "shape": "dot", "size": 20, "title": "Zero saved posts on rest/recovery"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Process Joy", "label": "Process Joy", "shape": "dot", "size": 20, "title": "Zero saved posts on enjoying process"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Honest Failure Content", "label": "Honest Failure Content", "shape": "dot", "size": 20, "title": "Zero saved posts normalizing failure"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#888888", "font": {"color": "#e0e0e0"}, "id": "Long-Form Patience", "label": "Long-Form Patience", "shape": "dot", "size": 20, "title": "Zero saved posts on long timelines"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "The Flint\u0027s Framework", "label": "The Flint\u0027s Framework", "shape": "dot", "size": 20, "title": "Correct insight \u2014 hesitation \u2192 identity erosion"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "Inspirational Content Format", "label": "Inspirational Content Format", "shape": "dot", "size": 20, "title": "Distributed on Instagram \u2014 triggers Symbolic Self-Completion"}, {"borderWidth": 2, "borderWidthSelected": 4, "color": "#cc44ff", "font": {"color": "#e0e0e0"}, "id": "No Behavior Change", "label": "No Behavior Change", "shape": "dot", "size": 20, "title": "Correct framework + wrong channel = no output"}]);
-                  edges = new vis.DataSet([{"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Current Self", "label": "feels", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Gap"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Gap", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Threat"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Threat", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Avoidance Loop"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity Threat", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Shame Spiral"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Avoidance Loop", "label": "leads to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Spiral", "label": "triggers", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Scroll Session", "label": "encounters", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Shame Hook"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Scroll Session", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 1: Approach Motivation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Amygdala Threat Response"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "promises", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Framework Solution"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "creates virtue credential", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Moral Licensing"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Shame Hook", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 2: Avoidance Motivation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Amygdala Threat Response", "label": "spikes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Cortisol"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Cortisol", "label": "suppresses", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Prefrontal Cortex"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Prefrontal Cortex", "label": "blocked by cortisol", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Framework Solution", "label": "activates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Nucleus Accumbens"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Nucleus Accumbens", "label": "generates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Dopamine Anticipation"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Dopamine Anticipation", "label": "via save", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Symbolic Self-Completion"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Dopamine Anticipation", "label": "drop triggers new", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Symbolic Self-Completion", "label": "partially closes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity Gap"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Symbolic Self-Completion", "label": "produces", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "No Behavior Change"}, {"arrows": "to", "color": "#ff444499", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Moral Licensing", "label": "extends via permission", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Scroll Session"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Hesitation", "label": "repeated becomes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Hesitation Pattern"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Hesitation Pattern", "label": "erodes", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Self-Trust Erosion"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Self-Trust Erosion", "label": "reshapes identity", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Identity toward Non-Execution"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Identity toward Non-Execution", "label": "makes next more likely", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Hesitation"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution (despite unready)", "label": "creates", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Behavioral Evidence", "label": "builds", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Self-Trust Rebuilt"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Self-Trust Rebuilt", "label": "reshapes toward", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution Identity"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution Identity", "label": "makes easier", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Execution Identity", "label": "reaches", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Implementation Intention", "label": "activates at 120ms", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Medial PFC"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Implementation Intention", "label": "converts intention to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#c7ff3899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Medial PFC", "label": "bypasses cortisol block", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#4488ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Phase 2: Avoidance Motivation", "label": "generates chronic", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Cortisol"}, {"arrows": "to", "color": "#4488ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Phase 3: Assertion Motivation", "label": "no motivation energy needed", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Execution (despite unready)"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "AI Engineering Skill Stack", "label": "operationalized via", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "FastAPI Architecture Patterns", "label": "enables", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Claude AI Automation", "label": "adjacent to", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "One Complete Project"}, {"arrows": "to", "color": "#ff990099", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "One Complete Project", "label": "generates first", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Behavioral Evidence"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Rest Permission", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Process Joy", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#88888899", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Honest Failure Content", "label": "fuels (absent)", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Phase 3: Assertion Motivation"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "is essentially", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Implementation Intention"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "distributed as", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Inspirational Content Format"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "The Flint\u0027s Framework", "label": "correct insight \u2192 wrong channel", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "No Behavior Change"}, {"arrows": "to", "color": "#cc44ff99", "font": {"color": "#888888", "size": 9, "strokeWidth": 0}, "from": "Inspirational Content Format", "label": "triggers", "smooth": {"roundness": 0.2, "type": "curvedCW"}, "to": "Symbolic Self-Completion"}]);
-
-                  nodeColors = {};
-                  allNodes = nodes.get({ returnType: "Object" });
-                  for (nodeId in allNodes) {
-                    nodeColors[nodeId] = allNodes[nodeId].color;
-                  }
-                  allEdges = edges.get({ returnType: "Object" });
-                  // adding nodes and edges to the graph
-                  data = {nodes: nodes, edges: edges};
-
-                  var options = {
-    "configure": {
-        "enabled": false
-    },
-    "edges": {
-        "color": {
-            "inherit": true
-        },
-        "smooth": {
-            "enabled": true,
-            "type": "dynamic"
-        }
-    },
-    "interaction": {
-        "dragNodes": true,
-        "hideEdgesOnDrag": false,
-        "hideNodesOnDrag": false
-    },
-    "physics": {
-        "barnesHut": {
-            "avoidOverlap": 0,
-            "centralGravity": 0.3,
-            "damping": 0.09,
-            "gravitationalConstant": -8000,
-            "springConstant": 0.04,
-            "springLength": 200
-        },
-        "enabled": true,
-        "stabilization": {
-            "enabled": true,
-            "fit": true,
-            "iterations": 1000,
-            "onlyDynamicEdges": false,
-            "updateInterval": 50
-        }
-    }
-};
-
-                  
-
-
-                  
-
-                  network = new vis.Network(container, data, options);
-
-                  // â”€â”€ Node click â†’ detail panel â”€â”€
-                  network.on("click", function(params) {
-                      if (params.nodes.length > 0) {
-                          showPanel(params.nodes[0]);
-                      } else {
-                          closePanel();
-                      }
-                  });
-
-                  return network;
-              }
-              drawGraph();
-
-              // â”€â”€ Cluster metadata & per-node analysis â”€â”€
-              var clusterMeta = {
-                  '#ff4444': { name: 'Cortisol-Dopamine Trap', desc: 'The feedback loop that keeps you scrolling instead of building.' },
-                  '#c7ff38': { name: 'Flint Recovery Path', desc: "Justyn Amechi's framework for rebuilding self-trust through action." },
-                  '#4488ff': { name: '3-Phase Motivation Model', desc: 'Approach â†’ Avoidance â†’ Assertion. You are currently between phases 1 and 2.' },
-                  '#ff9900': { name: 'God Nodes (Technical Identity)', desc: 'Your real north star. The skills you are actually building.' },
-                  '#888888': { name: 'Missing Feed Content', desc: 'Content types absent from your saves â€” the gaps reveal what your algorithm avoids.' },
-                  '#cc44ff': { name: 'The Deepest Irony', desc: 'A correct framework, consumed as inspiration, delivered via the trap itself.' }
-              };
-
-              var nodeAnalysis = {
-                'Current Self': {
-                  learning: "You've shipped Hivemend, ConnectSphere, Learnix, invoice_baazi, video_editor â€” real products that are live. But your inner narrative treats you like someone who hasn't shipped anything yet. The gap between your actual evidence and your self-assessment is the source of the entire trap.",
-                  actions: [
-                    "Open your GitHub right now and count your public repos. Write that number down â€” it's your evidence floor, not your ceiling.",
-                    "Set your phone wallpaper to the name of one project you shipped this month.",
-                    "Block 45 minutes tonight: open your last unfinished project, commit one file, push it. That's the only task."
-                  ],
-                  urgency: "high",
-                  quote: "The evidence says you ship. Your internal story is just behind the commits."
-                },
-                'Identity Gap': {
-                  learning: "The gap isn't skill â€” you have the AI stack already. It's the story you tell yourself between commits. Every saved post is a silent claim: 'I'll be this person when I learn X.' You already learned X. You just haven't claimed it yet.",
-                  actions: [
-                    "Write on paper: 'I am a developer who ships AI tools, like [name one real thing you built].' Read it aloud.",
-                    "Delete or archive every saved post older than 30 days â€” each unseen save silently widens the gap.",
-                    "Run `git log --oneline -10` on any project right now. Read it. That's who you already are."
-                  ],
-                  urgency: "critical",
-                  quote: "The gap isn't between you and the desired self. It's between what you've built and what you're willing to claim."
-                },
-                'Identity Threat': {
-                  learning: "The threat fires most intensely right before you sit down to work. That activation energy is real â€” it's being routed into scroll instead of code. The prefrontal cortex needs 2 minutes to take over from amygdala. The if-then plan buys those 2 minutes.",
-                  actions: [
-                    "Name it the next time it fires: say aloud 'identity threat activated.' Then open VS Code instead of Instagram.",
-                    "Write this if-then and put it on your monitor: 'When I feel the urge to check Instagram before coding, I open my project folder instead.'",
-                    "Set a 25-minute timer when the threat appears. The feeling dissolves when you're in flow. Test this tonight."
-                  ],
-                  urgency: "high",
-                  quote: "The discomfort before coding isn't a stop sign. It's the engine. You're just routing it wrong."
-                },
-                'Avoidance Loop': {
-                  learning: "The loop is working perfectly â€” it's just optimizing for relief, not output. Every scroll session is a successful avoidance event, and success reinforces the behavior. You've run this loop 56 times (one per save). The only break is a deliberate trigger placed before the loop starts.",
-                  actions: [
-                    "Delete Instagram from your phone for 7 days. This is the blunt intervention with the most evidence behind it.",
-                    "Replace the first daily scroll with `git status` on your active project. Make the loop start with code context instead.",
-                    "Install Cold Turkey or Freedom with Instagram blocked 9amâ€“6pm. Remove the option."
-                  ],
-                  urgency: "critical",
-                  quote: "The loop isn't broken. It's working on the wrong objective. Change the trigger, not yourself."
-                },
-                'Shame Spiral': {
-                  learning: "In Indian developer culture, the comparison field is ambient â€” batchmates at FAANG, LinkedIn wins, Twitter devs posting launches. The shame spiral here is private and compounding. You're shaming yourself for not building things you haven't even planned yet. That's the loop eating itself.",
-                  actions: [
-                    "Write this sentence: 'The shame I feel means I care about this. That's useful.' Then open a project file.",
-                    "Block LinkedIn and Twitter between 9am and 12pm â€” peak shame-spiral fuel hours.",
-                    "For the next 3 days: when shame fires, write one line of code instead of opening any social app. Track the streak."
-                  ],
-                  urgency: "high",
-                  quote: "Shame without a target just burns. Give it a file to edit."
-                },
-                'Scroll Session': {
-                  learning: "You open Instagram at the exact moment the resistance to starting spikes â€” this is the data. Not boredom, identity threat. And 56 saves means 56 successful avoidance events, each reinforcing that 'scroll when stuck' is a valid strategy. It isn't.",
-                  actions: [
-                    "Check your screen time right now. Screenshot it. This is your baseline â€” you need the number to track change.",
-                    "Set a hard 20-minute daily cap for Instagram in iOS/Android screen time settings. Do it now.",
-                    "Replace tomorrow's first scroll with `git log --oneline -5` on your active project. Read what you've built before consuming what others promise."
-                  ],
-                  urgency: "critical",
-                  quote: "Every scroll session is a vote for who you're afraid you'll stay."
-                },
-                'Shame Hook': {
-                  learning: "35% of your saves are shame/comparison hooks â€” 'mistakes that cost developers years,' 'why you're still stuck,' 'what separates good from great.' Each one activated your amygdala and got filed as 'useful.' It wasn't useful. It was a cortisol invoice your prefrontal cortex pays during your next coding session.",
-                  actions: [
-                    "Open your saved posts folder now. Delete every post that made you feel behind when you first saw it â€” that's the exact test for shame hooks.",
-                    "Unfollow 3 accounts that primarily post comparison or gap content. Today, not this week.",
-                    "Replace with one account that posts messy work-in-progress â€” someone shipping ugly early versions of real tools."
-                  ],
-                  urgency: "high",
-                  quote: "Content that makes you feel behind isn't teaching you. It's billing your cortisol account."
-                },
-                'Amygdala Threat Response': {
-                  learning: "Your amygdala cannot distinguish between 'I might fail to ship this RAG system' and 'predator approaching.' Both trigger cortisol. You're scrolling shame hooks, activating threat response, then expecting your PFC to architect a production AI system immediately after. The sequencing is the problem.",
-                  actions: [
-                    "Before any coding session: 2 minutes of box breathing â€” 4 counts in, 4 hold, 4 out, 4 hold. This measurably reduces cortisol.",
-                    "Set a calendar block called 'downregulate' for 5 minutes before your daily coding session.",
-                    "Hard rule: no shame-hook content within 1 hour of planned coding time."
-                  ],
-                  urgency: "medium",
-                  quote: "Your brain thinks the unfinished FastAPI project is a predator. Breathe first. Then build."
-                },
-                'Cortisol': {
-                  learning: "Chronic cortisol from shame-scroll cycles is why your evening coding sessions produce nothing. The stress hormone gets spent on the scroll. By the time you open VS Code at 10pm, the prefrontal cortex is running depleted. The problem isn't motivation â€” it's sequencing.",
-                  actions: [
-                    "Move your primary coding block to morning â€” before any Instagram, any news, any Slack. Try this for 7 consecutive days.",
-                    "Log cortisol-spike triggers for 3 days: note every moment you feel anxious, behind, or like you need to catch up.",
-                    "Replace afternoon scroll with a 20-minute walk before your second coding session. Walk first, build second."
-                  ],
-                  urgency: "high",
-                  quote: "You're trying to code on an empty tank. The scroll drank the fuel."
-                },
-                'Prefrontal Cortex': {
-                  learning: "The PFC handles planning, sequencing, and executing complex systems. Cortisol suppresses it. You're trying to design RAG architecture and FastAPI patterns after your PFC has already been taxed by shame hooks and comparison content. This is biological, not a motivation problem.",
-                  actions: [
-                    "Hard rule: no social media before your first coding block. Protect PFC availability at its peak.",
-                    "Schedule your most complex task in the first 2 hours after waking â€” this is your PFC's strongest window.",
-                    "Test tonight: code before opening Instagram. Compare the session quality. You'll notice the difference immediately."
-                  ],
-                  urgency: "high",
-                  quote: "Your PFC is the most expensive tool you own. Stop running it after you've already depleted it."
-                },
-                'Framework Solution': {
-                  learning: "Every 'drop your email for the framework' CTA delivered a dopamine hit and nothing else. You have 56 frameworks saved, zero executed. The frameworks can be real â€” The Flint's model is scientifically valid â€” but the save mechanism delivers the satisfaction before any behavior change occurs.",
-                  actions: [
-                    "Pick one framework from your saves that you've 'understood.' Apply one step of it today â€” not as inspiration, as a system.",
-                    "Open Obsidian or a notes file. Write your own one-page framework for one recurring problem you face when starting a project.",
-                    "Count your ratio: frameworks implemented vs. frameworks saved. That ratio is the only data point that matters."
-                  ],
-                  urgency: "medium",
-                  quote: "You saved 56 frameworks. One executed framework beats all of them combined."
-                },
-                'Nucleus Accumbens': {
-                  learning: "Your nucleus accumbens peaks on anticipation, not completion. The save button delivers reward before any behavior occurs. This is why you save the video, feel satisfied, and never open it again â€” the dopamine circuit completed at the tap.",
-                  actions: [
-                    "Disable post saves in Instagram for 7 days (Settings â†’ Saved). Remove the reward from the pre-behavior moment.",
-                    "When you'd normally save a post, write the core idea in one sentence in your notes app instead. Then close Instagram.",
-                    "Build a 21-day deploy log â€” one shipped thing per day, any size. Redirect the accumbens hit to pushing code."
-                  ],
-                  urgency: "medium",
-                  quote: "The save is the reward. Execution never gets its dopamine â€” it was already spent."
-                },
-                'Dopamine Anticipation': {
-                  learning: "You've trained your brain to spike dopamine on anticipating future capability. Saving an 'AI Agents' post delivers a hit that represents the future version of you who knows agents. The actual work of building agents gets none of that hit. You're addicted to the preview, not the feature.",
-                  actions: [
-                    "Start a 21-day deploy log: one shipped function, fix, or endpoint daily. This becomes your new dopamine source â€” earned, not borrowed.",
-                    "For the next week: every time you feel excited about a piece of content, capture the idea in notes and immediately open your project. Redirect within 90 seconds.",
-                    "Build one agent today â€” even a 50-line script that calls Claude API with a system prompt. Ship it. Feel the difference between real completion and anticipated completion."
-                  ],
-                  urgency: "high",
-                  quote: "You're high on the preview. Ship the actual thing and feel the difference."
-                },
-                'Symbolic Self-Completion': {
-                  learning: "This is the trap's boss node. Saving AI engineering content IS a proxy identity acquisition â€” you feel like an AI engineer when you save the post. That feeling is real enough that execution stops feeling necessary. Your folder is 56 units of borrowed identity that belongs to a future self you keep deferring.",
-                  actions: [
-                    "Open your saved posts folder right now. Archive or delete every post older than 14 days that you haven't acted on. Do this before writing any code today.",
-                    "For every post you save this week, write one sentence: 'The action I will take within 48 hours because of this is ___.' If the answer is 'none,' don't save.",
-                    "Set a saved posts cap: maximum 10. When you hit 10, delete one before you can save another."
-                  ],
-                  urgency: "critical",
-                  quote: "Your saved folder is a museum of who you planned to become. Empty it."
-                },
-                'Moral Licensing': {
-                  learning: "Every Instagram scroll through technical content gets logged by your brain as 'I did something productive.' This is moral licensing â€” consuming AI engineering content grants you credit for AI engineering work. You've been redeeming that credit instead of shipping code. The math doesn't work.",
-                  actions: [
-                    "Define your one metric for today: only git commits count as productive. Nothing else. Track it tonight.",
-                    "Write this on a sticky note for your monitor: 'Reading about RAG â‰  RAG. Watching FastAPI â‰  FastAPI.'",
-                    "Log tomorrow: every Instagram interaction with tech content = 0. Only a pushed commit = +1. Check score at end of day."
-                  ],
-                  urgency: "high",
-                  quote: "Consuming technical content is not technical work. Your brain thinks it is. Correct it."
-                },
-                'Phase 2: Avoidance Motivation': {
-                  learning: "35% of your saved content is Phase 2 fuel â€” fear of being left behind, comparison to faster developers, shame about current output. Phase 2 feels like drive but burns cortisol. Sustained Phase 2 is the definition of burnout, and it won't hold past 60 days of pressure.",
-                  actions: [
-                    "Count your Phase 2 signals today: every 'I'm behind,' 'they're ahead,' or direct comparison thought. Log the total.",
-                    "Identify and unfollow 5 accounts that primarily trigger Phase 2 in you. Today, not this week.",
-                    "Replace with one account posting Phase 1 content (genuine excitement about building) or Phase 3 (identity-driven, low-drama shipping)."
-                  ],
-                  urgency: "critical",
-                  quote: "Fear gets you to the desk. It won't keep you there. And it will break you eventually."
-                },
-                'Desired Self': {
-                  learning: "'Technically elite AI builder, intentional not anxious' â€” you know exactly who you're becoming. The problem is measuring the gap to this person instead of counting your evidence toward it. You've already shipped multiple AI-adjacent products. The desired self isn't as far as the gap makes it feel.",
-                  actions: [
-                    "Write one evidence statement: 'I am already an AI builder â€” I shipped [one real thing] last month.' Make it factual, not aspirational.",
-                    "Put the desired self description somewhere visible â€” not as aspiration, but as a description of a trend already in motion.",
-                    "Set a weekly Friday review: list evidence gathered that week. Replace gap-counting with evidence-counting."
-                  ],
-                  urgency: "high",
-                  quote: "You already know who you're becoming. Start counting the evidence instead of the distance."
-                },
-                'Hesitation': {
-                  learning: "Each hesitation is a vote against yourself, and it compounds. CRS=54 is the Preparation stage â€” if you act now, you hit the Action stage in 30 days. If you hesitate another 90 days, non-execution becomes the identity you're defending instead of overcoming.",
-                  actions: [
-                    "Name the next hesitation the moment it starts. Say aloud: 'I'm hesitating about [X].' Then write the first action for X.",
-                    "Write an if-then for your most common hesitation point: 'When I open my laptop and feel stuck, I will open my project file and run the last test.'",
-                    "Time your next hesitation. If it's more than 2 minutes, set a 2-minute timer and act when it goes off. No exceptions."
-                  ],
-                  urgency: "critical",
-                  quote: "This specific hesitation right now is the one that compounds or breaks. Choose."
-                },
-                'Hesitation Pattern': {
-                  learning: "You have a behavioral record of hesitation: 56 saves, zero executions. The pattern is real and it shows in the data. But patterns break with one committed counter-action that becomes the new anchor. One execution doesn't erase the pattern. It starts the counter-pattern.",
-                  actions: [
-                    "Pick the oldest save in your folder that had a clear action implied. Execute that one action today. This is your pattern-break moment.",
-                    "Set a 7-day tracker: every day you execute something (even 20 lines of code), mark X. Break the pattern by accumulating Xs.",
-                    "Tell one person today what you're going to ship this week. The social commitment anchors the counter-pattern more than willpower."
-                  ],
-                  urgency: "critical",
-                  quote: "The pattern is just a score. You control the next digit."
-                },
-                'Self-Trust Erosion': {
-                  learning: "Self-trust erodes silently and compounds quietly. In Indian developer culture, the comparison field amplifies every gap â€” LinkedIn batchmates, Twitter devs posting launches, Hacker News founders. CRS=54 partially reflects this erosion. You're not watching it happen in real-time, but it's happening.",
-                  actions: [
-                    "Write 3 things you said you'd do that you actually did this week â€” any domain, any size. Read them. This is your trust account audit.",
-                    "Do this daily for 7 days: keep one promise to yourself per day, tracked in notes. Mechanical trust-rebuild.",
-                    "Identify the one thing you've been saying 'I'll do it tomorrow' about the longest. Do 5 minutes of it right now."
-                  ],
-                  urgency: "critical",
-                  quote: "Your self-trust account is in overdraft. Every kept promise is a deposit."
-                },
-                'Identity toward Non-Execution': {
-                  learning: "This is the most dangerous node in your graph. An identity building around 'I'm someone who plans but doesn't ship' is the hardest to reverse â€” it requires narrative disruption, not just a new habit. You're not there yet. But every scroll session without a code session brings it closer.",
-                  actions: [
-                    "Right now: write 'I'm the kind of person who ships things, like when I [name one real thing you built].' Say it out loud. This is identity interrupt, not affirmation.",
-                    "Block 30 minutes tonight for code â€” not planning, not tutorials, not saving. Actual code. Anything counts.",
-                    "For the next 7 days: every day you don't commit code, write one sentence: 'Is this the identity I'm building?' Then commit something."
-                  ],
-                  urgency: "critical",
-                  quote: "Non-execution isn't your default. It's just the current score. Change it tonight."
-                },
-                'Execution (despite unready)': {
-                  learning: "The 'unready' feeling never goes away on its own â€” it's produced by identity threat, not by actual unreadiness. Your RAG system doesn't need elegant architecture for v1. Your FastAPI endpoints don't need error handling. The Flint's entire system lives in this node. Unready + shipped is infinitely better than perfect + saved.",
-                  actions: [
-                    "Pick one unfinished project â€” ConnectSphere is 95% done per your own notes. Deploy it in its current state to Railway or Vercel right now.",
-                    "Set a rule: the next feature you build, deploy it before it feels ready. Ship ugly as a practice.",
-                    "Open any project, write one function, push it. Don't review. Don't refactor. Just push. Notice what completion feels like without the readiness gate."
-                  ],
-                  urgency: "critical",
-                  quote: "Ship ugly. Ship now. The readiness you're waiting for is the trap itself."
-                },
-                'Behavioral Evidence': {
-                  learning: "You already have evidence: ConnectSphere, Hivemend, Learnix, invoice_baazi, video_editor, trade_baazi â€” shipped things. The problem isn't evidence-scarcity, it's evidence-blindness. You're not counting what already exists because the identity gap makes it invisible.",
-                  actions: [
-                    "Make a 'Ships' list right now: every project pushed to production or shared publicly. Name, date, one sentence what it does.",
-                    "Put this list on your phone home screen. Read it every morning before opening any social app.",
-                    "Add to the list every time you ship something. Watch it grow. This is your real identity document â€” not your saved posts."
-                  ],
-                  urgency: "critical",
-                  quote: "The evidence already exists. You're just not looking at it."
-                },
-                'Self-Trust Rebuilt': {
-                  learning: "Self-trust rebuilds through repeated kept actions, not through realizations or feeling ready. You're at Preparation stage because you have enough trust to plan but not yet enough to sustain execution. Two weeks of daily kept commitments â€” even 30-minute coding sessions â€” mechanically moves the dial.",
-                  actions: [
-                    "Commit to 14 consecutive days of one git commit per day. Any size â€” a comment, a fix, a line. Track the streak on GitHub.",
-                    "Not motivation, not inspiration â€” just the commit. The streak is the trust-rebuild metric.",
-                    "At day 7, re-read your Ships list. Notice how your self-assessment shifts when evidence accumulates."
-                  ],
-                  urgency: "high",
-                  quote: "Trust is built in deposits, not declarations. Make one today."
-                },
-                'Execution Identity': {
-                  learning: "This is where you're going. Execution Identity means shipping becomes automatic, not motivated â€” Phase 3 Assertion where you build because that's who you are. At CRS=54, you're 30-90 days from this if you start now. It's not aspiration â€” it's behavioral accumulation math.",
-                  actions: [
-                    "Make 'I ship things' your phone wallpaper today. It feels cringe now. It won't in 30 days when you're looking at your commit streak.",
-                    "Pick one maker you follow who ships constantly. Watch what they do (not what they say) â€” the behavior pattern, not the content.",
-                    "Write the Execution Identity statement: 'I am someone who ships AI tools. My evidence: [list 3 real things].' Keep it visible."
-                  ],
-                  urgency: "high",
-                  quote: "Identity isn't claimed. It's accumulated â€” one commit at a time."
-                },
-                'Implementation Intention': {
-                  learning: "Zero if-then plans detected in 56 saves. Gollwitzer's research (d=0.65) shows this single intervention doubles execution rate. This is the highest-leverage action available to you right now. The science is solid â€” the cost is 3 minutes of writing.",
-                  actions: [
-                    "Write 3 if-then plans RIGHT NOW on paper: (1) 'When I open my laptop after dinner, I will open VS Code and run the test suite.' (2) 'When I feel the urge to scroll Instagram before coding, I will open my project folder instead.' (3) 'When a new project idea excites me, I will write it in notes and return to my current project.'",
-                    "Put these in your phone notes labeled 'Flint Plans.' Review them every morning for 7 days.",
-                    "Set a phone alarm called 'Flint: if-then' for tomorrow morning to write tomorrow's plan tonight."
-                  ],
-                  urgency: "critical",
-                  quote: "'When X happens, I will do Y' â€” this sentence is worth more than 56 saved motivational reels combined."
-                },
-                'Medial PFC': {
-                  learning: "The medial PFC fires at 120ms â€” well below conscious deliberation. This is why if-then plans work: they pre-load the behavioral response before cortisol can route you into avoidance. The implementation intention is a neurological hack, not a motivational one. Pre-decision is the mechanism.",
-                  actions: [
-                    "Pre-decide 3 concrete environmental triggers for today: 'When coffee finishes brewing â†’ open VS Code.' 'When Slack notification clears â†’ run test suite.' 'When I close a YouTube video â†’ open project file.'",
-                    "Write tomorrow's plan tonight, not tomorrow morning. Pre-load before cortisol has context to respond to.",
-                    "The trigger must be specific and environmental, not time-based. 'When X happens' â€” not 'at 9am.'"
-                  ],
-                  urgency: "medium",
-                  quote: "Wire the trigger before the cortisol has anything to fire at. Then it fires itself."
-                },
-                'Phase 1: Approach Motivation': {
-                  learning: "Instagram activates Phase 1 perfectly â€” wanting, excitement, anticipation. The scroll feels productive because it generates real motivation chemistry. The problem: Phase 1 burns fast and needs a conversion mechanism within 90 seconds or it dissipates into the next scroll.",
-                  actions: [
-                    "Next time you feel approach motivation from a piece of content: you have 90 seconds. Write what you want in notes, then open the first project file that moves toward it.",
-                    "Track one week: every Phase 1 spike â€” did it convert to code? This is your conversion rate. It's probably zero.",
-                    "Write your Phase 1 if-then: 'When I feel excited about a technical idea, I will write 3 lines toward it in my project before doing anything else.'"
-                  ],
-                  urgency: "medium",
-                  quote: "The excitement is real. The question is whether you hand it to Instagram or your IDE."
-                },
-                'Phase 3: Assertion Motivation': {
-                  learning: "Phase 3 is when execution stops requiring motivation â€” it becomes identity-driven. You ship because that's what you do. At CRS=54, you're 30-90 days from this if you start building the behavioral evidence now. It's not fantasy â€” it's the compounding math of repeated small actions.",
-                  actions: [
-                    "Build toward Phase 3 by doing one thing daily you don't need motivation for. Small: fix a typo, commit a comment, push a draft. The repetition builds the reflex.",
-                    "Write a Phase 3 statement: 'I ship because that's who I am, not because I feel like it.' Read it daily for 14 days.",
-                    "Identify one habit you already do without motivation (morning coffee, brushing teeth). Attach coding to it for 7 days. That's Phase 3 in action."
-                  ],
-                  urgency: "high",
-                  quote: "Phase 3 is just Phase 2 that got boring. Ship enough times and it becomes automatic."
-                },
-                'AI Engineering Skill Stack': {
-                  learning: "RAG, Agents, Evals, LLMOps, FastAPI â€” 7 edges in the graph, all saved content. Saving is not knowing, and knowing is not shipping. Check honestly: of these 7 areas, how many do you have a deployed, working implementation in? That number is your real stack depth.",
-                  actions: [
-                    "List the 7 areas: RAG, Agents, Evals, Fine-tuning, LLMOps, FastAPI, Claude Automation. Circle the ONE you're closest to having a deployed implementation in.",
-                    "Spend 2 hours today on that one area only. Build the minimum â€” a RAG endpoint that returns actual results, not a tutorial half-read.",
-                    "Deploy it anywhere: Railway, Vercel, ngrok tunnel. The deploy is the behavioral evidence, not the code quality."
-                  ],
-                  urgency: "high",
-                  quote: "You know about 7 areas. You need shipped implementations in all 7. Start with the closest to done."
-                },
-                'FastAPI Architecture Patterns': {
-                  learning: "FastAPI is your proven backend pattern. Hivemend, ConnectSphere, trade_baazi â€” you've shipped real products with it. This is your lowest-barrier execution path. If you want Behavioral Evidence fast, FastAPI is the move because the readiness problem doesn't exist here.",
-                  actions: [
-                    "Open Hivemend or ConnectSphere right now. Add one endpoint you've been postponing. Deploy in the same session.",
-                    "The familiarity removes the readiness barrier â€” you don't need to learn FastAPI again. Just write another endpoint.",
-                    "Add a /health endpoint to any existing FastAPI project today if it's missing. It's 3 lines. Ship it. Feel what small completion feels like."
-                  ],
-                  urgency: "high",
-                  quote: "You already know FastAPI. Stop treating it like you don't. Build one more endpoint today."
-                },
-                'Claude AI Automation': {
-                  learning: "This is your most unique god node â€” you're not just using Claude, you're building the meta-layer: hooks, agent manager, memory system, orchestration. That's a rare position in the current market. Most developers are still figuring out basic API calls. You've built the infrastructure above that. It should be public.",
-                  actions: [
-                    "Identify one Claude automation you've built that doesn't exist as a public open-source tool. The agent manager system, the hooks system, the memory orchestration.",
-                    "Package it as a GitHub repo with a README today. Push it. This is your differentiated output in the current AI wave.",
-                    "Tweet one screenshot of a Claude automation running â€” even just the hook system output. Public proof of work, no polish required."
-                  ],
-                  urgency: "high",
-                  quote: "You're building the meta-layer above Claude. That's worth shipping publicly â€” right now."
-                },
-                'One Complete Project': {
-                  learning: "One shipped, deployed, publicly accessible AI project with RAG + FastAPI + your name on it generates the first behavioral evidence from your god nodes. You have multiple projects at 80-95% complete. ConnectSphere is 95% done and uncommitted. The gap to done is smaller than your imagination of it.",
-                  actions: [
-                    "Open your ConnectSphere project right now. It's 95% done per your own notes. List the 3 remaining tasks on paper.",
-                    "Complete one task today. Deploy tomorrow. Tell one person â€” anyone â€” what you shipped.",
-                    "Hard rule this week: do not start a new project. Finish one existing one. The first complete project is worth more than 5 at 95%."
-                  ],
-                  urgency: "critical",
-                  quote: "'Almost done' is not shipped. Pick one, finish it, push it today."
-                },
-                'Rest Permission': {
-                  learning: "Zero saved posts on rest or recovery. In your content diet, rest doesn't exist as a legitimate value. Your nervous system has no model for 'productive rest' â€” every non-coding hour is implicitly failure. This is why scrolling feels like both rest AND shame simultaneously: there's no healthy rest category in your input.",
-                  actions: [
-                    "Save or bookmark one piece of content today that explicitly validates rest â€” not hustle-flavored balance advice, actual permission to stop working.",
-                    "Block 30 minutes this week in your calendar labeled 'rest' â€” no output required, no Instagram, no planning. Just rest.",
-                    "When you take a coding break today, sit with it instead of opening Instagram. The discomfort is the muscle you're building."
-                  ],
-                  urgency: "high",
-                  quote: "The absence of rest content in your feed is a decision you made. Rest is not failure."
-                },
-                'Process Joy': {
-                  learning: "Zero saves on enjoying the building process. Your entire motivation model is output-or-shame â€” binary. When a coding session produces no visible result (debugging, architecture, reading docs), it registers as failure. But your best technical work is often invisible. You're measuring the wrong thing.",
-                  actions: [
-                    "Tonight: write one line in your notes called 'What I enjoyed about building today.' Even one honest sentence. Do this for 7 days.",
-                    "Next time you're deep in a debugging session and it's frustrating but interesting â€” name the interest out loud. 'I'm actually enjoying figuring this out.'",
-                    "Find one creator who posts about the process of building (not the result). Follow them for 30 days."
-                  ],
-                  urgency: "high",
-                  quote: "If you can't find joy in the process, you'll always need the outcome to validate you. That's a fragile setup."
-                },
-                'Honest Failure Content': {
-                  learning: "Zero saves normalizing failure. Your feed is binary: succeed or not-yet-succeed. Failure is invisible, which means when you fail â€” and you will â€” you'll have no framework for it. It will register as identity threat, not data. That's dangerous, and it's missing from your input entirely.",
-                  actions: [
-                    "Find one creator who posts about ongoing failures â€” not 'failure that became success,' actual still-struggling. Follow them today.",
-                    "Write one honest sentence about a project that didn't work out. Not lessons learned. Just: it didn't work. This builds the failure-tolerance muscle.",
-                    "Next time a build fails or a bug beats you for 2 hours: write 'This is what building looks like. Normal.' Put it somewhere visible."
-                  ],
-                  urgency: "high",
-                  quote: "You have no model for how good developers fail. Build one before you need it."
-                },
-                'Long-Form Patience': {
-                  learning: "Zero saves on long timelines. Instagram's 60-second format has given you an epistemology of urgency â€” transformation is fast, mastery is quick, progress is always visible. Your actual god nodes (LLMOps, production Agents, RAG at scale) take months to internalize. Your content diet is lying about timelines.",
-                  actions: [
-                    "Subscribe to one long-form source this week â€” a newsletter, Substack, or podcast operating on month-scale AI engineering thinking.",
-                    "Spend 30 minutes reading one long-form piece about something in your stack. Notice the depth difference vs. a reel.",
-                    "Write your actual timeline: 'I will have a production RAG system deployed by [date]. That's [X] weeks from now.' Name the real number."
-                  ],
-                  urgency: "medium",
-                  quote: "You're building on a months-long timescale while consuming a seconds-long epistemology. That mismatch is expensive."
-                },
-                "The Flint's Framework": {
-                  learning: "Justyn Amechi's model maps directly to self-efficacy theory and implementation intentions â€” it's scientifically valid and correctly applied here. The deepest irony: a framework about hesitation-driven identity erosion is being consumed via Instagram, which delivers it through exactly the hesitation mechanism it describes. You're eating the medicine as candy.",
-                  actions: [
-                    "Take one element of the Flint framework and implement it as a system today â€” a written if-then plan, not a saved post.",
-                    "Set a phone alarm called 'Flint: execute one thing' for tomorrow morning at whatever time you start work.",
-                    "The framework says hesitation erodes identity. Name one specific hesitation you're holding right now. Write it down. Then do the first step."
-                  ],
-                  urgency: "high",
-                  quote: "Knowing the framework and not using it is exactly what the framework warns against. The irony is completing itself."
-                },
-                'Inspirational Content Format': {
-                  learning: "The Instagram format (hook-body-CTA, 60 seconds max) delivers its payload before you can extract the behavioral change. The medium triggers Symbolic Self-Completion faster than the content can install a behavior. The Flint's framework, delivered this way, feeds the cycle it describes. The format is the trap â€” not the content.",
-                  actions: [
-                    "When you find inspirational content on Instagram: pause before saving. Write the single specific action implied in your notes app. Then close Instagram.",
-                    "Test for one week: convert every potential save into a written action note. Count how many you actually execute vs. how many saves you execute currently (zero).",
-                    "Find the same creator's long-form content (YouTube, blog, newsletter). The format change often unlocks the actual behavior change the reel promised."
-                  ],
-                  urgency: "medium",
-                  quote: "The reel that would save you won't. The action you write down from it might."
-                },
-                'No Behavior Change': {
-                  learning: "This is the empirical output of 56 saves. Correct content + wrong mechanism = zero behavior change. This node exists because the entire system â€” trap, inspiration, symbolic completion â€” routes here. The fix is not more content, not more analysis, not more graph nodes. It's one action in the next 60 minutes.",
-                  actions: [
-                    "Close this graph. Open your code editor. Run one command. Push one commit. That is the only action that changes this node.",
-                    "Pick the smallest possible action on your most active project â€” even one line of code â€” and do it before you close this browser window.",
-                    "Set a 60-minute timer right now. Code until it goes off. No Instagram, no saves, no planning. Just build."
-                  ],
-                  urgency: "critical",
-                  quote: "You already have everything you need. The only missing variable is the next action you're about to take."
-                }
-              };
-
-              // â”€â”€ Panel logic â”€â”€
-              function showPanel(nodeId) {
-                  var node = nodes.get(nodeId);
-                  if (!node) return;
-                  var color = node.color || '#888888';
-                  var meta = clusterMeta[color] || { name: 'Unknown', desc: '' };
-
-                  document.getElementById('panel-node-name').textContent = nodeId;
-                  document.getElementById('panel-node-name').style.color = color === '#c7ff38' ? '#c7ff38' : color;
-
-                  var tag = document.getElementById('panel-cluster-tag');
-                  tag.textContent = meta.name;
-                  tag.style.color = color;
-                  tag.style.borderColor = color;
-
-                  document.getElementById('panel-tooltip').textContent = node.title || '';
-
-                  var nd = nodeAnalysis[nodeId];
-                  var analysisHTML;
-                  if (nd && typeof nd === 'object') {
-                      var urgencyColor = { critical: '#ff4444', high: '#ff9900', medium: '#e8c840', low: '#888888' }[nd.urgency] || '#888';
-                      var urgencyBg = { critical: 'rgba(255,68,68,0.12)', high: 'rgba(255,153,0,0.12)', medium: 'rgba(232,200,64,0.12)', low: 'rgba(136,136,136,0.12)' }[nd.urgency] || 'rgba(136,136,136,0.1)';
-                      analysisHTML =
-                          '<div class="ph-label">WHAT THIS REVEALS</div>' +
-                          '<div class="ph-text">' + nd.learning + '</div>' +
-                          '<div style="margin:10px 0 4px"><span class="urgency-badge" style="background:' + urgencyBg + ';color:' + urgencyColor + ';border:1px solid ' + urgencyColor + '55">' + nd.urgency.toUpperCase() + '</span></div>' +
-                          '<div class="ph-label">ACT NOW</div>' +
-                          '<div class="act-list">' +
-                          nd.actions.map(function(a, i) {
-                              return '<label class="act-item"><input type="checkbox"><span>' + (i+1) + '. ' + a + '</span></label>';
-                          }).join('') +
-                          '</div>' +
-                          '<div class="ph-quote">â€œ' + nd.quote + 'â€</div>';
-                  } else {
-                      analysisHTML = '<span style="color:#666;font-size:11px">' + (nd || ('Part of the ' + meta.name + ' cluster â€” ' + meta.desc)) + '</span>';
-                  }
-                  document.getElementById('panel-analysis-text').innerHTML = analysisHTML;
-
-                  // Incoming edges
-                  var edgeList = edges.get();
-                  var incoming = edgeList.filter(function(e) { return e.to === nodeId; });
-                  var outgoing = edgeList.filter(function(e) { return e.from === nodeId; });
-
-                  function renderEdges(arr, container, direction) {
-                      var el = document.getElementById(container);
-                      if (arr.length === 0) {
-                          el.innerHTML = '<div class="no-edges">none</div>'; return;
-                      }
-                      el.innerHTML = arr.map(function(e) {
-                          var other = direction === 'in' ? e.from : e.to;
-                          var onode = nodes.get(other);
-                          var oc = onode ? onode.color : '#888';
-                          return '<div class="edge-item">' +
-                              '<span class="arr">' + (direction === 'in' ? 'â†' : 'â†’') + '</span>' +
-                              '<span><span class="enode" style="color:' + oc + '">' + other + '</span>' +
-                              '<br><span class="elabel">' + (e.label || '') + '</span></span>' +
-                              '</div>';
-                      }).join('');
-                  }
-
-                  renderEdges(incoming, 'panel-incoming', 'in');
-                  renderEdges(outgoing, 'panel-outgoing', 'out');
-
-                  document.getElementById('detail-panel').classList.add('open');
-              }
-
-              function closePanel() {
-                  document.getElementById('detail-panel').classList.remove('open');
-              }
-
-              // â”€â”€ Legend toggle â”€â”€
-              var legendOpen = true;
-              function toggleLegend() {
-                  legendOpen = !legendOpen;
-                  document.getElementById('legend-body').style.display = legendOpen ? '' : 'none';
-                  document.getElementById('legend-toggle').style.transform = legendOpen ? '' : 'rotate(-90deg)';
-              }
-
-              // â”€â”€ Cluster filter â”€â”€
-              function filterCluster(btn, cluster) {
-                  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-                  btn.classList.add('active');
-                  var allNodeData = nodes.get();
-                  var updates = allNodeData.map(function(n) {
-                      var nodeColor = nodeColors[n.id] || n.color;
-                      var match = cluster === 'all' || nodeColor === cluster;
-                      return {
-                          id: n.id,
-                          opacity: match ? 1 : 0.12,
-                          font: { color: match ? '#e0e0e0' : 'rgba(224,224,224,0.15)' }
-                      };
-                  });
-                  nodes.update(updates);
-              }
-
-              // â”€â”€ Search â”€â”€
-              document.getElementById('search-box').addEventListener('input', function() {
-                  var term = this.value.toLowerCase().trim();
-                  var allNodeData = nodes.get();
-                  if (!term) {
-                      // restore
-                      var updates = allNodeData.map(function(n) {
-                          return { id: n.id, opacity: 1, borderWidth: 2, font: { color: '#e0e0e0' } };
-                      });
-                      nodes.update(updates);
-                      return;
-                  }
-                  var updates = allNodeData.map(function(n) {
-                      var match = n.id.toLowerCase().indexOf(term) !== -1;
-                      return {
-                          id: n.id,
-                          opacity: match ? 1 : 0.1,
-                          borderWidth: match ? 5 : 2,
-                          font: { color: match ? '#ffffff' : 'rgba(224,224,224,0.1)' }
-                      };
-                  });
-                  nodes.update(updates);
-              });
-        </script>
-    </body>
+</body>
 </html>
