@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Path Finder — Learnix Strategy Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070a0e;--surface:#0d1117;--glass:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.07);--green:#c7ff38;--text:#e8eaf0;
+  --muted:#8892a0;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,10,14,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 32px;display:flex;align-items:center;gap:24px;
+}
+.nav-logo{font-family:var(--mono);font-size:12px;color:var(--green);letter-spacing:0.1em}
+.nav-links{display:flex;gap:16px;margin-left:auto}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;font-family:var(--mono);letter-spacing:0.05em;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--green)}
+
+.hero{padding:56px 32px 40px;max-width:1200px;margin:0 auto;border-bottom:1px solid var(--border)}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:12px}
+.hero h1 span{color:var(--green)}
+.hero-sub{font-size:15px;color:var(--muted);max-width:620px;line-height:1.7}
+
+/* QUIZ */
+.quiz-section{max-width:1200px;margin:0 auto;padding:40px 32px 0}
+.quiz-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:24px}
+.quiz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:40px}
+.archetype-card{
+  background:var(--surface);border:2px solid var(--border);
+  border-radius:14px;padding:24px;cursor:pointer;
+  transition:border-color 0.25s,background 0.25s,transform 0.15s;
+  user-select:none;
+}
+.archetype-card:hover{transform:translateY(-2px)}
+.archetype-card.selected{background:var(--glass)}
+.arch-emoji{font-size:28px;margin-bottom:12px}
+.arch-name{font-size:16px;font-weight:800;margin-bottom:6px}
+.arch-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.arch-signals{display:flex;flex-direction:column;gap:4px}
+.signal-tag{
+  font-family:var(--mono);font-size:10px;color:var(--muted);
+  background:rgba(255,255,255,0.04);padding:3px 8px;border-radius:4px;
+}
+.arch-trap{
+  margin-top:14px;font-size:11px;line-height:1.5;
+  padding:8px 12px;border-radius:6px;border-left:3px solid;
+}
+
+/* PATH DISPLAY */
+#path-output{max-width:1200px;margin:0 auto;padding:0 32px 64px;display:none}
+.path-header{
+  background:var(--surface);border-radius:14px;border:1px solid var(--border);
+  padding:28px;margin-bottom:28px;
+  display:flex;align-items:center;gap:20px;
+}
+.path-header-emoji{font-size:40px}
+.path-header-meta h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.path-header-meta p{font-size:13px;color:var(--muted);line-height:1.6;max-width:600px}
+.trap-badge{
+  display:inline-block;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.08em;
+  padding:4px 12px;border-radius:20px;border:1px solid;
+  margin-top:10px;
+}
+
+/* STEPS */
+.steps-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px}
+.steps-container{position:relative}
+.steps-container::before{
+  content:'';position:absolute;left:23px;top:28px;bottom:28px;width:2px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.1),rgba(255,255,255,0.03));
+}
+.step{
+  display:flex;gap:20px;margin-bottom:16px;position:relative;
+}
+.step-num{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-weight:700;
+  flex-shrink:0;position:relative;z-index:1;
+  border:2px solid;
+}
+.step-body{
+  flex:1;background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  transition:border-color 0.2s;
+}
+.step-body:hover{border-color:rgba(255,255,255,0.15)}
+.step-cluster-badge{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;
+  padding:3px 10px;border-radius:4px;border:1px solid;
+  display:inline-block;margin-bottom:10px;
+}
+.step-label{font-size:15px;font-weight:800;margin-bottom:8px}
+.step-why{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.step-action{
+  font-size:12px;padding:10px 14px;border-radius:8px;
+  background:rgba(199,255,56,0.06);border:1px solid rgba(199,255,56,0.15);
+  color:#bbd;line-height:1.6;
+}
+.step-action::before{content:"→ ";color:var(--green);font-family:var(--mono)}
+.step-reel{
+  margin-top:12px;
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.reel-ig{
+  font-family:var(--mono);font-size:10px;
+  color:var(--green);flex-shrink:0;
+  background:rgba(199,255,56,0.08);
+  padding:3px 8px;border-radius:4px;
+  border:1px solid rgba(199,255,56,0.2);
+}
+.reel-why{font-size:11px;color:var(--muted);line-height:1.6}
+
+/* AVOID BLOCK */
+.avoid-section{
+  margin-top:28px;
+  background:rgba(255,68,68,0.05);border:1px solid rgba(255,68,68,0.15);
+  border-radius:12px;padding:20px;
+}
+.avoid-label{font-family:var(--mono);font-size:11px;color:#ff4444;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px}
+.avoid-clusters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.avoid-cluster{
+  font-family:var(--mono);font-size:11px;
+  padding:3px 10px;border-radius:4px;
+  background:rgba(255,68,68,0.08);border:1px solid rgba(255,68,68,0.2);
+  color:#ff8888;text-decoration:line-through;opacity:0.7;
+}
+.avoid-reason{font-size:12px;color:#cc8888;line-height:1.6}
+
+/* UPGRADE SIGNALS */
+.upgrade-section{
+  margin-top:20px;
+  background:rgba(199,255,56,0.04);border:1px solid rgba(199,255,56,0.12);
+  border-radius:12px;padding:20px;
+}
+.upgrade-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px}
+.upgrade-signals{display:flex;flex-direction:column;gap:6px}
+.upgrade-sig{font-size:12px;color:#c7ff38aa;font-family:var(--mono)}
+.upgrade-sig::before{content:"✓ ";color:var(--green)}
+
+/* COMPARE NOTE */
+.compare-note{
+  max-width:1200px;margin:0 auto;padding:0 32px;
+  margin-bottom:40px;
+}
+.compare-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+}
+.compare-col{
+  background:var(--surface);border-radius:10px;border:1px solid var(--border);
+  padding:16px;
+}
+.compare-col-head{font-size:12px;font-weight:700;margin-bottom:10px}
+.compare-seq{display:flex;flex-direction:column;gap:6px}
+.seq-item{
+  font-family:var(--mono);font-size:10px;
+  padding:4px 8px;border-radius:4px;
+  background:rgba(255,255,255,0.04);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nav-logo">⬡ Learnix PathFinder</span>
+  <div class="nav-links">
+    <a href="index.html">Graph</a>
+    <a href="grouped_reels.html">Strategy Map</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="action_plan.html">Action Plan</a>
+    <a href="strategy.html">Playbook</a>
+    <a href="pathfinder.html" class="active">PathFinder</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Learnix Engine · Path Decision</div>
+  <h1>Which path <span>actually works</span> for this user?</h1>
+  <p class="hero-sub">Two users at the same TTM stage need completely different content. Select the behavioral archetype to get the optimal 5-step content sequence with specific reel picks from the corpus.</p>
+</div>
+
+<div class="quiz-section">
+  <div class="quiz-label">Select User Archetype</div>
+  <div class="quiz-grid" id="archetype-grid">
+    <div class="archetype-card" data-id="hoarder" onclick="selectArchetype('hoarder')"
+         style="border-color:#ff6b3533" onmouseenter="this.style.borderColor='#ff6b35'" onmouseleave="this.style.borderColor=this.classList.contains('selected')?'#ff6b35':'#ff6b3533'">
+      <div class="arch-emoji">📚</div>
+      <div class="arch-name" style="color:#ff6b35">The Knowledge Hoarder</div>
+      <div class="arch-desc">Saves everything. Watches daily. Never starts. The archive IS the comfort.</div>
+      <div class="arch-signals"><span class="signal-tag">High saves, low completions</span><span class="signal-tag">Watches tutorials before trying</span><span class="signal-tag">Feels 'almost ready'</span></div>
+      <div class="arch-trap" style="background:#ff6b3511;border-color:#ff6b3544;color:#ff6b35cc">
+        ⚡ Symbolic Self-Completion — saving = proxy identity acquisition
+      </div>
+    </div>
+    <div class="archetype-card" data-id="burster" onclick="selectArchetype('burster')"
+         style="border-color:#ff448833" onmouseenter="this.style.borderColor='#ff4488'" onmouseleave="this.style.borderColor=this.classList.contains('selected')?'#ff4488':'#ff448833'">
+      <div class="arch-emoji">💥</div>
+      <div class="arch-name" style="color:#ff4488">The Burster</div>
+      <div class="arch-desc">Goes hard for 3-7 days, crashes to zero. No baseline. Needs inspiration to re-start the cycle.</div>
+      <div class="arch-signals"><span class="signal-tag">Intermittent streaks</span><span class="signal-tag">High engagement spikes then silence</span><span class="signal-tag">Re-starts frequently</span></div>
+      <div class="arch-trap" style="background:#ff448811;border-color:#ff448844;color:#ff4488cc">
+        ⚡ No floor installed — crash to zero makes restarts feel like failure
+      </div>
+    </div>
+    <div class="archetype-card" data-id="doubter" onclick="selectArchetype('doubter')"
+         style="border-color:#4488ff33" onmouseenter="this.style.borderColor='#4488ff'" onmouseleave="this.style.borderColor=this.classList.contains('selected')?'#4488ff':'#4488ff33'">
+      <div class="arch-emoji">🪞</div>
+      <div class="arch-name" style="color:#4488ff">The Identity Doubter</div>
+      <div class="arch-desc">'I'm not the type of person who...' The gap between actual-self and ideal-self feels unbridgeable.</div>
+      <div class="arch-signals"><span class="signal-tag">Low CRS despite high engagement</span><span class="signal-tag">Compares to others negatively</span><span class="signal-tag">Starts sentences with 'I could never'</span></div>
+      <div class="arch-trap" style="background:#4488ff11;border-color:#4488ff44;color:#4488ffcc">
+        ⚡ Self-Discrepancy Theory — gap too large → hopelessness, not motivation
+      </div>
+    </div>
+    <div class="archetype-card" data-id="analyst" onclick="selectArchetype('analyst')"
+         style="border-color:#00ffaa33" onmouseenter="this.style.borderColor='#00ffaa'" onmouseleave="this.style.borderColor=this.classList.contains('selected')?'#00ffaa':'#00ffaa33'">
+      <div class="arch-emoji">🔬</div>
+      <div class="arch-name" style="color:#00ffaa">The Analytical Paralytic</div>
+      <div class="arch-desc">Researches everything before starting. Needs to understand the mechanism before taking the action.</div>
+      <div class="arch-signals"><span class="signal-tag">High tutorial saves</span><span class="signal-tag">Long time in Preparation stage</span><span class="signal-tag">Asks 'but what's the best way to...'</span></div>
+      <div class="arch-trap" style="background:#00ffaa11;border-color:#00ffaa44;color:#00ffaacc">
+        ⚡ Analysis paralysis — preparation IS the action in their model
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="path-output">
+  <div id="path-content"></div>
+
+  <div class="compare-note" style="margin-top:48px">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px">All 4 Paths at a Glance</div>
+    <div class="compare-grid">
+      <div class="compare-col" style="border-color:#ff6b3533">
+        <div class="compare-col-head" style="color:#ff6b35">📚 The Knowledge Hoarder</div>
+        <div class="compare-seq"><div class="seq-item" style="border-left:2px solid #ff4444;color:#ff4444cc">Pattern Interrupt</div><div class="seq-item" style="border-left:2px solid #c7ff38;color:#c7ff38cc">Install the Floor</div><div class="seq-item" style="border-left:2px solid #4488ff;color:#4488ffcc">Reframe the Self</div><div class="seq-item" style="border-left:2px solid #cc44ff;color:#cc44ffcc">Show What Consistency Looks Like</div><div class="seq-item" style="border-left:2px solid #ff9900;color:#ff9900cc">Lock In the Identity</div></div>
+      </div>
+      <div class="compare-col" style="border-color:#ff448833">
+        <div class="compare-col-head" style="color:#ff4488">💥 The Burster</div>
+        <div class="compare-seq"><div class="seq-item" style="border-left:2px solid #c7ff38;color:#c7ff38cc">Install the Floor FIRST</div><div class="seq-item" style="border-left:2px solid #cc44ff;color:#cc44ffcc">Show the Boring Middle</div><div class="seq-item" style="border-left:2px solid #ff4444;color:#ff4444cc">Pattern Interrupt on Crash</div><div class="seq-item" style="border-left:2px solid #4488ff;color:#4488ffcc">Reframe Consistency as Identity</div><div class="seq-item" style="border-left:2px solid #ff9900;color:#ff9900cc">The Long Game Proof</div></div>
+      </div>
+      <div class="compare-col" style="border-color:#4488ff33">
+        <div class="compare-col-head" style="color:#4488ff">🪞 The Identity Doubter</div>
+        <div class="compare-seq"><div class="seq-item" style="border-left:2px solid #4488ff;color:#4488ffcc">Shrink the Gap</div><div class="seq-item" style="border-left:2px solid #ff8800;color:#ff8800cc">Language for the Feeling</div><div class="seq-item" style="border-left:2px solid #c7ff38;color:#c7ff38cc">One Small IF-THEN</div><div class="seq-item" style="border-left:2px solid #ff9900;color:#ff9900cc">Vicarious Mastery</div><div class="seq-item" style="border-left:2px solid #cc44ff;color:#cc44ffcc">I Am Someone Who Shows Up</div></div>
+      </div>
+      <div class="compare-col" style="border-color:#00ffaa33">
+        <div class="compare-col-head" style="color:#00ffaa">🔬 The Analytical Paralytic</div>
+        <div class="compare-seq"><div class="seq-item" style="border-left:2px solid #c7ff38;color:#c7ff38cc">Structured Start (Respect the Brain)</div><div class="seq-item" style="border-left:2px solid #ff4444;color:#ff4444cc">Name the Pattern</div><div class="seq-item" style="border-left:2px solid #cc44ff;color:#cc44ffcc">Show Process Over Optimization</div><div class="seq-item" style="border-left:2px solid #4488ff;color:#4488ffcc">The Doer Identity</div><div class="seq-item" style="border-left:2px solid #ff9900;color:#ff9900cc">Proof the System Works</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ARCHETYPES = [{"id": "hoarder", "label": "The Knowledge Hoarder", "emoji": "\ud83d\udcda", "color": "#ff6b35", "description": "Saves everything. Watches daily. Never starts. The archive IS the comfort.", "core_trap": "Symbolic Self-Completion \u2014 saving = proxy identity acquisition", "avoid": ["TECHNICAL TUTORIAL", "AI / TECH INSIGHT", "MINDSET / PHILOSOPHY"], "avoid_reason": "More tutorials = more hoarding. More philosophy = more thinking. Both substitute for action.", "upgrade_signals": ["Task completion rate > 50%", "Writes a goal with specificity", "3-day streak"], "path": [{"cluster": "SHAME / FEAR HOOK", "label": "Pattern Interrupt", "why": "Break the 'I'm learning = I'm growing' loop. One shame hit naming the exact behavior.", "action": "After: do NOT let them save anything for 48h. Force a task first.", "reel_id": "DZ0m9cKjGjX", "reel_why": "Lemuel: 'You've been infected your entire life' \u2014 names the invisible trap", "cluster_color": "#ff4444"}, {"cluster": "IF-THEN PLANS", "label": "Install the Floor", "why": "Immediately replace the broken loop with a structural one. Lemuel's floor video is perfect \u2014 it names the cycle they're stuck in.", "action": "Prompt: 'Write your floor. What's the minimum that happens regardless?'", "reel_id": "DZs4sd5jFMy", "reel_why": "Lemuel: 'Install the floor' \u2014 the single best implementation intention framework", "cluster_color": "#c7ff38"}, {"cluster": "IDENTITY SHIFT", "label": "Reframe the Self", "why": "They've been watching discipline content as a spectator. Shift identity: 'you're someone who executes, not someone who studies execution.'", "action": "After 3 completions, serve this. Not before.", "reel_id": "DZV4oBYtiOj", "reel_why": "Flint: 'Every time you hesitate, your brain records it' \u2014 names the mechanism", "cluster_color": "#4488ff"}, {"cluster": "PROCESS / DISCIPLINE", "label": "Show What Consistency Looks Like", "why": "Most hoarders have never actually seen what boring consistency looks like \u2014 they only see peak moments. MattD's tracking videos show the mundane truth.", "action": "CRS should be 60+ before serving this. Monitor streak.", "reel_id": "mattdavella_DIbW5_uxWrg", "reel_why": "Matt: tracked every minute for 30 days \u2014 shows what consistency actually looks like", "cluster_color": "#cc44ff"}, {"cluster": "ACHIEVEMENT PROOF", "label": "Lock In the Identity", "why": "They've proven the floor holds. Now show them someone who did the long game \u2014 vicarious mastery seals the identity shift.", "action": "Serve at 30-day milestone. Invite them to share their own proof.", "reel_id": "mattdavella_DId7GjbRzN3", "reel_why": "Matt: 30-day mobility \u2014 vicarious mastery, zero intimidation", "cluster_color": "#ff9900"}]}, {"id": "burster", "label": "The Burster", "emoji": "\ud83d\udca5", "color": "#ff4488", "description": "Goes hard for 3-7 days, crashes to zero. No baseline. Needs inspiration to re-start the cycle.", "core_trap": "No floor installed \u2014 crash to zero makes restarts feel like failure", "avoid": ["MINDSET / PHILOSOPHY", "AI / TECH INSIGHT"], "avoid_reason": "Philosophy during a burster cycle adds inspiration that accelerates the peak \u2014 making the crash worse. They don't need more fuel, they need a floor.", "upgrade_signals": ["14-day streak (first time)", "No crash after a hard day", "Floor holds on bad day"], "path": [{"cluster": "IF-THEN PLANS", "label": "Install the Floor FIRST", "why": "Before anything else: install the minimum. Lemuel's floor video is the only thing that directly addresses the burster pattern. 10 minutes non-negotiable.", "action": "This is step 1, not step 3. Floor before inspiration.", "reel_id": "DZs4sd5jFMy", "reel_why": "Lemuel: 'Install the floor' \u2014 the single best implementation intention framework", "cluster_color": "#c7ff38"}, {"cluster": "PROCESS / DISCIPLINE", "label": "Show the Boring Middle", "why": "Bursters are addicted to the high of starting. Show them what the plateau looks and feels like \u2014 normalize the unglamorous middle.", "action": "Serve 3x/week during active streak. Counteracts 'starting high' dopamine.", "reel_id": "mattdavella_DIbW5_uxWrg", "reel_why": "Matt: tracked every minute for 30 days \u2014 shows what consistency actually looks like", "cluster_color": "#cc44ff"}, {"cluster": "SHAME / FEAR HOOK", "label": "Pattern Interrupt on Crash", "why": "When the crash happens (it will), serve one shame hit that names the cycle \u2014 not to punish, to create awareness of the pattern.", "action": "Only serve ON CRASH. Never pre-emptively. Goggins, not Lemuel.", "reel_id": "davidgoggins_DQkYI-hExY0", "reel_why": "Goggins: speaks directly to the person who knows but doesn't move", "cluster_color": "#ff4444"}, {"cluster": "IDENTITY SHIFT", "label": "Reframe Consistency as Identity", "why": "The burster's identity is 'I'm someone who goes hard.' Shift it to 'I'm someone who shows up.' Flint's content does this perfectly.", "action": "After first 14-day streak. The identity must be EARNED, not gifted.", "reel_id": "theflintmind_DaC2NPENjvC", "reel_why": "Flint: 'The version coming back isn't the old you' \u2014 future self framing", "cluster_color": "#4488ff"}, {"cluster": "ACHIEVEMENT PROOF", "label": "The Long Game Proof", "why": "Show them someone who sustained it \u2014 not a 7-day challenge, a 100-day or year-long arc. Proof that the floor compounds.", "action": "Serve at 30+ day milestone. Celebrate the streak, not the peak.", "reel_id": "mattdavella_DId7GjbRzN3", "reel_why": "Matt: 30-day mobility \u2014 vicarious mastery, zero intimidation", "cluster_color": "#ff9900"}]}, {"id": "doubter", "label": "The Identity Doubter", "emoji": "\ud83e\ude9e", "color": "#4488ff", "description": "'I'm not the type of person who...' The gap between actual-self and ideal-self feels unbridgeable.", "core_trap": "Self-Discrepancy Theory \u2014 gap too large \u2192 hopelessness, not motivation", "avoid": ["SHAME / FEAR HOOK", "TECHNICAL TUTORIAL"], "avoid_reason": "Shame confirms what they already believe about themselves (that they're failing). Tutorials signal 'you need to learn more before you're ready' \u2014 exactly their current stuck belief.", "upgrade_signals": ["Writes first goal with a date", "Says 'I'm trying to be someone who...'", "First task completion"], "path": [{"cluster": "IDENTITY SHIFT", "label": "Shrink the Gap", "why": "Don't challenge their self-image with shame \u2014 it confirms the gap. Instead: show them a version 1-2 steps ahead, not 10. Flint's 'reunion not reinvention' is perfect.", "action": "Serve 3x/week. Never pair with shame content. Identity before action.", "reel_id": "theflintmind_DaC2NPENjvC", "reel_why": "Flint: 'The version coming back isn't the old you' \u2014 future self framing", "cluster_color": "#4488ff"}, {"cluster": "MINDSET / PHILOSOPHY", "label": "Language for the Feeling", "why": "Doubters carry unnamed feelings (ambition-paralysis, pre-nostalgia for a future not lived). Give them the language. The DZ5sIrlNs2k reel does this precisely.", "action": "After 2 weeks of identity content. Gives context to what they've been feeling.", "reel_id": "DZ5sIrlNs2k", "reel_why": "Names the ambition-paralysis feeling \u2014 gives language for the gap", "cluster_color": "#ff8800"}, {"cluster": "IF-THEN PLANS", "label": "One Small IF-THEN", "why": "Not 'transform your life.' Just one: 'If it's 8pm and I'm on the couch, I will do 10 min of X.' Tiny = believable. Believable = starts.", "action": "Prompt: 'One thing. What's the smallest version of this that would still count?'", "reel_id": "mattdavella_DIOgnPRTNYg", "reel_why": "Matt D'Avella: 5-min rule \u2014 lowest-friction IF-THEN entry", "cluster_color": "#c7ff38"}, {"cluster": "ACHIEVEMENT PROOF", "label": "Vicarious Mastery", "why": "Bandura: seeing someone like you succeed is the second strongest predictor of self-efficacy. Not Goggins (too different). Matt D'Avella (ordinary guy, extraordinary consistency).", "action": "Match the achievement story to their domain. Don't overshoot.", "reel_id": "mattdavella_DId7GjbRzN3", "reel_why": "Matt: 30-day mobility \u2014 vicarious mastery, zero intimidation", "cluster_color": "#ff9900"}, {"cluster": "PROCESS / DISCIPLINE", "label": "I Am Someone Who Shows Up", "why": "By now they've proven it. Process/discipline content cements the identity: 'I'm not special, I just show up.' That IS the identity they were seeking.", "action": "After first 30-day milestone. This is the reward, not the starting point.", "reel_id": "mattdavella_DIbW5_uxWrg", "reel_why": "Matt: tracked every minute for 30 days \u2014 shows what consistency actually looks like", "cluster_color": "#cc44ff"}]}, {"id": "analyst", "label": "The Analytical Paralytic", "emoji": "\ud83d\udd2c", "color": "#00ffaa", "description": "Researches everything before starting. Needs to understand the mechanism before taking the action.", "core_trap": "Analysis paralysis \u2014 preparation IS the action in their model", "avoid": ["TECHNICAL TUTORIAL", "AI / TECH INSIGHT", "MINDSET / PHILOSOPHY"], "avoid_reason": "More tutorials = more analysis. AI insights feed the 'I need to know more first' loop. Philosophy is low-signal for analysts \u2014 they want mechanisms, not wisdom.", "upgrade_signals": ["Acts without finishing the tutorial", "Ships something imperfect", "7-day streak without researching first"], "path": [{"cluster": "IF-THEN PLANS", "label": "Structured Start (Respect the Brain)", "why": "Don't fight the analytical brain \u2014 use it. Huberman's concern/influence split gives them a framework. James Clear's system gives them architecture. One round, then CUT OFF.", "action": "Cap at 2 IF-THEN videos total. After that, block tutorials for 14 days.", "reel_id": "hubermanlab_DZnF-SLMjk2", "reel_why": "Huberman: concern vs influence split \u2014 maps actionable vs non-actionable", "cluster_color": "#c7ff38"}, {"cluster": "SHAME / FEAR HOOK", "label": "Name the Pattern", "why": "After the structured start, one shame hit: 'You know what you need to do. Research isn't the blocker.' Lemuel's infection video is surgical for this.", "action": "Serve exactly once, after the IF-THEN plan is written but not acted on.", "reel_id": "DZ0m9cKjGjX", "reel_why": "Lemuel: 'You've been infected your entire life' \u2014 names the invisible trap", "cluster_color": "#ff4444"}, {"cluster": "PROCESS / DISCIPLINE", "label": "Show Process Over Optimization", "why": "Analysts seek the optimal path. Process content reframes: there is no optimal path, there's only the one you actually walk. MattD's tracking videos work \u2014 they love data.", "action": "Replace tutorials with this. Same data-love, forces action over analysis.", "reel_id": "mattdavella_DIbW5_uxWrg", "reel_why": "Matt: tracked every minute for 30 days \u2014 shows what consistency actually looks like", "cluster_color": "#cc44ff"}, {"cluster": "IDENTITY SHIFT", "label": "The Doer Identity", "why": "Analysts see themselves as thinkers. The shift: 'Thinkers who act are rare. That's who you're becoming.' Flint's hesitation \u2192 identity loop.", "action": "Serve at 10-day task streak. They've earned the identity reframe.", "reel_id": "DZV4oBYtiOj", "reel_why": "Flint: 'Every time you hesitate, your brain records it' \u2014 names the mechanism", "cluster_color": "#4488ff"}, {"cluster": "ACHIEVEMENT PROOF", "label": "Proof the System Works", "why": "Analysts need proof. Give them data: someone who used a simple system (not perfect) and got results. MattD's 30-day experiments are ideal \u2014 documented, measurable.", "action": "Serve after 30 days. Use as CRS upgrade trigger.", "reel_id": "mattdavella_DId7GjbRzN3", "reel_why": "Matt: 30-day mobility \u2014 vicarious mastery, zero intimidation", "cluster_color": "#ff9900"}]}];
+
+const CLUSTER_COLORS = {"MINDSET / PHILOSOPHY": "#ff8800", "IF-THEN PLANS": "#c7ff38", "PROCESS / DISCIPLINE": "#cc44ff", "SHAME / FEAR HOOK": "#ff4444", "TECHNICAL TUTORIAL": "#00d4ff", "AI / TECH INSIGHT": "#00ffaa", "IDENTITY SHIFT": "#4488ff", "ACHIEVEMENT PROOF": "#ff9900"};
+
+let selected = null;
+
+function selectArchetype(id) {
+  selected = id;
+  document.querySelectorAll('.archetype-card').forEach(c => {
+    const isMe = c.dataset.id === id;
+    c.classList.toggle('selected', isMe);
+    const arch = ARCHETYPES.find(a => a.id === c.dataset.id);
+    c.style.borderColor = isMe ? arch.color : arch.color + '33';
+    c.style.background = isMe ? arch.color + '11' : '';
+  });
+  renderPath(id);
+}
+
+function renderPath(id) {
+  const arch = ARCHETYPES.find(a => a.id === id);
+  if (!arch) return;
+  const c = arch.color;
+
+  let html = `
+    <div class="path-header" style="border-color:${c}44;background:${c}08">
+      <div class="path-header-emoji">${arch.emoji}</div>
+      <div class="path-header-meta">
+        <h2 style="color:${c}">${arch.label}</h2>
+        <p>${arch.description}</p>
+        <span class="trap-badge" style="color:${c};border-color:${c}44;background:${c}11">⚡ ${arch.core_trap}</span>
+      </div>
+    </div>
+
+    <div class="steps-label">Optimal Content Path (5 Steps)</div>
+    <div class="steps-container">
+  `;
+
+  arch.path.forEach((step, i) => {
+    const cc = step.cluster_color;
+    const igId = step.reel_id || '';
+    const shortCode = igId.includes('_') ? igId.split('_').slice(-1)[0] : igId;
+    const igUrl = `https://www.instagram.com/p/${shortCode}/`;
+
+    html += `
+      <div class="step">
+        <div class="step-num" style="background:${cc}18;border-color:${cc};color:${cc}">${i+1}</div>
+        <div class="step-body">
+          <span class="step-cluster-badge" style="color:${cc};border-color:${cc}44;background:${cc}11">${step.cluster}</span>
+          <div class="step-label">${step.label}</div>
+          <div class="step-why">${step.why}</div>
+          <div class="step-action">${step.action}</div>
+          ${step.reel_id ? `
+          <div class="step-reel">
+            <span class="reel-ig">▶ REEL</span>
+            <div>
+              <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-bottom:4px">
+                <a href="${igUrl}" target="_blank" style="color:var(--green);text-decoration:none">${igId}</a>
+              </div>
+              <div class="reel-why">${step.reel_why || ''}</div>
+            </div>
+          </div>` : ''}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  // Avoid block
+  html += `
+    <div class="avoid-section">
+      <div class="avoid-label">✗ Do Not Serve</div>
+      <div class="avoid-clusters">
+        ${arch.avoid.map(cl => `<span class="avoid-cluster">${cl}</span>`).join('')}
+      </div>
+      <div class="avoid-reason">${arch.avoid_reason}</div>
+    </div>
+  `;
+
+  // Upgrade signals
+  html += `
+    <div class="upgrade-section">
+      <div class="upgrade-label">Upgrade Signals — When to Advance the Path</div>
+      <div class="upgrade-signals">
+        ${arch.upgrade_signals.map(s => `<div class="upgrade-sig">${s}</div>`).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('path-content').innerHTML = html;
+  document.getElementById('path-output').style.display = 'block';
+  document.getElementById('path-output').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
