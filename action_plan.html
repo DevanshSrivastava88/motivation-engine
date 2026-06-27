@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Your Action Plan — Motivation Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#070707; color:#ddd; font-family:'DM Mono',monospace; min-height:100vh; }
+
+#nav {
+  background:rgba(7,7,7,0.97); border-bottom:1px solid #1a1a1a;
+  padding:10px 24px; display:flex; justify-content:space-between; align-items:center;
+  position:sticky; top:0; z-index:100;
+}
+#nav h1 { color:#c7ff38; font-size:13px; letter-spacing:0.1em; font-family:'Manrope'; }
+.nav-links a { color:#555; font-size:10px; text-decoration:none; margin-left:16px; }
+.nav-links a:hover { color:#c7ff38; }
+
+#main { max-width:1100px; margin:0 auto; padding:32px 24px; }
+
+/* CRS gauge + stage */
+#hero { display:grid; grid-template-columns:auto 1fr; gap:40px; margin-bottom:40px; align-items:center; }
+
+#gauge-wrap { position:relative; width:180px; height:180px; flex-shrink:0; }
+#gauge-wrap svg { width:180px; height:180px; }
+#gauge-center {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center;
+}
+#gauge-score { font-size:36px; font-weight:700; color:#c7ff38; font-family:'Manrope'; }
+#gauge-label { font-size:9px; color:#555; letter-spacing:0.1em; }
+
+#hero-text { }
+#stage-badge {
+  display:inline-block; background:#c7ff3815; border:1px solid #c7ff3866;
+  color:#c7ff38; padding:4px 12px; border-radius:4px; font-size:11px; margin-bottom:12px;
+}
+#hero-title { font-size:22px; font-family:'Manrope'; font-weight:700; color:#fff; margin-bottom:8px; }
+#hero-sub { font-size:12px; color:#666; line-height:1.6; margin-bottom:16px; }
+
+.ttm-bar { display:flex; gap:3px; margin-top:12px; }
+.ttm-node {
+  flex:1; padding:8px 4px; text-align:center; font-size:8px; border-radius:4px;
+  border:1px solid #222; color:#444;
+}
+.ttm-node.current {
+  background:#c7ff3815; border-color:#c7ff38; color:#c7ff38; font-weight:bold;
+}
+.ttm-node.past { background:#0f1a00; border-color:#333; color:#555; }
+
+/* Sections */
+h2 { font-size:11px; color:#c7ff38; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px; }
+.section { margin-bottom:40px; }
+
+/* Action steps */
+.action-steps { display:flex; flex-direction:column; gap:12px; }
+.action-step {
+  background:#0d0d0d; border:1px solid #1a1a1a; border-radius:8px;
+  padding:14px 18px; display:flex; gap:16px; align-items:flex-start;
+}
+.step-num {
+  width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; flex-shrink:0; font-family:'Manrope';
+}
+.step-content h3 { font-size:13px; color:#fff; margin-bottom:4px; font-family:'Manrope'; }
+.step-content p { font-size:10px; color:#666; line-height:1.6; }
+.step-content .example {
+  background:#0f1a00; border:1px solid #c7ff3833; border-radius:4px;
+  padding:6px 10px; font-size:10px; color:#c7ff38; margin-top:8px; font-style:italic;
+}
+
+/* Reel cards */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.reel-card {
+  background:#0d0d0d; border-radius:6px; padding:10px 12px;
+  margin-bottom:8px; transition:background 0.15s;
+}
+.reel-card:hover { background:#111; }
+.preview-text { font-size:10px; color:#777; line-height:1.5; font-style:italic; }
+
+/* Prediction */
+#prediction {
+  background:#0d0d0d; border:1px solid #1a1a1a; border-radius:8px;
+  padding:24px 28px;
+}
+.pred-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.pred-timeline { display:flex; gap:0; margin-top:20px; }
+.pred-node {
+  flex:1; text-align:center; padding:12px 4px;
+  border-top:2px solid #1a1a1a; position:relative; font-size:9px;
+}
+.pred-node.done { border-top-color:#c7ff38; }
+.pred-node.next { border-top-color:#4488ff; }
+.pred-score { font-size:14px; font-weight:700; color:#c7ff38; margin-bottom:4px; font-family:'Manrope'; }
+.pred-day { color:#555; }
+.pred-stage { color:#888; font-size:9px; }
+
+/* Missing content */
+.missing-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.missing-card {
+  background:#1a0000; border:1px solid #ff444422; border-radius:6px;
+  padding:12px 14px;
+}
+.missing-title { font-size:10px; color:#ff4444; margin-bottom:4px; }
+.missing-desc { font-size:9px; color:#555; line-height:1.5; }
+.missing-fix { font-size:9px; color:#888; margin-top:6px; font-style:italic; }
+</style>
+</head>
+<body>
+
+<div id="nav">
+  <h1>YOUR ACTION PLAN // MOTIVATION ENGINE</h1>
+  <div class="nav-links">
+    <a href="index.html">Behavior Graph</a>
+    <a href="grouped_reels.html">Strategy Map</a>
+    <a href="protocol.html">Full Protocol</a>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- HERO: CRS Gauge + Stage -->
+  <div id="hero">
+    <div id="gauge-wrap">
+      <svg viewBox="0 0 180 180">
+        <!-- Background arc -->
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#1a1a1a" stroke-width="12"/>
+        <!-- Progress arc: 54% of circumference = 54/100 -->
+        <!-- full circle = 2π*70 = 439.8; 54% = 237.5 -->
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#c7ff38" stroke-width="12"
+                stroke-dasharray="237.5 202.3" stroke-dashoffset="110"
+                stroke-linecap="round" transform="rotate(-90 90 90)"/>
+        <!-- Tick marks for stages -->
+        <line x1="20" y1="90" x2="32" y2="90" stroke="#1a1a1a" stroke-width="2" transform="rotate(-90 90 90)"/>
+      </svg>
+      <div id="gauge-center">
+        <div id="gauge-score">54</div>
+        <div id="gauge-label">CRS / 100</div>
+      </div>
+    </div>
+
+    <div id="hero-text">
+      <div id="stage-badge">⚡ PREPARATION STAGE</div>
+      <div id="hero-title">You know what to do.<br>You're not doing it yet.</div>
+      <div id="hero-sub">
+        Your save pattern reveals: 35% technical tutorials, 27% AI insights — deep knowledge stack.
+        But only 8% implementation plans and 4% process content.
+        <br><br>
+        You've been feeding the <strong style="color:#ff4444">Symbolic Self-Completion loop</strong>:
+        saving content = feeling like you've acted. The knowledge IS there. What's missing is the
+        firing schedule.
+      </div>
+      <div class="ttm-bar">
+        <div class="ttm-node past">Pre-con<br>✓</div>
+        <div class="ttm-node past">Contemplation<br>✓</div>
+        <div class="ttm-node current">Preparation<br>← YOU</div>
+        <div class="ttm-node">Action</div>
+        <div class="ttm-node">Maintenance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 IMMEDIATE ACTIONS -->
+  <div class="section">
+    <h2>3 things to do this week</h2>
+    <div class="action-steps">
+      <div class="action-step">
+        <div class="step-num" style="background:#c7ff3820;color:#c7ff38;border:2px solid #c7ff38">1</div>
+        <div class="step-content">
+          <h3>Write ONE if-then plan for your top project</h3>
+          <p>You have the knowledge. You don't have the when. Pick ONE project (ConnectSphere v2, video_editor, trade_baazi — whatever's most urgent). Write exactly:
+          "When [TRIGGER], I will [SPECIFIC ACTION] for [DURATION]."</p>
+          <div class="example">
+            Example: "When I sit down after dinner at 9pm, I will open VS Code and commit at least one function for 45 minutes."
+          </div>
+        </div>
+      </div>
+
+      <div class="action-step">
+        <div class="step-num" style="background:#cc44ff20;color:#cc44ff;border:2px solid #cc44ff">2</div>
+        <div class="step-content">
+          <h3>Install a floor — not a goal</h3>
+          <p>Stop setting targets. Set a non-negotiable minimum instead. The floor doesn't move even on bad days. 10 minutes of coding is the floor. Everything above is bonus. A floor that holds 7 days creates more behavioral evidence than a goal missed once.</p>
+          <div class="example">
+            "No matter what — bad day, late meeting, low energy — I open my project for at least 10 minutes. That's the floor. Non-negotiable."
+          </div>
+        </div>
+      </div>
+
+      <div class="action-step">
+        <div class="step-num" style="background:#4488ff20;color:#4488ff;border:2px solid #4488ff">3</div>
+        <div class="step-content">
+          <h3>Stop saving tutorials. Start a project log instead.</h3>
+          <p>Every tutorial you save instead of doing extends the Preparation stage. You have 9 tutorials saved. Pick the ONE most relevant and execute it — don't save the next one until you've shipped from the previous one.</p>
+          <div class="example">
+            Concretely: DZ-TpqTzsuS ("build a RAG/agents project") → build it this week, don't just bookmark it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT TO CONSUME vs STOP -->
+  <div class="section">
+    <div class="two-col">
+      <div>
+        <h2>Consume more of this ↓</h2>
+<a href="https://www.instagram.com/p/DZ452wBk1of/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #c7ff38">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#c7ff38;font-size:9px;letter-spacing:0.1em">✓ WATCH</span>
+        <span style="color:#333;font-size:9px">56 words</span>
+      </div>
+      <div class="preview-text">"Figma has a 50,000-star open-source rival.
+Penpot is the self-hosted design platform where designers and developers finally speak the same l..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DZ452wBk1of</div>
+    </div></a><a href="https://www.instagram.com/p/DZvCUhSoh0_/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #c7ff38">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#c7ff38;font-size:9px;letter-spacing:0.1em">✓ WATCH</span>
+        <span style="color:#333;font-size:9px">313 words</span>
+      </div>
+      <div class="preview-text">"If you are clueless and you don't have direction, purpose, and vision, believe me, at the end of this video, you'll have all three of them, ..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DZvCUhSoh0_</div>
+    </div></a><a href="https://www.instagram.com/p/DZs4sd5jFMy/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #cc44ff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#cc44ff;font-size:9px;letter-spacing:0.1em">✓ WATCH</span>
+        <span style="color:#333;font-size:9px">274 words</span>
+      </div>
+      <div class="preview-text">"It's honestly disgusting that you keep trying to be more disciplined when the real problem
+is that you never install the floor. Here's the c..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DZs4sd5jFMy</div>
+    </div></a>
+      </div>
+      <div>
+        <h2>Stop consuming this ✗</h2>
+        <div style="font-size:10px;color:#666;margin-bottom:12px;line-height:1.5">
+          You already know enough. Every new tutorial extends Preparation. These reels are feeding
+          the knowledge-without-execution loop.
+        </div>
+<a href="https://www.instagram.com/p/DZ0m9cKjGjX/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #ff4444">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#ff4444;font-size:9px;letter-spacing:0.1em">✗ STOP</span>
+        <span style="color:#333;font-size:9px">225 words</span>
+      </div>
+      <div class="preview-text">"Brother, you've been infected your entire life and you still don't realize it.
+Not by laziness, not by lack of discipline, but something dee..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DZ0m9cKjGjX</div>
+    </div></a><a href="https://www.instagram.com/p/DTNhHi2CB66/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #ff4444">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#ff4444;font-size:9px;letter-spacing:0.1em">✗ STOP</span>
+        <span style="color:#333;font-size:9px">100 words</span>
+      </div>
+      <div class="preview-text">"I scored 100% on my AWS Machine Learning Certification and you can do it too.
+Two resources help me the most. The first resource is that I f..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DTNhHi2CB66</div>
+    </div></a><a href="https://www.instagram.com/p/DXUZKm8iO2u/" target="_blank" style="text-decoration:none">
+    <div class="reel-card" style="border-left:3px solid #ff4444">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#ff4444;font-size:9px;letter-spacing:0.1em">✗ STOP</span>
+        <span style="color:#333;font-size:9px">163 words</span>
+      </div>
+      <div class="preview-text">"Here are three fast API structures and when to use each.
+Flat.
+If you're starting a new project
+and the complexity isn't still clear,
+then y..."</div>
+      <div style="color:#333;font-size:9px;margin-top:6px">DXUZKm8iO2u</div>
+    </div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSING CONTENT GAPS -->
+  <div class="section">
+    <h2>Critical gaps in your mental diet</h2>
+    <div class="missing-grid">
+      <div class="missing-card">
+        <div class="missing-title">⚠ If-Then Plans (2/26)</div>
+        <div class="missing-desc">Only 8% of your content has implementation structure. Gollwitzer's research: if-then plans double execution rate (d=0.65).</div>
+        <div class="missing-fix">Follow: James Clear, BJ Fogg, accounts showing daily routines with specific triggers</div>
+      </div>
+      <div class="missing-card">
+        <div class="missing-title">⚠ Process/Discipline (1/26)</div>
+        <div class="missing-desc">Almost no content on what to do when motivation fails. This is the content that protects against plateau collapse.</div>
+        <div class="missing-fix">Follow: David Goggins, Jocko Willink, The Flint (floor concept)</div>
+      </div>
+      <div class="missing-card">
+        <div class="missing-title">⚠ Achievement Proof (0/26)</div>
+        <div class="missing-desc">Zero saved posts of people showing actual results timelines. Social proof of change duration is critical for realistic expectation-setting.</div>
+        <div class="missing-fix">Follow: builders logging 30/60/90 day progress, career-switcher journeys</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 30-DAY PREDICTION -->
+  <div class="section">
+    <h2>30-day prediction</h2>
+    <div id="prediction">
+      <div class="pred-row">
+        <div>
+          <div style="color:#888;font-size:10px">If you follow the 3 actions above</div>
+          <div style="font-size:13px;color:#fff;margin-top:4px;font-family:'Manrope'">
+            CRS 54 → 68+ in 30 days. Preparation → Action stage.
+          </div>
+        </div>
+        <div style="font-size:11px;color:#555">Based on Lally habit formation + Gollwitzer if-then effect</div>
+      </div>
+
+      <div class="pred-timeline">
+        <div class="pred-node done">
+          <div class="pred-score">54</div>
+          <div class="pred-day">Today</div>
+          <div class="pred-stage">Preparation</div>
+        </div>
+        <div class="pred-node next">
+          <div class="pred-score" style="color:#4488ff">60</div>
+          <div class="pred-day">Day 7</div>
+          <div class="pred-stage">First floor installed</div>
+        </div>
+        <div class="pred-node">
+          <div class="pred-score" style="color:#888">65</div>
+          <div class="pred-day">Day 14</div>
+          <div class="pred-stage">Behavioral evidence</div>
+        </div>
+        <div class="pred-node">
+          <div class="pred-score" style="color:#888">68</div>
+          <div class="pred-day">Day 30</div>
+          <div class="pred-stage">→ Action stage</div>
+        </div>
+        <div class="pred-node">
+          <div class="pred-score" style="color:#888">80+</div>
+          <div class="pred-day">Day 60-90</div>
+          <div class="pred-stage">Execution identity</div>
+        </div>
+      </div>
+
+      <div style="font-size:9px;color:#333;margin-top:16px;line-height:1.6">
+        Prediction based on: Lally et al. (2010) 66-day habit formation study · Gollwitzer implementation intention d=0.65 effect ·
+        Berridge wanting/liking framework · Prochaska TTM stage transition rates.
+        The prediction assumes: 1 if-then plan installed, floor maintained 7+ days, tutorial consumption capped.
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
