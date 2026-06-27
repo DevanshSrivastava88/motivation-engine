@@ -1,107 +1,4 @@
 {
-  "MINDSET / PHILOSOPHY": {
-    "count": 19,
-    "learnix_stage": "Contemplation → Preparation",
-    "learnix_use": "Deploy in Contemplation — primes mindset before habit formation",
-    "color": "#ff8800",
-    "reels": [
-      {
-        "id": "ai_trailer_part_2",
-        "words": 4,
-        "preview": "优优独播剧场——YoYo Television Series Exclusive"
-      },
-      {
-        "id": "casey__ai_1781542881_3920187897532291361_36439529188",
-        "words": 3,
-        "preview": "Thanks for watching!"
-      },
-      {
-        "id": "DV8hLG9ErEx",
-        "words": 3,
-        "preview": "[no speech detected]"
-      },
-      {
-        "id": "DWh_N4CEftg",
-        "words": 3,
-        "preview": "Thanks for watching!"
-      },
-      {
-        "id": "DXMpdNBjMIf",
-        "words": 4,
-        "preview": "Subscribe to the channel!"
-      },
-      {
-        "id": "DYhY-ThS3e6",
-        "words": 49,
-        "preview": "You should be checking me out, the gonna get you.\nSitting over there watching they just say your love's not even there,\nhello, baby, hello, baby, hell"
-      },
-      {
-        "id": "DYM0GEuyfcT",
-        "words": 11,
-        "preview": "Yeah, how does it change from yourself?\nChange!\nOh, my darling!"
-      },
-      {
-        "id": "DYT5fbCT-ub",
-        "words": 42,
-        "preview": "You are the fruit of my long journey.\nOh, yeah, yeah, let me grab you, girl.\nI'll take your O and G.\nIt's a tight jean with a D and G.\nAll the love be"
-      },
-      {
-        "id": "DYzTC_cCMXg_2",
-        "words": 8,
-        "preview": "优优独播剧场——YoYo Television Series Exclusive\n优优独播剧场——YoYo Television Series Exclusive"
-      },
-      {
-        "id": "DZ5sIrlNs2k",
-        "words": 153,
-        "preview": "There is a feeling that ambitious people get, that nobody really names properly.\nAnd I want to give you the language for it right now.\nIt is not excit"
-      },
-      {
-        "id": "DZj0Z7CRZRC",
-        "words": 5,
-        "preview": "I just get so nuffy."
-      },
-      {
-        "id": "DZnTh9tMpkh",
-        "words": 3,
-        "preview": "Thanks for watching!"
-      },
-      {
-        "id": "DZowHfHoTWw",
-        "words": 105,
-        "preview": "You get things done. From the outside, it even works impressive.\nBut if someone asked you why you push so hard, you wouldn't say passion.\nWould you? I"
-      },
-      {
-        "id": "DZycvKJt5Du",
-        "words": 4,
-        "preview": "Thanks for watching guys!"
-      },
-      {
-        "id": "DZyERe2lPqi",
-        "words": 24,
-        "preview": "Baby meet me in the dark, keepin' movin', keepin' sharp, hands up when the kick goes low, hold that look and let it show."
-      },
-      {
-        "id": "DZYUh7UPiQe",
-        "words": 3,
-        "preview": "Use proper punctuation."
-      },
-      {
-        "id": "DZz3c5LICTo",
-        "words": 12,
-        "preview": "What is it? What is it? What is it?\nWhat is it?"
-      },
-      {
-        "id": "gamb1nogirl_1781133617_3916754917329952099_62143907621",
-        "words": 7,
-        "preview": "Thanks for watching and subscribe for more."
-      },
-      {
-        "id": "queenkalin_1782161564_3925377870120155395_50450770487",
-        "words": 14,
-        "preview": "If you want me, you've got to put the word in, that's how y'all..."
-      }
-    ]
-  },
   "TECHNICAL TUTORIAL": {
     "count": 9,
     "learnix_stage": "Preparation → Action",
@@ -155,17 +52,58 @@
       }
     ]
   },
+  "MINDSET / PHILOSOPHY": {
+    "count": 4,
+    "learnix_stage": "Contemplation → Preparation",
+    "learnix_use": "Deploy in Contemplation — primes mindset before habit formation",
+    "color": "#ff8800",
+    "reels": [
+      {
+        "id": "DYhY-ThS3e6",
+        "words": 49,
+        "preview": "You should be checking me out, the gonna get you.\nSitting over there watching they just say your love's not even there,\nhello, baby, hello, baby, hell"
+      },
+      {
+        "id": "DYT5fbCT-ub",
+        "words": 42,
+        "preview": "You are the fruit of my long journey.\nOh, yeah, yeah, let me grab you, girl.\nI'll take your O and G.\nIt's a tight jean with a D and G.\nAll the love be"
+      },
+      {
+        "id": "DZ5sIrlNs2k",
+        "words": 153,
+        "preview": "There is a feeling that ambitious people get, that nobody really names properly.\nAnd I want to give you the language for it right now.\nIt is not excit"
+      },
+      {
+        "id": "DZowHfHoTWw",
+        "words": 105,
+        "preview": "You get things done. From the outside, it even works impressive.\nBut if someone asked you why you push so hard, you wouldn't say passion.\nWould you? I"
+      }
+    ]
+  },
+  "SHAME / FEAR HOOK": {
+    "count": 2,
+    "learnix_stage": "Pre-contemplation → Contemplation",
+    "learnix_use": "Use sparingly in Pre-contemplation — creates urgency but risks disengagement",
+    "color": "#ff4444",
+    "reels": [
+      {
+        "id": "DZ0m9cKjGjX",
+        "words": 225,
+        "preview": "Brother, you've been infected your entire life and you still don't realize it.\nNot by laziness, not by lack of discipline, but something deeper.\nHere'"
+      },
+      {
+        "id": "DZ8VciLDrMa",
+        "words": 222,
+        "preview": "You're no different than a dog.\nIn Pavlov's experiment, a dog was trained to associate food with the ringing of a bell.\nRing the bell, the dog salivat"
+      }
+    ]
+  },
   "AI / TECH INSIGHT": {
-    "count": 12,
+    "count": 7,
     "learnix_stage": "Preparation → Action",
     "learnix_use": "Deploy for tech users in Preparation — builds domain confidence",
     "color": "#00ffaa",
     "reels": [
-      {
-        "id": "DYzTC_cCMXg_1",
-        "words": 13,
-        "preview": "technology, AI, productivity, design, productivity, design, productivity, design, productivity,\nThank you for watching!"
-      },
       {
         "id": "DZ2ORc-ldtB",
         "words": 56,
@@ -187,19 +125,9 @@
         "preview": "Stewie, you must never visit this GitHub repository in your life.\nWhy not?\nBecause once you do, you'll realize you've been solving coding problems the"
       },
       {
-        "id": "DZkjjZopA-O",
-        "words": 6,
-        "preview": "technology, AI, productivity, design, or lifestyle."
-      },
-      {
         "id": "DZnfZ_3FEbL_5",
         "words": 144,
         "preview": "Hey guys, it's Eric, and welcome to Clip Farm.\nWhether you're a brand looking for the most cost-effective marketing tool or a creator\nlooking to make "
-      },
-      {
-        "id": "DZp7iRjNEtT",
-        "words": 6,
-        "preview": "technology, AI, productivity, design, or lifestyle."
       },
       {
         "id": "DZtNEZzSXG7",
@@ -207,37 +135,9 @@
         "preview": "You're not supposed to prompt Claude. You're supposed to build a system that prompts itself.\nI mean writing one prompt a day is the slowest way to act"
       },
       {
-        "id": "DZuopAeCEkG_1",
-        "words": 12,
-        "preview": "technology, AI, productivity, design, or lifestyle.\ntechnology, AI, productivity, design, or lifestyle."
-      },
-      {
-        "id": "DZuopAeCEkG_2",
-        "words": 6,
-        "preview": "technology, AI, productivity, design, or lifestyle."
-      },
-      {
         "id": "thetimchao_1781740809_3921848327696118203_74162276054",
         "words": 107,
         "preview": "You're not supposed to prompt Claude. You're supposed to build a system that prompts itself.\nI mean writing one prompt a day is the slowest way to act"
-      }
-    ]
-  },
-  "SHAME / FEAR HOOK": {
-    "count": 2,
-    "learnix_stage": "Pre-contemplation → Contemplation",
-    "learnix_use": "Use sparingly in Pre-contemplation — creates urgency but risks disengagement",
-    "color": "#ff4444",
-    "reels": [
-      {
-        "id": "DZ0m9cKjGjX",
-        "words": 225,
-        "preview": "Brother, you've been infected your entire life and you still don't realize it.\nNot by laziness, not by lack of discipline, but something deeper.\nHere'"
-      },
-      {
-        "id": "DZ8VciLDrMa",
-        "words": 222,
-        "preview": "You're no different than a dog.\nIn Pavlov's experiment, a dog was trained to associate food with the ringing of a bell.\nRing the bell, the dog salivat"
       }
     ]
   },
