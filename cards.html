@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strategy Cards — Motivation Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#05070b;--ink:#f5f7f4;--mut:#8a94a2;--mut2:#aeb6c0;--line:rgba(255,255,255,.10);
-         --ac:#c7ff38;--glass:rgba(255,255,255,.045)}
+         --ac:#c7ff38;--glass:rgba(255,255,255,.045);--disp:'Bricolage Grotesque',sans-serif}
   .opt{--ac:#7fd0ff}
   *{box-sizing:border-box} html{scroll-behavior:smooth} html,body{margin:0}
   body{color:var(--ink);font-family:'Manrope',sans-serif;min-height:100vh;padding-bottom:120px;
@@ -15,7 +15,7 @@
   /* hero */
   .hero{padding:90px 0 30px}
   .hero .eb{font:500 11px 'DM Mono';letter-spacing:.32em;color:var(--ac);text-transform:uppercase;margin:0 0 18px}
-  .hero h1{font-weight:800;font-size:clamp(38px,7vw,68px);line-height:.98;letter-spacing:-.03em;margin:0 0 22px}
+  .hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(40px,7.5vw,74px);line-height:.95;letter-spacing:-.035em;margin:0 0 22px}
   .hero h1 em{font-style:normal;color:var(--ac)}
   .hero p{font-size:17px;line-height:1.6;color:var(--mut2);max-width:46ch;margin:0}
   .hero .stats{display:flex;gap:30px;margin-top:34px;border-top:1px solid var(--line);padding-top:22px}
@@ -27,7 +27,7 @@
   .sh{display:flex;align-items:flex-start;gap:18px;margin-bottom:26px}
   .sh .sn{font:800 13px 'DM Mono';color:var(--bg);background:var(--ac);width:34px;height:34px;flex:none;
            display:grid;place-items:center;border-radius:9px;box-shadow:0 0 24px color-mix(in srgb,var(--ac) 45%,transparent);margin-top:3px}
-  .sh h2{margin:0;font-size:27px;font-weight:800;letter-spacing:-.02em}
+  .sh h2{margin:0;font-family:var(--disp);font-size:29px;font-weight:700;letter-spacing:-.02em}
   .sh p{margin:5px 0 0;font:400 13px 'DM Mono';color:var(--mut)}
   .grid{display:flex;flex-direction:column;gap:16px}
 
@@ -60,14 +60,20 @@
   .eyebrow{display:flex;align-items:center;justify-content:space-between;
     font:500 10px 'DM Mono';letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin-bottom:13px}
   .eyebrow .reels{color:var(--mut);letter-spacing:.12em}
-  .name{margin:0 0 12px;font-weight:800;font-size:clamp(25px,3.4vw,33px);line-height:1.02;letter-spacing:-.025em;color:var(--ink)}
+  .name{margin:0 0 12px;font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.6vw,35px);line-height:1.0;letter-spacing:-.028em;color:var(--ink)}
   .rule{margin:0;font-size:15.5px;line-height:1.62;color:var(--mut2);max-width:54ch}
 
-  /* body opens via true-height grid-rows */
-  .bwrap{display:grid;grid-template-rows:0fr;opacity:0;
-          transition:grid-template-rows .58s cubic-bezier(.4,0,.15,1),opacity .45s,margin-top .45s}
-  .card:hover .bwrap,.card:focus-within .bwrap{grid-template-rows:1fr;opacity:1;margin-top:22px}
-  .body{overflow:hidden;min-height:0}
+  /* body folds open — top hinge, unfolds downward (the webflow foldable effect) */
+  .bwrap{display:grid;grid-template-rows:0fr;opacity:0;perspective:1500px;
+          transition:grid-template-rows .6s cubic-bezier(.4,0,.15,1),opacity .4s,margin-top .45s}
+  .card:hover .bwrap,.card:focus-within .bwrap{grid-template-rows:1fr;opacity:1;margin-top:20px}
+  .body{overflow:hidden;min-height:0;transform-origin:top center;transform:rotateX(-87deg);
+         transition:transform .62s cubic-bezier(.32,1.18,.45,1)}
+  .card:hover .body,.card:focus-within .body{transform:rotateX(0deg)}
+  /* hinge crease */
+  .body::before{content:'';display:block;height:1px;margin-bottom:18px;
+    background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 60%,transparent),transparent 70%);
+    box-shadow:0 0 10px color-mix(in srgb,var(--ac) 40%,transparent)}
   .movelabel{display:flex;align-items:center;gap:12px;font:500 10px 'DM Mono';letter-spacing:.22em;
     text-transform:uppercase;color:var(--ac);margin-bottom:12px}
   .movelabel .ln{height:1px;width:34px;background:var(--ac);flex:none;box-shadow:0 0 8px var(--ac)}
@@ -82,7 +88,6 @@
   .card:hover .hint,.card:focus-within .hint{opacity:0}
 
   @media (max-width:560px){.card{grid-template-columns:44px 1fr} .content{padding-right:22px} .hint{display:none}}
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
 <canvas id="stars"></canvas>
 <main class="page">
@@ -391,15 +396,14 @@ function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;
     vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.4+.5,
     c:TINTS[Math.floor(Math.random()*TINTS.length)],ph:Math.random()*6.28});}
 resize();addEventListener('resize',resize);
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function draw(t){cx.clearRect(0,0,W,H);
-  for(const a of st){if(!reduce){a.x+=a.vx;a.y+=a.vy;
-    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;}
-    const g=reduce?.8:.4+.6*Math.sin(t/340+a.ph),r=a.r*(.75+g*.7);
+  for(const a of st){a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
+    const g=.4+.6*Math.sin(t/340+a.ph),r=a.r*(.75+g*.7);
     cx.beginPath();cx.arc(a.x,a.y,r,0,6.28);
     cx.fillStyle=`rgba(${a.c[0]},${a.c[1]},${a.c[2]},${.32+g*.5})`;
     cx.shadowBlur=6+g*6;cx.shadowColor=`rgb(${a.c[0]},${a.c[1]},${a.c[2]})`;cx.fill();}
-  cx.shadowBlur=0;if(!reduce)requestAnimationFrame(draw);}
-draw(0);if(!reduce)requestAnimationFrame(draw);
+  cx.shadowBlur=0;requestAnimationFrame(draw);}
+requestAnimationFrame(draw);
 </script>
 </body></html>
