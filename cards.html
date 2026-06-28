@@ -33,8 +33,7 @@
   /* 3D-tilt card (no open) — dramatic pop */
   .card{position:relative;perspective:900px;outline:none;border-radius:22px}
   .card:focus-visible .surface{box-shadow:0 0 0 2px var(--ac)}
-  .tilt{position:relative;transform-style:preserve-3d;border-radius:22px;padding:32px 36px;
-    transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  .tilt{position:relative;transform-style:preserve-3d;border-radius:22px;padding:32px 36px;will-change:transform}
   /* clipped glass surface — decorations (glow, glare, watermark) stay inside the rounded corners */
   .surface{position:absolute;inset:0;border-radius:22px;overflow:hidden;z-index:0;
     background:var(--glass);border:1px solid var(--line);
@@ -50,7 +49,7 @@
   .card:hover .glare{opacity:1}
   /* text layers live above the surface and pop forward (not clipped) */
   .content{position:relative;z-index:1;transform-style:preserve-3d}
-  [data-z]{position:relative;transition:transform .25s cubic-bezier(.2,.7,.2,1),filter .3s;transform-style:preserve-3d}
+  [data-z]{position:relative;transition:filter .35s;transform-style:preserve-3d;will-change:transform}
   .card:hover [data-z]{filter:drop-shadow(0 14px 18px rgba(0,0,0,.55))}
   .card:hover .movewrap{filter:drop-shadow(0 22px 30px rgba(0,0,0,.6))}
   .card:hover .name{filter:drop-shadow(0 18px 22px rgba(0,0,0,.6))}
@@ -400,24 +399,29 @@ function draw(t){cx.clearRect(0,0,W,H);
 requestAnimationFrame(draw);
 </script>
 <script>
+// buttery damped-lerp 3D tilt: rAF eases current toward the cursor target
 document.querySelectorAll('.card').forEach(card=>{
   const tilt=card.querySelector('.tilt');
   const glare=card.querySelector('.glare');
   const layers=card.querySelectorAll('[data-z]');
-  let raf=null;
-  function set(rx,ry,active){
-    tilt.style.transform=active?`translateZ(30px) rotateX(${rx}deg) rotateY(${ry}deg)`:'translateZ(0) rotateX(0) rotateY(0)';
-    layers.forEach(el=>{el.style.transform=active?`translateZ(${el.dataset.z}px)`:'translateZ(0)';});
+  let tx=0,ty=0,cx=0,cy=0,tp=0,p=0,gx=50,gy=50,running=false;
+  const E=0.10; // smaller = smoother/slower
+  function loop(){
+    cx+=(tx-cx)*E; cy+=(ty-cy)*E; p+=(tp-p)*E;
+    tilt.style.transform=`translateZ(${p*30}px) rotateX(${cy.toFixed(2)}deg) rotateY(${cx.toFixed(2)}deg)`;
+    layers.forEach(el=>el.style.transform=`translateZ(${(el.dataset.z*p).toFixed(1)}px)`);
+    glare.style.setProperty('--mx',gx.toFixed(1)+'%');
+    glare.style.setProperty('--my',gy.toFixed(1)+'%');
+    if(Math.abs(tx-cx)>0.02||Math.abs(ty-cy)>0.02||Math.abs(tp-p)>0.002){requestAnimationFrame(loop);}
+    else{running=false;}
   }
+  function start(){if(!running){running=true;requestAnimationFrame(loop);}}
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
     const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
-    glare.style.setProperty('--mx',(px+.5)*100+'%');
-    glare.style.setProperty('--my',(py+.5)*100+'%');
-    if(raf)cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(()=>set(-py*16, px*18, true));
+    tx=px*18; ty=-py*15; tp=1; gx=(px+.5)*100; gy=(py+.5)*100; start();
   });
-  card.addEventListener('mouseleave',()=>set(0,0,false));
+  card.addEventListener('mouseleave',()=>{tx=0;ty=0;tp=0;start();});
 });
 </script>
 </body></html>
