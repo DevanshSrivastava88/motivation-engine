@@ -3,7 +3,7 @@
 Every reel distilled to one knowledge point + action, grouped by cluster.
 Use the TTM stage to pick what to serve a user at each phase of motivation repair.
 
-## IF-THEN PLANS  (80)
+## IF-THEN PLANS  (79)
 *Learnix use: Deploy when user is in Preparation — helps bridge intention to action*
 
 - **[Precontemplation]** Constant checking, double-speed viewing, and discomfort with silence signal stimulation addiction.  → *Tally your stimulation-addiction signs and lock in if over five.*
@@ -48,7 +48,6 @@ Use the TTM stage to pick what to serve a user at each phase of motivation repai
 - **[Contemplation]** Don't ask if life gets easier; ask if you're becoming more capable, that's what changes your future.  → *Ask whether you're becoming more capable instead of whether life gets easier.*
 - **[Contemplation]** Transformation comes from trusting your ability to work things out, not from needing guarantees.
 - **[Contemplation]** You didn't lose yourself; you abandoned parts of you to survive a season, buried not broken.
-- **[Contemplation]** Don't ask if life gets easier; ask if you're becoming more capable, that's what changes your future.  → *Ask whether you're becoming more capable instead of whether life gets easier.*
 - **[Preparation]** A three-question journaling exercise builds direction, purpose, and vision when you feel clueless.  → *Journal: what blocks your growth, what you'd try if you couldn't fail, one step tomorrow.*
 - **[Preparation]** Small unexamined default choices quietly compound and shape the direction of your life.  → *Before deciding, ask what makes most sense for you now, not what's easiest.*
 - **[Preparation]** Evening collapse is a predictable reflexive phone-to-guilt sequence, not a discipline failure.  → *Seal your environment before finishing your last work obligation.*
@@ -87,34 +86,6 @@ Use the TTM stage to pick what to serve a user at each phase of motivation repai
 - **[Action]** The five-minute rule beats procrastination because starting, not doing, is the hardest part.  → *Set a timer and commit to just five minutes on the task.*
 - **[Action]** Daily beginner yoga builds flexibility, balance, and calm; start basic, not with advanced poses.  → *Roll out a mat and try a 20-minute beginner yoga routine.*
 
-## MINDSET / PHILOSOPHY  (24)
-*Learnix use: Deploy in Contemplation — primes mindset before habit formation*
-
-- **[Contemplation]** Vividly glimpsing your next-level self makes your current life suddenly feel too small to stay in.
-- **[Contemplation]** Much ambition is escape from inner restlessness, not genuine desire or direction.
-- **[Contemplation]** Research shows men are more eager to commit while women are more likely to initiate breakups.
-- **[Contemplation]** Love alone cannot last without emotional maturity, self-control, and empathy alongside it.
-- **[Contemplation]** You leave first and choose isolation to avoid the pain of being abandoned.
-- **[Contemplation]** You shrink yourself to be forgettable, mistaking invisibility for safety from rejection.
-- **[Contemplation]** Your heartbreak is often wounded ego that they moved on, not genuinely lost love.
-- **[Contemplation]** Repeated thoughts and emotions shape your reality, so guard what you rehearse mentally.  → *Catch a repeated negative thought and stop rehearsing it.*
-- **[Contemplation]** Music bypasses logic and physically rearranges your emotional and bodily state.
-- **[Contemplation]** A single betrayal of confidence can make you permanently guarded and hide your real self.
-- **[Contemplation]** You forgive others easily yet carry brutal self-hatred you actually deserve to release.
-- **[Contemplation]** Without connection to something larger than yourself, ego inflates and you lose awe.  → *Regularly connect to something bigger than you: nature, art, love, or others.*
-- **[Contemplation]** You keep avoiding the change you want, and that stagnation is your own doing.
-- **[Contemplation]** You exhaust yourself performing for an audience that stopped watching long ago.
-- **[Contemplation]** Your self-image is the story you have repeated longest, not the actual truth.
-- **[Contemplation]** Much ambition is escape from inner restlessness, not genuine desire or direction.
-- **[Preparation]** You stay busy with easy tasks to avoid the one change that would matter.  → *Name the one task you keep avoiding and do it first today.*
-- **[Action]** Pre-fatigue the back with light rear delts, then do 100 pull-ups as five every 30 seconds.  → *Do five pull-ups every 30 seconds to hit 100 in 10 minutes.*
-- **[Action]** Short sleep disrupts hunger hormones, leading women to eat about 300 extra calories.  → *Sleep at least seven and a half hours to avoid hormone-driven overeating.*
-- **[Action]** Writing and voicing a sincere apology lets both people heal from a past betrayal.  → *Write an apology note to someone you wronged, then say it aloud.*
-- **[Action]** Spending the after-work window screen-free lets your nervous system actually close the workday.  → *After work, spend 20 minutes with no screen: walk or sit outside.*
-- **[Maintenance]** Happiness fades like a leaky tire, so build well-being by creating good moments repeatedly.  → *Look for small chances to connect and create good moments daily.*
-- **[Maintenance]** Growth is not escaping challenges but becoming someone who handles bigger ones without losing themselves.
-- **[Maintenance]** Growth is not escaping challenges but becoming someone who handles bigger ones without losing themselves.
-
 ## TECHNICAL TUTORIAL  (24)
 *Learnix use: Deploy when user has a specific skill gap — direct capability building*
 
@@ -143,6 +114,32 @@ Use the TTM stage to pick what to serve a user at each phase of motivation repai
 - **[Maintenance]** Growth becomes permanent when you stay with a challenge and study yourself inside it.  → *When something stretches you, observe yourself instead of escaping it.*
 - **[Maintenance]** Growth becomes permanent when you stay with a challenge and study yourself inside it.  → *When something stretches you, observe yourself instead of escaping it.*
 
+## MINDSET / PHILOSOPHY  (22)
+*Learnix use: Deploy in Contemplation — primes mindset before habit formation*
+
+- **[Contemplation]** Vividly glimpsing your next-level self makes your current life suddenly feel too small to stay in.
+- **[Contemplation]** Research shows men are more eager to commit while women are more likely to initiate breakups.
+- **[Contemplation]** Love alone cannot last without emotional maturity, self-control, and empathy alongside it.
+- **[Contemplation]** You leave first and choose isolation to avoid the pain of being abandoned.
+- **[Contemplation]** You shrink yourself to be forgettable, mistaking invisibility for safety from rejection.
+- **[Contemplation]** Your heartbreak is often wounded ego that they moved on, not genuinely lost love.
+- **[Contemplation]** Repeated thoughts and emotions shape your reality, so guard what you rehearse mentally.  → *Catch a repeated negative thought and stop rehearsing it.*
+- **[Contemplation]** Music bypasses logic and physically rearranges your emotional and bodily state.
+- **[Contemplation]** A single betrayal of confidence can make you permanently guarded and hide your real self.
+- **[Contemplation]** You forgive others easily yet carry brutal self-hatred you actually deserve to release.
+- **[Contemplation]** Without connection to something larger than yourself, ego inflates and you lose awe.  → *Regularly connect to something bigger than you: nature, art, love, or others.*
+- **[Contemplation]** You keep avoiding the change you want, and that stagnation is your own doing.
+- **[Contemplation]** You exhaust yourself performing for an audience that stopped watching long ago.
+- **[Contemplation]** Your self-image is the story you have repeated longest, not the actual truth.
+- **[Contemplation]** Much ambition is escape from inner restlessness, not genuine desire or direction.
+- **[Preparation]** You stay busy with easy tasks to avoid the one change that would matter.  → *Name the one task you keep avoiding and do it first today.*
+- **[Action]** Pre-fatigue the back with light rear delts, then do 100 pull-ups as five every 30 seconds.  → *Do five pull-ups every 30 seconds to hit 100 in 10 minutes.*
+- **[Action]** Short sleep disrupts hunger hormones, leading women to eat about 300 extra calories.  → *Sleep at least seven and a half hours to avoid hormone-driven overeating.*
+- **[Action]** Writing and voicing a sincere apology lets both people heal from a past betrayal.  → *Write an apology note to someone you wronged, then say it aloud.*
+- **[Action]** Spending the after-work window screen-free lets your nervous system actually close the workday.  → *After work, spend 20 minutes with no screen: walk or sit outside.*
+- **[Maintenance]** Happiness fades like a leaky tire, so build well-being by creating good moments repeatedly.  → *Look for small chances to connect and create good moments daily.*
+- **[Maintenance]** Growth is not escaping challenges but becoming someone who handles bigger ones without losing themselves.
+
 ## AI / TECH INSIGHT  (19)
 *Learnix use: Deploy for tech users in Preparation — builds domain confidence*
 
@@ -166,12 +163,10 @@ Use the TTM stage to pick what to serve a user at each phase of motivation repai
 - **[Action]** Uncertainty isn't a stop sign but the environment; nothing extraordinary was ever built under perfect conditions.  → *Commit to building now instead of waiting for stable conditions.*
 - **[Action]** Prompting Claude by hand each time is slow; build a system of self-prompting loops instead.  → *Automate Claude with self-prompting loops instead of typing prompts manually.*
 
-## SHAME / FEAR HOOK  (14)
+## SHAME / FEAR HOOK  (12)
 *Learnix use: Use sparingly in Pre-contemplation — creates urgency but risks disengagement*
 
 - **[Precontemplation]** Harsh discipline content is aimed only at the goal-driven, not the complacent who merely follow it.
-- **[Contemplation]** Compulsive scrolling is a symptom; the real disease is having no bridge between work mode and personal mode.  → *Diagnose what you are escaping instead of just deleting apps.*
-- **[Contemplation]** Your evening collapse into scrolling is a conditioned Pavlovian response, not a lack of discipline.  → *Notice the trigger pulling you before you respond to it automatically.*
 - **[Contemplation]** Compulsive scrolling is a symptom; the real disease is having no bridge between work mode and personal mode.  → *Diagnose what you are escaping instead of just deleting apps.*
 - **[Contemplation]** Your evening collapse into scrolling is a conditioned Pavlovian response, not a lack of discipline.  → *Notice the trigger pulling you before you respond to it automatically.*
 - **[Contemplation]** Lost evenings come from having no protocol to transition out of work mode, not from laziness.  → *Build a transition ritual that bridges work mode and personal mode after 5pm.*
@@ -184,12 +179,11 @@ Use the TTM stage to pick what to serve a user at each phase of motivation repai
 - **[Maintenance]** Momentum breaks from undefined next sessions, unrecovered misses, and high stimulation before deep work.  → *Before closing a session, write one sentence defining what the next one is for.*
 - **[Maintenance]** Self-improvement programs fail because they have no recovery protocol for depleted, disrupted days.  → *Pick systems with a low floor and a recovery protocol that activates the day after a miss.*
 
-## PROCESS / DISCIPLINE  (9)
+## PROCESS / DISCIPLINE  (8)
 *Learnix use: Deploy in Action — helps user stay consistent through plateau*
 
 - **[Contemplation]** Tracking every activity for 30 days exposes where your hours actually go and enables intentional change.  → *Track every daily activity for 30 days using a time-tracking app like Toggl.*
 - **[Contemplation]** Tracking daily mood reveals that simple pleasures, not big achievements, drive lasting happiness.  → *Rate your mood each night to spot what genuinely makes you happy.*
-- **[Action]** Discipline is refusing to drop below a non-negotiable floor on bad days, not going harder on good ones.  → *Set a 10-minute daily floor that happens no matter how bad the day.*
 - **[Action]** Small wins like phone outside the bedroom and one written priority compound into genuine focus.  → *Charge your phone outside the bedroom and write one priority before opening anything.*
 - **[Action]** Force has a daily limit; engineer an environment where the work is easier to do than to avoid.  → *Remove friction beforehand: phone away, outcome written, environment sealed before you start.*
 - **[Action]** Discipline is refusing to drop below a non-negotiable floor on bad days, not going harder on good ones.  → *Set a 10-minute daily floor that happens no matter how bad the day.*
