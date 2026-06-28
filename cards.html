@@ -4,15 +4,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#05070b;--ink:#f5f7f4;--mut:#8a94a2;--mut2:#aeb6c0;--line:rgba(255,255,255,.10);
-         --ac:#c7ff38;--disp:'Bricolage Grotesque',sans-serif}
+         --ac:#c7ff38;--disp:'Bricolage Grotesque',sans-serif;
+         --glass:linear-gradient(165deg,rgba(255,255,255,.072),rgba(255,255,255,.022))}
   .opt{--ac:#7fd0ff}
   *{box-sizing:border-box} html{scroll-behavior:smooth} html,body{margin:0}
   body{color:var(--ink);font-family:'Manrope',sans-serif;min-height:100vh;padding-bottom:120px;
     background:radial-gradient(130% 100% at 50% -15%,#0c1525,#05070b 58%);-webkit-font-smoothing:antialiased}
   #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .page{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 26px}
+  .page-wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 26px}
 
-  .hero{padding:90px 0 30px}
+  .hero{padding:90px 0 30px;max-width:680px}
   .hero .eb{font:500 11px 'DM Mono';letter-spacing:.32em;color:var(--ac);text-transform:uppercase;margin:0 0 18px}
   .hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(40px,7.5vw,74px);line-height:.95;letter-spacing:-.035em;margin:0 0 22px}
   .hero h1 em{font-style:normal;color:var(--ac)}
@@ -29,57 +30,69 @@
   .sh p{margin:5px 0 0;font:400 13px 'DM Mono';color:var(--mut)}
   .grid{display:flex;flex-direction:column;gap:18px}
 
-  /* book card: two stacked glass panels, cover hinges open */
-  .card{position:relative;display:grid;perspective:2200px;outline:none;border-radius:20px}
+  /* book: a 2-page spread under a hinged cover */
+  .card{position:relative;display:grid;perspective:2600px;outline:none;border-radius:20px}
   .card:focus-visible{box-shadow:0 0 0 2px var(--ac)}
-  .face{grid-area:1/1;border-radius:20px;padding:30px 34px;display:flex;flex-direction:column;
-    backface-visibility:hidden;-webkit-backface-visibility:hidden;
-    background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.022));
-    backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);
-    border:1px solid var(--line);box-shadow:0 16px 54px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.16)}
 
-  /* inside (the move) — sits behind, hidden until the cover swings open */
-  .inside{z-index:1;opacity:0;border-left:2px solid color-mix(in srgb,var(--ac) 45%,transparent);
-    transition:opacity .45s ease .15s}
-  .card:hover .inside,.card:focus-within .inside{opacity:1}
-  .inside::before{content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;
-    background:radial-gradient(90% 120% at 0% 0%,color-mix(in srgb,var(--ac) 14%,transparent),transparent 45%)}
+  /* the open spread (revealed under the cover) */
+  .spread{grid-area:1/1;display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:hidden;
+    background:var(--glass);border:1px solid var(--line);min-height:300px;
+    box-shadow:0 16px 54px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.14);
+    backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%)}
+  .spread::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
+    background:linear-gradient(180deg,transparent,var(--line),transparent);transform:translateX(-50%)}
+  .page{position:relative;padding:30px 30px;display:flex;flex-direction:column;
+    opacity:0;transition:opacity .5s}
+  .card:hover .page,.card:focus-within .page{opacity:1}
+  /* gutter shadows + stagger */
+  .lpage{box-shadow:inset -26px 0 36px -26px rgba(0,0,0,.8);transform:translateX(-10px);transition:opacity .5s .15s,transform .55s .15s}
+  .rpage{box-shadow:inset 26px 0 36px -26px rgba(0,0,0,.8);transform:translateX(10px);transition:opacity .5s .28s,transform .55s .28s;
+    border-left:1px solid color-mix(in srgb,var(--ac) 22%,transparent)}
+  .card:hover .lpage,.card:hover .rpage,.card:focus-within .lpage,.card:focus-within .rpage{transform:none}
+  .wm{position:absolute;right:14px;top:-14px;font:800 130px var(--disp);line-height:1;
+    color:color-mix(in srgb,var(--ac) 7%,transparent);pointer-events:none;letter-spacing:-.04em;z-index:0}
+  .page>*,.cover>*{position:relative;z-index:1}
+  .eyebrow{display:flex;align-items:center;justify-content:space-between;
+    font:500 10px 'DM Mono';letter-spacing:.18em;text-transform:uppercase;color:var(--ac);margin-bottom:16px}
+  .eyebrow .reels{color:var(--mut);letter-spacing:.12em}
+  .name{margin:0 0 14px;font-family:var(--disp);font-weight:700;font-size:clamp(24px,3.1vw,32px);
+    line-height:1.0;letter-spacing:-.028em;color:var(--ink)}
+  .rule{margin:0;font-size:14.5px;line-height:1.62;color:var(--mut2)}
+  .lpage .src{margin-top:auto;padding-top:16px;font:400 10px 'DM Mono';color:var(--mut);border-top:1px solid var(--line)}
   .movelabel{display:flex;align-items:center;gap:12px;font:500 10px 'DM Mono';letter-spacing:.22em;
     text-transform:uppercase;color:var(--ac);margin-bottom:14px}
-  .movelabel .ln{height:1px;width:34px;background:var(--ac);box-shadow:0 0 8px var(--ac)}
-  .move{margin:0 0 18px;font-weight:600;font-size:18px;line-height:1.5;color:#eef7df}
+  .movelabel .ln{height:1px;width:30px;background:var(--ac);box-shadow:0 0 8px var(--ac)}
+  .move{margin:0 0 18px;font-weight:600;font-size:16.5px;line-height:1.5;color:#eef7df}
   .opt .move{color:#e4f1ff}
-  .meta{margin:0 0 16px;display:grid;grid-template-columns:54px 1fr;gap:6px 14px}
+  .meta{margin:0;display:grid;grid-template-columns:48px 1fr;gap:6px 12px}
   .meta dt{font:500 9px 'DM Mono';letter-spacing:.14em;text-transform:uppercase;color:var(--ac);padding-top:3px}
-  .meta dd{margin:0;font-size:13px;line-height:1.55;color:var(--mut2)}
-  .src{margin-top:auto;font:400 10.5px 'DM Mono';color:var(--mut);border-top:1px solid var(--line);padding-top:12px}
+  .meta dd{margin:0;font-size:12.5px;line-height:1.55;color:var(--mut2)}
 
-  /* cover (front) — hinges open on its left spine */
-  .cover{z-index:2;transform-origin:left center;transform:rotateY(0deg);
-    transition:transform .8s cubic-bezier(.5,.05,.2,1),box-shadow .4s;will-change:transform;
-    box-shadow:0 16px 54px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.16),inset 3px 0 0 color-mix(in srgb,var(--ac) 55%,transparent)}
-  .cover::before{content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;
-    background:radial-gradient(95% 120% at 0% 0%,color-mix(in srgb,var(--ac) 18%,transparent),transparent 48%);opacity:.6}
-  .card:hover .cover,.card:focus-within .cover{transform:rotateY(-158deg);
-    box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.12)}
-  .cover>*{position:relative;z-index:1}
-  .node{position:absolute;top:30px;left:34px;display:grid;place-items:center;width:30px;height:30px;
-    font:500 12px 'DM Mono';color:var(--ac);border:1px solid color-mix(in srgb,var(--ac) 55%,transparent);
-    border-radius:50%;background:rgba(5,7,11,.7);box-shadow:0 0 16px color-mix(in srgb,var(--ac) 30%,transparent)}
-  .eyebrow{display:flex;align-items:center;justify-content:space-between;padding-left:44px;
-    font:500 10px 'DM Mono';letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin-bottom:16px;min-height:30px}
-  .eyebrow .reels{color:var(--mut);letter-spacing:.12em}
-  .name{margin:0 0 13px;font-family:var(--disp);font-weight:700;font-size:clamp(27px,3.7vw,36px);
-    line-height:1.0;letter-spacing:-.028em;color:var(--ink)}
-  .rule{margin:0;font-size:15.5px;line-height:1.62;color:var(--mut2);max-width:52ch}
-  .cue{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:22px;
-    font:500 10.5px 'DM Mono';letter-spacing:.08em;color:var(--ac);opacity:.85}
-  .chev{transition:transform .4s} .card:hover .cue .chev{transform:translateX(4px)}
+  /* the cover — closes over the right page's spine (center), swings open left */
+  .cover{grid-area:1/1;position:relative;border-radius:20px;padding:34px 38px;display:flex;flex-direction:column;overflow:hidden;
+    transform-origin:left center;transform:rotateY(0deg);transition:transform .92s cubic-bezier(.62,.04,.18,1);
+    will-change:transform;z-index:3;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    background:linear-gradient(155deg,rgba(255,255,255,.09),rgba(255,255,255,.025)),
+      radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,var(--ac) 18%,transparent),transparent 46%);
+    border:1px solid var(--line);
+    box-shadow:0 18px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.2),inset 5px 0 0 color-mix(in srgb,var(--ac) 65%,transparent);
+    backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%)}
+  .card:hover .cover,.card:focus-within .cover{transform:rotateY(-165deg)}
+  .cover .name{font-size:clamp(30px,4.4vw,44px)}
+  .cover .rule{max-width:48ch;color:var(--mut2)}
+  .cue{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:24px;
+    font:500 10.5px 'DM Mono';letter-spacing:.08em;color:var(--ac);text-transform:uppercase}
+  .chev{transition:transform .4s} .card:hover .cue .chev{transform:translateX(6px)}
+  .sweep{position:absolute;inset:0;pointer-events:none;z-index:2;transform:translateX(-120%);
+    background:linear-gradient(105deg,transparent 36%,rgba(255,255,255,.18) 48%,transparent 60%);
+    transition:transform .92s cubic-bezier(.62,.04,.18,1)}
+  .card:hover .sweep,.card:focus-within .sweep{transform:translateX(120%)}
 
-  @media (max-width:560px){.face{padding:24px 22px} .node{left:22px;top:24px} .eyebrow{padding-left:42px}}
+  @media (max-width:620px){.spread{grid-template-columns:1fr} .rpage{border-left:none;border-top:1px solid color-mix(in srgb,var(--ac) 22%,transparent)}
+    .cover,.page{padding:24px 22px} .wm{font-size:96px}}
 </style></head><body>
 <canvas id="stars"></canvas>
-<main class="page">
+<main class="page-wrap">
   <header class="hero">
     <p class="eb">Motivation Engine · Field Manual</p>
     <h1>Repair the<br><em>system</em> first.</h1>
@@ -91,165 +104,246 @@
     <header class="sh"><span class="sn">I</span><div><h2>Fix the system</h2><p>Get consistency running and protect it from spirals.</p></div></header>
     <div class="grid">
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Pick your one keystone habit and set a 10-minute floor for it. Tonight, do exactly 10 minutes, no more required. Repeat daily for 7 days, no matter how tired you are.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>A floor small enough to clear with zero willpower removes the decision and lets you start; consistency compounds where perfectionism collapses the moment one variable breaks.</dd>
-        <dt>When</dt><dd>user reports &#x27;too tired&#x27;, &#x27;no willpower at night&#x27;, skips habits on bad days, or quits a routine after one rough stretch</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · hubermanlab · jamesclear · davidgoggins</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">01</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;01</span></div>
+        <h3 class="name">Minimum floor</h3>
+        <p class="rule">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</p>
+        <div class="src">distilled from lemuelmcd · hubermanlab · jamesclear · davidgoggins</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Pick your one keystone habit and set a 10-minute floor for it. Tonight, do exactly 10 minutes, no more required. Repeat daily for 7 days, no matter how tired you are.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>A floor small enough to clear with zero willpower removes the decision and lets you start; consistency compounds where perfectionism collapses the moment one variable breaks.</dd>
+          <dt>When</dt><dd>user reports &#x27;too tired&#x27;, &#x27;no willpower at night&#x27;, skips habits on bad days, or quits a routine after one rough stretch</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">01</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">17 sources</span></div>
+    <div class="cover">
+      <span class="wm">01</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;01</span><span class="reels">17 sources</span></div>
       <h3 class="name">Minimum floor</h3>
       <p class="rule">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Define a 10-minute non-negotiable floor for your main habit, and decide right now exactly what you&#x27;ll do tomorrow if today falls apart. No zero days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>All-or-nothing thinking turns one miss into a full collapse; a tiny floor plus a pre-set restart keeps the streak (and your identity as someone who shows up) alive.</dd>
-        <dt>When</dt><dd>User skipped a day or two and feels like they &#x27;broke the chain&#x27;, keeps restarting from scratch, or abandons a habit after one disruption.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · davidgoggins · hubermanlab</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">02</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;02</span></div>
+        <h3 class="name">No zero days</h3>
+        <p class="rule">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</p>
+        <div class="src">distilled from lemuelmcd · davidgoggins · hubermanlab</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Define a 10-minute non-negotiable floor for your main habit, and decide right now exactly what you&#x27;ll do tomorrow if today falls apart. No zero days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>All-or-nothing thinking turns one miss into a full collapse; a tiny floor plus a pre-set restart keeps the streak (and your identity as someone who shows up) alive.</dd>
+          <dt>When</dt><dd>User skipped a day or two and feels like they &#x27;broke the chain&#x27;, keeps restarting from scratch, or abandons a habit after one disruption.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">02</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">5 sources</span></div>
+    <div class="cover">
+      <span class="wm">02</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;02</span><span class="reels">5 sources</span></div>
       <h3 class="name">No zero days</h3>
       <p class="rule">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Tonight, when you catch yourself in a self-attack (&#x27;I&#x27;m so lazy/pathetic&#x27;), pause and reword it as you would to a tired friend, then write the kinder line down. Do this for 7 days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Naming the mechanism (depleted willpower, trauma response) interrupts the shame spiral, and shame freezes action while self-compassion frees it.</dd>
-        <dt>When</dt><dd>When you feel guilt or self-hatred after a missed day, a wasted evening, or a comparison that left you feeling behind.</dd>
-      </dl>
-      <div class="src">distilled from notirene.exe · lemuelmcd · jayshetty · theflintmind</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">03</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;03</span></div>
+        <h3 class="name">Anti-shame</h3>
+        <p class="rule">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</p>
+        <div class="src">distilled from notirene.exe · lemuelmcd · jayshetty · theflintmind</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Tonight, when you catch yourself in a self-attack (&#x27;I&#x27;m so lazy/pathetic&#x27;), pause and reword it as you would to a tired friend, then write the kinder line down. Do this for 7 days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Naming the mechanism (depleted willpower, trauma response) interrupts the shame spiral, and shame freezes action while self-compassion frees it.</dd>
+          <dt>When</dt><dd>When you feel guilt or self-hatred after a missed day, a wasted evening, or a comparison that left you feeling behind.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">03</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">8 sources</span></div>
+    <div class="cover">
+      <span class="wm">03</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;03</span><span class="reels">8 sources</span></div>
       <h3 class="name">Anti-shame</h3>
       <p class="rule">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Before you start your next focus block, do the four-step seal: phone in another room, notifications off, one tab open, one priority written down. Set it up the night before. Run it for 7 days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Behavior needs a prompt and low friction more than motivation; removing the decision and the distraction beforehand is cheaper than forcing focus when you&#x27;re already depleted.</dd>
-        <dt>When</dt><dd>user reports &#x27;can&#x27;t focus&#x27;, evening scrolling/phone collapse, distraction, or blames willpower and laziness for lost time</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · mattdavella · jayshetty · notirene.exe</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">04</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;04</span></div>
+        <h3 class="name">Environment design</h3>
+        <p class="rule">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</p>
+        <div class="src">distilled from lemuelmcd · mattdavella · jayshetty · notirene.exe</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Before you start your next focus block, do the four-step seal: phone in another room, notifications off, one tab open, one priority written down. Set it up the night before. Run it for 7 days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Behavior needs a prompt and low friction more than motivation; removing the decision and the distraction beforehand is cheaper than forcing focus when you&#x27;re already depleted.</dd>
+          <dt>When</dt><dd>user reports &#x27;can&#x27;t focus&#x27;, evening scrolling/phone collapse, distraction, or blames willpower and laziness for lost time</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">04</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">25 sources</span></div>
+    <div class="cover">
+      <span class="wm">04</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;04</span><span class="reels">25 sources</span></div>
       <h3 class="name">Environment design</h3>
       <p class="rule">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Tonight, write one if-then on a sticky note and put it where you&#x27;ll hit the trigger: &quot;When I walk in the door, I put my phone on the kitchen counter and start [your one task] for 10 minutes.&quot; Run that exact line every evening for 7 days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>A pre-set trigger-action pair removes the in-the-moment decision, so the right move fires automatically instead of competing with a depleted brain.</dd>
-        <dt>When</dt><dd>User says they &#x27;fall apart after work&#x27;, collapse into scrolling at night, or can&#x27;t get started in the evening even when they meant to.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · you (saved)</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">05</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;05</span></div>
+        <h3 class="name">If-then plans</h3>
+        <p class="rule">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</p>
+        <div class="src">distilled from lemuelmcd · you (saved)</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Tonight, write one if-then on a sticky note and put it where you&#x27;ll hit the trigger: &quot;When I walk in the door, I put my phone on the kitchen counter and start [your one task] for 10 minutes.&quot; Run that exact line every evening for 7 days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>A pre-set trigger-action pair removes the in-the-moment decision, so the right move fires automatically instead of competing with a depleted brain.</dd>
+          <dt>When</dt><dd>User says they &#x27;fall apart after work&#x27;, collapse into scrolling at night, or can&#x27;t get started in the evening even when they meant to.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">05</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">11 sources</span></div>
+    <div class="cover">
+      <span class="wm">05</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;05</span><span class="reels">11 sources</span></div>
       <h3 class="name">If-then plans</h3>
       <p class="rule">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Text one person tonight your single goal for this week and ask them to check in on it Friday. Make the target specific enough that they can tell if you hit it.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>External visibility raises the social cost of quitting and removes the single point of failure of relying only on your own willpower.</dd>
-        <dt>When</dt><dd>When you keep restarting alone, breaking private promises, or notice no one would know if you quit.</dd>
-      </dl>
-      <div class="src">distilled from davidgoggins · you (saved)</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">06</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;06</span></div>
+        <h3 class="name">Accountability</h3>
+        <p class="rule">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</p>
+        <div class="src">distilled from davidgoggins · you (saved)</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Text one person tonight your single goal for this week and ask them to check in on it Friday. Make the target specific enough that they can tell if you hit it.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>External visibility raises the social cost of quitting and removes the single point of failure of relying only on your own willpower.</dd>
+          <dt>When</dt><dd>When you keep restarting alone, breaking private promises, or notice no one would know if you quit.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">06</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">2 sources</span></div>
+    <div class="cover">
+      <span class="wm">06</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;06</span><span class="reels">2 sources</span></div>
       <h3 class="name">Accountability</h3>
       <p class="rule">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Pick the one task you keep deferring and set a 5-minute timer on it right now. No setup, no new app, no reorganizing. Just 5 minutes, today.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Starting breaks the activation barrier and the brain back-fills motivation once it sees motion, so tiny visible wins compound into real momentum.</dd>
-        <dt>When</dt><dd>When you&#x27;re stuck planning, waiting to feel ready, or telling yourself you have no time.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · mattdavella · davidgoggins · hubermanlab</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">07</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;07</span></div>
+        <h3 class="name">Momentum &amp; small wins</h3>
+        <p class="rule">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</p>
+        <div class="src">distilled from lemuelmcd · mattdavella · davidgoggins · hubermanlab</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Pick the one task you keep deferring and set a 5-minute timer on it right now. No setup, no new app, no reorganizing. Just 5 minutes, today.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Starting breaks the activation barrier and the brain back-fills motivation once it sees motion, so tiny visible wins compound into real momentum.</dd>
+          <dt>When</dt><dd>When you&#x27;re stuck planning, waiting to feel ready, or telling yourself you have no time.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">07</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">13 sources</span></div>
+    <div class="cover">
+      <span class="wm">07</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;07</span><span class="reels">13 sources</span></div>
       <h3 class="name">Momentum &amp; small wins</h3>
       <p class="rule">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Tonight, set a hard &#x27;leave work&#x27; / shutdown time and start winding down so you&#x27;re actually in bed 7.5 hours before your alarm. Phone charges outside the bedroom.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Sleep debt wrecks hormones, focus, and willpower the next day, so guarding it makes every other habit perform better for almost zero extra effort.</dd>
-        <dt>When</dt><dd>User says they&#x27;re constantly tired, snoozing the alarm, crashing into the phone after work, or trying to add more habits while running on empty.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · hubermanlab · mattdavella · notirene.exe</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">08</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;08</span></div>
+        <h3 class="name">Rest &amp; recovery</h3>
+        <p class="rule">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</p>
+        <div class="src">distilled from lemuelmcd · hubermanlab · mattdavella · notirene.exe</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Tonight, set a hard &#x27;leave work&#x27; / shutdown time and start winding down so you&#x27;re actually in bed 7.5 hours before your alarm. Phone charges outside the bedroom.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Sleep debt wrecks hormones, focus, and willpower the next day, so guarding it makes every other habit perform better for almost zero extra effort.</dd>
+          <dt>When</dt><dd>User says they&#x27;re constantly tired, snoozing the alarm, crashing into the phone after work, or trying to add more habits while running on empty.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">08</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">11 sources</span></div>
+    <div class="cover">
+      <span class="wm">08</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;08</span><span class="reels">11 sources</span></div>
       <h3 class="name">Rest &amp; recovery</h3>
       <p class="rule">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Tonight, write one paragraph describing the exact life and version of you that you&#x27;d hate to wake up as in 5 years. Keep it where you&#x27;ll see it each morning.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Loss-aversion is wired deeper than reward-seeking, so a vivid &#x27;away-from&#x27; is a stronger and more durable trigger than an abstract &#x27;toward&#x27;.</dd>
-        <dt>When</dt><dd>When you feel drifting, complacent, or can&#x27;t find a reason to push and positive goals feel flat.</dd>
-      </dl>
-      <div class="src">distilled from davidgoggins · lemuelmcd</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">09</span>
+        <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;09</span></div>
+        <h3 class="name">Away-motivation</h3>
+        <p class="rule">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</p>
+        <div class="src">distilled from davidgoggins · lemuelmcd</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Tonight, write one paragraph describing the exact life and version of you that you&#x27;d hate to wake up as in 5 years. Keep it where you&#x27;ll see it each morning.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Loss-aversion is wired deeper than reward-seeking, so a vivid &#x27;away-from&#x27; is a stronger and more durable trigger than an abstract &#x27;toward&#x27;.</dd>
+          <dt>When</dt><dd>When you feel drifting, complacent, or can&#x27;t find a reason to push and positive goals feel flat.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">09</span>
-      <div class="eyebrow"><span>FIX PROTOCOL</span><span class="reels">2 sources</span></div>
+    <div class="cover">
+      <span class="wm">09</span>
+      <div class="eyebrow"><span>FIX PROTOCOL · N&ordm;09</span><span class="reels">2 sources</span></div>
       <h3 class="name">Away-motivation</h3>
       <p class="rule">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article></div>
   </section>
@@ -257,111 +351,165 @@
     <header class="sh"><span class="sn">II</span><div><h2>Optimize</h2><p>System runs — now get more leverage from it.</p></div></header>
     <div class="grid">
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Before you sit down to work, write your single priority for the session on paper and put your phone in another room. Do that one task first, before any scrolling, every day for 7 days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Defining the priority before you sit closes the decision gap distraction exploits, and physically removing the phone cuts the strongest pull on your attention.</dd>
-        <dt>When</dt><dd>User reports scattered focus, constant phone-checking, &#x27;I get nothing done even when I sit down&#x27;, or doing busywork to avoid the real task.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · notirene.exe · mattdavella · theflintmind</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">01</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;01</span></div>
+        <h3 class="name">Attention &amp; focus</h3>
+        <p class="rule">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</p>
+        <div class="src">distilled from lemuelmcd · notirene.exe · mattdavella · theflintmind</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Before you sit down to work, write your single priority for the session on paper and put your phone in another room. Do that one task first, before any scrolling, every day for 7 days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Defining the priority before you sit closes the decision gap distraction exploits, and physically removing the phone cuts the strongest pull on your attention.</dd>
+          <dt>When</dt><dd>User reports scattered focus, constant phone-checking, &#x27;I get nothing done even when I sit down&#x27;, or doing busywork to avoid the real task.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">01</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">23 sources</span></div>
+    <div class="cover">
+      <span class="wm">01</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;01</span><span class="reels">23 sources</span></div>
       <h3 class="name">Attention &amp; focus</h3>
       <p class="rule">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Pick the one hard thing you&#x27;ve been parking for &#x27;later&#x27; and do the smallest real version of it today, before any scrolling. Don&#x27;t wait to feel ready.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Acting before you feel ready proves to your brain that discomfort is survivable, which shrinks the avoidance and builds real self-trust instead of postponed hope.</dd>
-        <dt>When</dt><dd>User keeps deferring a hard task, waits for the &#x27;right time&#x27; or certainty, polishes instead of shipping, or escapes into easy busywork.</dd>
-      </dl>
-      <div class="src">distilled from theflintmind · notirene.exe · lemuelmcd · davidgoggins</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">02</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;02</span></div>
+        <h3 class="name">Embrace discomfort</h3>
+        <p class="rule">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</p>
+        <div class="src">distilled from theflintmind · notirene.exe · lemuelmcd · davidgoggins</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Pick the one hard thing you&#x27;ve been parking for &#x27;later&#x27; and do the smallest real version of it today, before any scrolling. Don&#x27;t wait to feel ready.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Acting before you feel ready proves to your brain that discomfort is survivable, which shrinks the avoidance and builds real self-trust instead of postponed hope.</dd>
+          <dt>When</dt><dd>User keeps deferring a hard task, waits for the &#x27;right time&#x27; or certainty, polishes instead of shipping, or escapes into easy busywork.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">02</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">21 sources</span></div>
+    <div class="cover">
+      <span class="wm">02</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;02</span><span class="reels">21 sources</span></div>
       <h3 class="name">Embrace discomfort</h3>
       <p class="rule">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Pick ONE habit and shrink it to a version you can finish in 5-10 minutes, then run it every day for 7 days straight, no skips, no scaling up. If you miss a day, do it the very next day instead of restarting from zero.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>A tiny repeatable system rebuilds self-trust through unbroken reps, and a continuation rule kills the all-or-nothing spiral that ends most streaks.</dd>
-        <dt>When</dt><dd>User keeps restarting, sets ambitious goals that fizzle, or says &#x27;I always fall off after a few days&#x27; / &#x27;I need more motivation&#x27;.</dd>
-      </dl>
-      <div class="src">distilled from lemuelmcd · jamesclear · mattdavella · jayshetty</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">03</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;03</span></div>
+        <h3 class="name">Systems over goals</h3>
+        <p class="rule">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</p>
+        <div class="src">distilled from lemuelmcd · jamesclear · mattdavella · jayshetty</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Pick ONE habit and shrink it to a version you can finish in 5-10 minutes, then run it every day for 7 days straight, no skips, no scaling up. If you miss a day, do it the very next day instead of restarting from zero.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>A tiny repeatable system rebuilds self-trust through unbroken reps, and a continuation rule kills the all-or-nothing spiral that ends most streaks.</dd>
+          <dt>When</dt><dd>User keeps restarting, sets ambitious goals that fizzle, or says &#x27;I always fall off after a few days&#x27; / &#x27;I need more motivation&#x27;.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">03</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">15 sources</span></div>
+    <div class="cover">
+      <span class="wm">03</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;03</span><span class="reels">15 sources</span></div>
       <h3 class="name">Systems over goals</h3>
       <p class="rule">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Pick one habit you can finish in under 10 minutes and do it every day for 7 days straight, scaling it down (not skipping) on bad days instead of breaking the streak.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Small repeatable actions compound while overcomplicated plans get abandoned; staying in motion past setbacks is what builds the long arc.</dd>
-        <dt>When</dt><dd>When you feel impatient, like progress is too slow, or you&#x27;re tempted to quit because results aren&#x27;t showing yet.</dd>
-      </dl>
-      <div class="src">distilled from theflintmind · lemuelmcd · davidgoggins · jayshetty</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">04</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;04</span></div>
+        <h3 class="name">Long game</h3>
+        <p class="rule">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</p>
+        <div class="src">distilled from theflintmind · lemuelmcd · davidgoggins · jayshetty</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Pick one habit you can finish in under 10 minutes and do it every day for 7 days straight, scaling it down (not skipping) on bad days instead of breaking the streak.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Small repeatable actions compound while overcomplicated plans get abandoned; staying in motion past setbacks is what builds the long arc.</dd>
+          <dt>When</dt><dd>When you feel impatient, like progress is too slow, or you&#x27;re tempted to quit because results aren&#x27;t showing yet.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">04</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">5 sources</span></div>
+    <div class="cover">
+      <span class="wm">04</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;04</span><span class="reels">5 sources</span></div>
       <h3 class="name">Long game</h3>
       <p class="rule">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Each morning, make one small promise to yourself and keep it before the day ends (e.g. &#x27;I&#x27;ll read one page&#x27;). Track 7 kept promises in a row. The goal is the streak of keeping your word, not the size of the act.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>Self-trust and identity are built by evidence; every promise you keep proves to yourself who you&#x27;re becoming, while hesitation trains an identity around delay.</dd>
-        <dt>When</dt><dd>user says &#x27;I&#x27;m not that kind of person&#x27;, doubts they can change, breaks promises to themselves, or chases outcomes while feeling like an impostor</dd>
-      </dl>
-      <div class="src">distilled from notirene.exe · theflintmind · lemuelmcd · jayshetty</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">05</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;05</span></div>
+        <h3 class="name">Identity-based</h3>
+        <p class="rule">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</p>
+        <div class="src">distilled from notirene.exe · theflintmind · lemuelmcd · jayshetty</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Each morning, make one small promise to yourself and keep it before the day ends (e.g. &#x27;I&#x27;ll read one page&#x27;). Track 7 kept promises in a row. The goal is the streak of keeping your word, not the size of the act.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>Self-trust and identity are built by evidence; every promise you keep proves to yourself who you&#x27;re becoming, while hesitation trains an identity around delay.</dd>
+          <dt>When</dt><dd>user says &#x27;I&#x27;m not that kind of person&#x27;, doubts they can change, breaks promises to themselves, or chases outcomes while feeling like an impostor</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">05</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">17 sources</span></div>
+    <div class="cover">
+      <span class="wm">05</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;05</span><span class="reels">17 sources</span></div>
       <h3 class="name">Identity-based</h3>
       <p class="rule">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article>
   <article class="card" tabindex="0">
-    <div class="face inside">
-      <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
-      <p class="move">Tonight, journal three lines: what&#x27;s blocking your growth, what you&#x27;d attempt if you couldn&#x27;t fail, and the one step you&#x27;ll take tomorrow. Reread it each morning for 7 days.</p>
-      <dl class="meta">
-        <dt>Why</dt><dd>A concrete future self creates a pull stronger than willpower, and writing it filters borrowed goals from the ones that are actually yours.</dd>
-        <dt>When</dt><dd>When you feel directionless, stuck on &#x27;shoulds&#x27;, or are doom-scrolling other people&#x27;s lives and feeling behind.</dd>
-      </dl>
-      <div class="src">distilled from you (saved) · notirene.exe</div>
+    <div class="spread">
+      <div class="page lpage">
+        <span class="wm">06</span>
+        <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;06</span></div>
+        <h3 class="name">Vision clarity</h3>
+        <p class="rule">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</p>
+        <div class="src">distilled from you (saved) · notirene.exe</div>
+      </div>
+      <div class="page rpage">
+        <div class="movelabel"><span class="ln"></span>THE 7-DAY MOVE</div>
+        <p class="move">Tonight, journal three lines: what&#x27;s blocking your growth, what you&#x27;d attempt if you couldn&#x27;t fail, and the one step you&#x27;ll take tomorrow. Reread it each morning for 7 days.</p>
+        <dl class="meta">
+          <dt>Why</dt><dd>A concrete future self creates a pull stronger than willpower, and writing it filters borrowed goals from the ones that are actually yours.</dd>
+          <dt>When</dt><dd>When you feel directionless, stuck on &#x27;shoulds&#x27;, or are doom-scrolling other people&#x27;s lives and feeling behind.</dd>
+        </dl>
+      </div>
     </div>
-    <div class="face cover">
-      <span class="node">06</span>
-      <div class="eyebrow"><span>OPTIMIZE PROTOCOL</span><span class="reels">4 sources</span></div>
+    <div class="cover">
+      <span class="wm">06</span>
+      <div class="eyebrow"><span>OPTIMIZE PROTOCOL · N&ordm;06</span><span class="reels">4 sources</span></div>
       <h3 class="name">Vision clarity</h3>
       <p class="rule">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</p>
-      <div class="cue"><span>hover to open</span><span class="chev">▸</span></div>
+      <div class="cue"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+      <span class="sweep"></span>
     </div>
   </article></div>
   </section>
