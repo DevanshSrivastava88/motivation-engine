@@ -63,17 +63,17 @@
   .name{margin:0 0 12px;font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.6vw,35px);line-height:1.0;letter-spacing:-.028em;color:var(--ink)}
   .rule{margin:0;font-size:15.5px;line-height:1.62;color:var(--mut2);max-width:54ch}
 
-  /* body folds open — top hinge, unfolds downward (the webflow foldable effect) */
-  .bwrap{display:grid;grid-template-rows:0fr;opacity:0;perspective:1500px;
-          transition:grid-template-rows .6s cubic-bezier(.4,0,.15,1),opacity .4s,margin-top .45s}
-  .card:hover .bwrap,.card:focus-within .bwrap{grid-template-rows:1fr;opacity:1;margin-top:20px}
-  .body{overflow:hidden;min-height:0;transform-origin:top center;transform:rotateX(-87deg);
-         transition:transform .62s cubic-bezier(.32,1.18,.45,1)}
-  .card:hover .body,.card:focus-within .body{transform:rotateX(0deg)}
-  /* hinge crease */
-  .body::before{content:'';display:block;height:1px;margin-bottom:18px;
-    background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 60%,transparent),transparent 70%);
-    box-shadow:0 0 10px color-mix(in srgb,var(--ac) 40%,transparent)}
+  /* greeting-card open — left spine hinge, page swings open on Y axis.
+     height opens fast (.32s) so the slower swing (.7s) isn't vertically clipped. */
+  .bwrap{display:grid;grid-template-rows:0fr;perspective:1700px;
+          transition:grid-template-rows .32s cubic-bezier(.4,0,.15,1),margin-top .35s}
+  .card:hover .bwrap,.card:focus-within .bwrap{grid-template-rows:1fr;margin-top:20px}
+  .body{overflow:hidden;min-height:0;opacity:.001;
+         transform-origin:left center;transform:rotateY(-108deg);
+         transition:transform .7s cubic-bezier(.34,1.1,.42,1),opacity .5s;
+         border-left:2px solid color-mix(in srgb,var(--ac) 55%,transparent);
+         padding-left:20px;box-shadow:-16px 0 34px rgba(0,0,0,.4)}
+  .card:hover .body,.card:focus-within .body{transform:rotateY(0deg);opacity:1}
   .movelabel{display:flex;align-items:center;gap:12px;font:500 10px 'DM Mono';letter-spacing:.22em;
     text-transform:uppercase;color:var(--ac);margin-bottom:12px}
   .movelabel .ln{height:1px;width:34px;background:var(--ac);flex:none;box-shadow:0 0 8px var(--ac)}
