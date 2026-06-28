@@ -15,17 +15,17 @@
         -webkit-backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid var(--line)}
   .top h1{margin:0;font:500 15px 'DM Mono';letter-spacing:.14em;color:var(--acid)}
   .top p{margin:5px 0 0;font:400 11.5px 'DM Mono';color:var(--muted)}
-  .wrap{max-width:1280px;margin:0 auto;padding:0 26px}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
   .stage{margin-top:46px}
   .sh{display:flex;align-items:baseline;gap:13px;margin:0 2px 22px;flex-wrap:wrap}
   .sh .n{font:700 12px 'DM Mono';color:#05070b;background:var(--acid);padding:4px 11px;border-radius:6px;
           box-shadow:0 0 20px rgba(199,255,56,.5)}
   .stage.opt .sh .n{background:var(--blue);color:#04121c;box-shadow:0 0 20px rgba(127,208,255,.5)}
   .sh h2{margin:0;font-size:24px;font-weight:800} .sh .d{font:400 12.5px 'DM Mono';color:var(--muted)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(312px,1fr));gap:18px;align-items:start}
+  .grid{display:flex;flex-direction:column;gap:18px}
 
-  /* liquid glass card */
-  .card{position:relative;border-radius:18px;padding:20px;cursor:pointer;overflow:hidden;
+  /* liquid glass card — one per row */
+  .card{position:relative;border-radius:20px;padding:26px 30px;cursor:pointer;overflow:hidden;
     background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
     backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
     border:1px solid rgba(255,255,255,.13);
@@ -43,17 +43,18 @@
   .tag{font:500 9.5px 'DM Mono';letter-spacing:.1em;color:var(--a);
         border:1px solid color-mix(in srgb,var(--a) 45%,transparent);border-radius:4px;padding:2px 8px}
   .reels{margin-left:auto;font:400 10px 'DM Mono';color:var(--muted)}
-  .name{font-weight:800;font-size:21px;line-height:1.12;margin-bottom:11px;color:#fff}
-  .rule{font-size:13.5px;line-height:1.55;color:#d2dae3}
-  .cue{display:flex;align-items:center;justify-content:space-between;margin-top:14px;
-        font:500 10px 'DM Mono';color:var(--a);opacity:.85;letter-spacing:.05em}
-  .chev{transition:transform .35s} .card.open .chev{transform:rotate(180deg)}
-  .card.open .cue span:first-child::after{content:''}
+  .name{font-weight:800;font-size:25px;line-height:1.1;margin-bottom:13px;color:#fff}
+  .rule{font-size:15px;line-height:1.6;color:#d2dae3;max-width:62ch}
+  .cue{display:flex;align-items:center;justify-content:space-between;margin-top:16px;
+        font:500 10.5px 'DM Mono';color:var(--a);opacity:.85;letter-spacing:.05em}
+  .chev{transition:transform .5s cubic-bezier(.4,0,.2,1);font-size:13px}
+  .card.open .chev{transform:rotate(180deg)}
 
-  /* expandable body — top panel (head) stays, this opens below */
-  .body{max-height:0;opacity:0;overflow:hidden;
-         transition:max-height .45s cubic-bezier(.2,.7,.2,1),opacity .35s,margin-top .35s}
-  .card.open .body{max-height:460px;opacity:1;margin-top:16px}
+  /* expandable body — true-height animation via grid-rows (buttery) */
+  .bwrap{display:grid;grid-template-rows:0fr;opacity:0;
+          transition:grid-template-rows .55s cubic-bezier(.4,0,.2,1),opacity .4s,margin-top .4s}
+  .card.open .bwrap{grid-template-rows:1fr;opacity:1;margin-top:18px}
+  .body{overflow:hidden;min-height:0}
   .bk-do{background:color-mix(in srgb,var(--a) 11%,rgba(8,11,16,.5));
           border:1px solid color-mix(in srgb,var(--a) 32%,transparent);
           border-radius:11px;padding:13px;font-size:13.5px;line-height:1.5;color:#f0fbdf;margin-bottom:12px}
@@ -77,12 +78,12 @@
       <div class="rule">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Pick your one keystone habit and set a 10-minute floor for it. Tonight, do exactly 10 minutes, no more required. Repeat daily for 7 days, no matter how tired you are.</div>
       <div class="bk-why"><b>WHY</b> A floor small enough to clear with zero willpower removes the decision and lets you start; consistency compounds where perfectionism collapses the moment one variable breaks.</div>
       <div class="bk-when"><b>WHEN</b> user reports &#x27;too tired&#x27;, &#x27;no willpower at night&#x27;, skips habits on bad days, or quits a routine after one rough stretch</div>
       <div class="bk-src">lemuelmcd · hubermanlab · jamesclear · davidgoggins</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#b6f73c" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -92,12 +93,12 @@
       <div class="rule">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Define a 10-minute non-negotiable floor for your main habit, and decide right now exactly what you&#x27;ll do tomorrow if today falls apart. No zero days.</div>
       <div class="bk-why"><b>WHY</b> All-or-nothing thinking turns one miss into a full collapse; a tiny floor plus a pre-set restart keeps the streak (and your identity as someone who shows up) alive.</div>
       <div class="bk-when"><b>WHEN</b> User skipped a day or two and feels like they &#x27;broke the chain&#x27;, keeps restarting from scratch, or abandons a habit after one disruption.</div>
       <div class="bk-src">lemuelmcd · davidgoggins · hubermanlab</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#d4ff6e" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -107,12 +108,12 @@
       <div class="rule">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Tonight, when you catch yourself in a self-attack (&#x27;I&#x27;m so lazy/pathetic&#x27;), pause and reword it as you would to a tired friend, then write the kinder line down. Do this for 7 days.</div>
       <div class="bk-why"><b>WHY</b> Naming the mechanism (depleted willpower, trauma response) interrupts the shame spiral, and shame freezes action while self-compassion frees it.</div>
       <div class="bk-when"><b>WHEN</b> When you feel guilt or self-hatred after a missed day, a wasted evening, or a comparison that left you feeling behind.</div>
       <div class="bk-src">notirene.exe · lemuelmcd · jayshetty · theflintmind</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#9be84f" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -122,12 +123,12 @@
       <div class="rule">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Before you start your next focus block, do the four-step seal: phone in another room, notifications off, one tab open, one priority written down. Set it up the night before. Run it for 7 days.</div>
       <div class="bk-why"><b>WHY</b> Behavior needs a prompt and low friction more than motivation; removing the decision and the distraction beforehand is cheaper than forcing focus when you&#x27;re already depleted.</div>
       <div class="bk-when"><b>WHEN</b> user reports &#x27;can&#x27;t focus&#x27;, evening scrolling/phone collapse, distraction, or blames willpower and laziness for lost time</div>
       <div class="bk-src">lemuelmcd · mattdavella · jayshetty · notirene.exe</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#e0ff8a" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -137,12 +138,12 @@
       <div class="rule">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Tonight, write one if-then on a sticky note and put it where you&#x27;ll hit the trigger: &quot;When I walk in the door, I put my phone on the kitchen counter and start [your one task] for 10 minutes.&quot; Run that exact line every evening for 7 days.</div>
       <div class="bk-why"><b>WHY</b> A pre-set trigger-action pair removes the in-the-moment decision, so the right move fires automatically instead of competing with a depleted brain.</div>
       <div class="bk-when"><b>WHEN</b> User says they &#x27;fall apart after work&#x27;, collapse into scrolling at night, or can&#x27;t get started in the evening even when they meant to.</div>
       <div class="bk-src">lemuelmcd · you (saved)</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#caff4d" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -152,12 +153,12 @@
       <div class="rule">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Text one person tonight your single goal for this week and ask them to check in on it Friday. Make the target specific enough that they can tell if you hit it.</div>
       <div class="bk-why"><b>WHY</b> External visibility raises the social cost of quitting and removes the single point of failure of relying only on your own willpower.</div>
       <div class="bk-when"><b>WHEN</b> When you keep restarting alone, breaking private promises, or notice no one would know if you quit.</div>
       <div class="bk-src">davidgoggins · you (saved)</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#a8e85a" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -167,12 +168,12 @@
       <div class="rule">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Pick the one task you keep deferring and set a 5-minute timer on it right now. No setup, no new app, no reorganizing. Just 5 minutes, today.</div>
       <div class="bk-why"><b>WHY</b> Starting breaks the activation barrier and the brain back-fills motivation once it sees motion, so tiny visible wins compound into real momentum.</div>
       <div class="bk-when"><b>WHEN</b> When you&#x27;re stuck planning, waiting to feel ready, or telling yourself you have no time.</div>
       <div class="bk-src">lemuelmcd · mattdavella · davidgoggins · hubermanlab</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#d8ff5c" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -182,12 +183,12 @@
       <div class="rule">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Tonight, set a hard &#x27;leave work&#x27; / shutdown time and start winding down so you&#x27;re actually in bed 7.5 hours before your alarm. Phone charges outside the bedroom.</div>
       <div class="bk-why"><b>WHY</b> Sleep debt wrecks hormones, focus, and willpower the next day, so guarding it makes every other habit perform better for almost zero extra effort.</div>
       <div class="bk-when"><b>WHEN</b> User says they&#x27;re constantly tired, snoozing the alarm, crashing into the phone after work, or trying to add more habits while running on empty.</div>
       <div class="bk-src">lemuelmcd · hubermanlab · mattdavella · notirene.exe</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#bdf76a" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -197,12 +198,12 @@
       <div class="rule">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Tonight, write one paragraph describing the exact life and version of you that you&#x27;d hate to wake up as in 5 years. Keep it where you&#x27;ll see it each morning.</div>
       <div class="bk-why"><b>WHY</b> Loss-aversion is wired deeper than reward-seeking, so a vivid &#x27;away-from&#x27; is a stronger and more durable trigger than an abstract &#x27;toward&#x27;.</div>
       <div class="bk-when"><b>WHEN</b> When you feel drifting, complacent, or can&#x27;t find a reason to push and positive goals feel flat.</div>
       <div class="bk-src">davidgoggins · lemuelmcd</div>
-    </div>
+    </div></div>
   </div></div>
   </div>
   <div class="stage opt">
@@ -216,12 +217,12 @@
       <div class="rule">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Before you sit down to work, write your single priority for the session on paper and put your phone in another room. Do that one task first, before any scrolling, every day for 7 days.</div>
       <div class="bk-why"><b>WHY</b> Defining the priority before you sit closes the decision gap distraction exploits, and physically removing the phone cuts the strongest pull on your attention.</div>
       <div class="bk-when"><b>WHEN</b> User reports scattered focus, constant phone-checking, &#x27;I get nothing done even when I sit down&#x27;, or doing busywork to avoid the real task.</div>
       <div class="bk-src">lemuelmcd · notirene.exe · mattdavella · theflintmind</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#4488ff" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -231,12 +232,12 @@
       <div class="rule">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Pick the one hard thing you&#x27;ve been parking for &#x27;later&#x27; and do the smallest real version of it today, before any scrolling. Don&#x27;t wait to feel ready.</div>
       <div class="bk-why"><b>WHY</b> Acting before you feel ready proves to your brain that discomfort is survivable, which shrinks the avoidance and builds real self-trust instead of postponed hope.</div>
       <div class="bk-when"><b>WHEN</b> User keeps deferring a hard task, waits for the &#x27;right time&#x27; or certainty, polishes instead of shipping, or escapes into easy busywork.</div>
       <div class="bk-src">theflintmind · notirene.exe · lemuelmcd · davidgoggins</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#00d4ff" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -246,12 +247,12 @@
       <div class="rule">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Pick ONE habit and shrink it to a version you can finish in 5-10 minutes, then run it every day for 7 days straight, no skips, no scaling up. If you miss a day, do it the very next day instead of restarting from zero.</div>
       <div class="bk-why"><b>WHY</b> A tiny repeatable system rebuilds self-trust through unbroken reps, and a continuation rule kills the all-or-nothing spiral that ends most streaks.</div>
       <div class="bk-when"><b>WHEN</b> User keeps restarting, sets ambitious goals that fizzle, or says &#x27;I always fall off after a few days&#x27; / &#x27;I need more motivation&#x27;.</div>
       <div class="bk-src">lemuelmcd · jamesclear · mattdavella · jayshetty</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#9bb8ff" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -261,12 +262,12 @@
       <div class="rule">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Pick one habit you can finish in under 10 minutes and do it every day for 7 days straight, scaling it down (not skipping) on bad days instead of breaking the streak.</div>
       <div class="bk-why"><b>WHY</b> Small repeatable actions compound while overcomplicated plans get abandoned; staying in motion past setbacks is what builds the long arc.</div>
       <div class="bk-when"><b>WHEN</b> When you feel impatient, like progress is too slow, or you&#x27;re tempted to quit because results aren&#x27;t showing yet.</div>
       <div class="bk-src">theflintmind · lemuelmcd · davidgoggins · jayshetty</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#5ad0ff" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -276,12 +277,12 @@
       <div class="rule">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Each morning, make one small promise to yourself and keep it before the day ends (e.g. &#x27;I&#x27;ll read one page&#x27;). Track 7 kept promises in a row. The goal is the streak of keeping your word, not the size of the act.</div>
       <div class="bk-why"><b>WHY</b> Self-trust and identity are built by evidence; every promise you keep proves to yourself who you&#x27;re becoming, while hesitation trains an identity around delay.</div>
       <div class="bk-when"><b>WHEN</b> user says &#x27;I&#x27;m not that kind of person&#x27;, doubts they can change, breaks promises to themselves, or chases outcomes while feeling like an impostor</div>
       <div class="bk-src">notirene.exe · theflintmind · lemuelmcd · jayshetty</div>
-    </div>
+    </div></div>
   </div>
   <div class="card" style="--a:#8ab4ff" onclick="this.classList.toggle('open')">
     <div class="head">
@@ -291,12 +292,12 @@
       <div class="rule">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</div>
       <div class="cue"><span>tap to open</span><span class="chev">▾</span></div>
     </div>
-    <div class="body">
+    <div class="bwrap"><div class="body">
       <div class="bk-do"><span class="dolabel">TRY · 7 DAYS</span>Tonight, journal three lines: what&#x27;s blocking your growth, what you&#x27;d attempt if you couldn&#x27;t fail, and the one step you&#x27;ll take tomorrow. Reread it each morning for 7 days.</div>
       <div class="bk-why"><b>WHY</b> A concrete future self creates a pull stronger than willpower, and writing it filters borrowed goals from the ones that are actually yours.</div>
       <div class="bk-when"><b>WHEN</b> When you feel directionless, stuck on &#x27;shoulds&#x27;, or are doom-scrolling other people&#x27;s lives and feeling behind.</div>
       <div class="bk-src">you (saved) · notirene.exe</div>
-    </div>
+    </div></div>
   </div></div>
   </div></div>
 <script>
