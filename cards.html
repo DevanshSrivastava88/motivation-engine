@@ -405,7 +405,7 @@ document.querySelectorAll('.card').forEach(card=>{
   const glare=card.querySelector('.glare');
   const layers=card.querySelectorAll('[data-z]');
   let tx=0,ty=0,cx=0,cy=0,tp=0,p=0,gx=50,gy=50,running=false;
-  const E=0.42; // higher = snappier/faster follow
+  const E=0.8; // higher = snappier/faster follow (near-instant)
   function loop(){
     cx+=(tx-cx)*E; cy+=(ty-cy)*E; p+=(tp-p)*E;
     tilt.style.transform=`translateZ(${p*30}px) rotateX(${cy.toFixed(2)}deg) rotateY(${cx.toFixed(2)}deg)`;
