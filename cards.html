@@ -307,13 +307,13 @@ const TINTS=[[255,255,255],[255,255,255],[255,255,255],[185,205,255],[255,242,20
 function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;
   const n=Math.min(160,Math.floor(W*H/9000));st=[];
   for(let i=0;i<n;i++)st.push({x:Math.random()*W,y:Math.random()*H,
-    vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.4+.5,
+    vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:Math.random()*1.4+.5,
     c:TINTS[Math.floor(Math.random()*TINTS.length)],ph:Math.random()*6.28});}
 resize();addEventListener('resize',resize);
 function draw(t){cx.clearRect(0,0,W,H);
   for(const a of st){a.x+=a.vx;a.y+=a.vy;
     if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
-    const g=.45+.55*Math.sin(t/900+a.ph),r=a.r*(.8+g*.6);
+    const g=.4+.6*Math.sin(t/340+a.ph),r=a.r*(.75+g*.7);
     cx.beginPath();cx.arc(a.x,a.y,r,0,6.28);
     cx.fillStyle=`rgba(${a.c[0]},${a.c[1]},${a.c[2]},${.35+g*.5})`;
     cx.shadowBlur=6+g*6;cx.shadowColor=`rgb(${a.c[0]},${a.c[1]},${a.c[2]})`;cx.fill();}
