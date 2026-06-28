@@ -1,0 +1,202 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Strategy Cards — Motivation Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#c7ff38;--blue:#4488ff;--bg:#070a0e}
+  *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -10%,#0d141c,#070a0e 55%);
+     color:#e6edf3;font-family:'Manrope',sans-serif;padding:0 0 80px}
+  .top{position:sticky;top:0;background:rgba(7,10,14,.9);backdrop-filter:blur(10px);
+        border-bottom:1px solid #161c24;padding:16px 28px;z-index:5}
+  .top h1{margin:0;font-family:'DM Mono';font-size:15px;letter-spacing:.12em;color:var(--green);font-weight:500}
+  .top p{margin:5px 0 0;font-size:12px;color:#7b8693;font-family:'DM Mono'}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  .stage{margin-top:40px}
+  .sh{display:flex;align-items:baseline;gap:12px;margin:0 4px 6px}
+  .sh .n{font-family:'DM Mono';font-size:12px;color:#070a0e;background:var(--green);padding:3px 10px;border-radius:5px;font-weight:700}
+  .stage.opt .sh .n{background:var(--blue);color:#fff}
+  .sh h2{margin:0;font-size:22px;font-weight:800} .sh .d{font-size:13px;color:#7b8693;font-family:'DM Mono'}
+  .gate{font-family:'DM Mono';font-size:11px;color:#8a96a3;margin:2px 4px 18px;
+         border-left:2px solid #2a3543;padding-left:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:#0d1218;border:1px solid #1c242e;border-radius:12px;padding:18px;border-top:3px solid var(--green)}
+  .card.s2{border-top-color:var(--blue)}
+  .chead{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+  .cnum{font-family:'DM Mono';font-size:11px;color:#5b6672}
+  .cname{font-weight:800;font-size:17px} .cbadge{margin-left:auto;font-family:'DM Mono';font-size:10px;
+          color:#8a96a3;border:1px solid #2a3543;border-radius:4px;padding:2px 7px}
+  .crule{font-size:13.5px;line-height:1.5;color:#cdd6df;margin-bottom:13px}
+  .cdo{background:#0f1a00;border:1px solid #c7ff3833;border-radius:8px;padding:11px 12px;font-size:13.5px;
+        line-height:1.5;color:#eaffcf;margin-bottom:12px}
+  .card.s2 .cdo{background:#091428;border-color:#4488ff33;color:#d6e6ff}
+  .dolabel{display:block;font-family:'DM Mono';font-size:9.5px;letter-spacing:.12em;color:var(--green);margin-bottom:5px}
+  .card.s2 .dolabel{color:var(--blue)}
+  .cwhy,.cwhen{font-size:12px;line-height:1.5;color:#909bA8;margin-bottom:7px}
+  .cwhy b,.cwhen b{color:#c3ccd6;font-family:'DM Mono';font-size:10px;letter-spacing:.05em;margin-right:5px}
+  .csrc{font-family:'DM Mono';font-size:10px;color:#5b6672;margin-top:9px;border-top:1px solid #161c24;padding-top:8px}
+</style></head><body>
+<div class="top"><h1>⬡ STRATEGY CARDS</h1>
+  <p>15 motivation-repair cards · try one 7 days · try a card 7 days; if not held, rotate (reframe as fit not failure); 3 fails -&gt; lower the floor</p></div>
+<div class="wrap">
+  <div class="stage fix">
+    <div class="sh"><span class="n">STAGE 1</span><h2>Fix the system</h2>
+      <span class="d">Get consistency running and protect it from spirals.</span></div>
+    <div class="gate">▸ Graduate: held a Stage-1 card 14 days straight (or CRS &gt;= 68)</div>
+    <div class="grid">
+  <div class="card s1">
+    <div class="chead"><span class="cnum">01</span>
+      <span class="cname">Minimum floor</span>
+      <span class="cbadge">17 reels</span></div>
+    <div class="crule">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Pick your one keystone habit and set a 10-minute floor for it. Tonight, do exactly 10 minutes, no more required. Repeat daily for 7 days, no matter how tired you are.</div>
+    <div class="cwhy"><b>Why</b> A floor small enough to clear with zero willpower removes the decision and lets you start; consistency compounds where perfectionism collapses the moment one variable breaks.</div>
+    <div class="cwhen"><b>Serve when</b> user reports &#x27;too tired&#x27;, &#x27;no willpower at night&#x27;, skips habits on bad days, or quits a routine after one rough stretch</div>
+    <div class="csrc">lemuelmcd · hubermanlab · jamesclear · davidgoggins</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">02</span>
+      <span class="cname">No zero days</span>
+      <span class="cbadge">5 reels</span></div>
+    <div class="crule">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Define a 10-minute non-negotiable floor for your main habit, and decide right now exactly what you&#x27;ll do tomorrow if today falls apart. No zero days.</div>
+    <div class="cwhy"><b>Why</b> All-or-nothing thinking turns one miss into a full collapse; a tiny floor plus a pre-set restart keeps the streak (and your identity as someone who shows up) alive.</div>
+    <div class="cwhen"><b>Serve when</b> User skipped a day or two and feels like they &#x27;broke the chain&#x27;, keeps restarting from scratch, or abandons a habit after one disruption.</div>
+    <div class="csrc">lemuelmcd · davidgoggins · hubermanlab</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">03</span>
+      <span class="cname">Anti-shame</span>
+      <span class="cbadge">8 reels</span></div>
+    <div class="crule">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Tonight, when you catch yourself in a self-attack (&#x27;I&#x27;m so lazy/pathetic&#x27;), pause and reword it as you would to a tired friend, then write the kinder line down. Do this for 7 days.</div>
+    <div class="cwhy"><b>Why</b> Naming the mechanism (depleted willpower, trauma response) interrupts the shame spiral, and shame freezes action while self-compassion frees it.</div>
+    <div class="cwhen"><b>Serve when</b> When you feel guilt or self-hatred after a missed day, a wasted evening, or a comparison that left you feeling behind.</div>
+    <div class="csrc">notirene.exe · lemuelmcd · jayshetty · theflintmind</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">04</span>
+      <span class="cname">Environment design</span>
+      <span class="cbadge">25 reels</span></div>
+    <div class="crule">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Before you start your next focus block, do the four-step seal: phone in another room, notifications off, one tab open, one priority written down. Set it up the night before. Run it for 7 days.</div>
+    <div class="cwhy"><b>Why</b> Behavior needs a prompt and low friction more than motivation; removing the decision and the distraction beforehand is cheaper than forcing focus when you&#x27;re already depleted.</div>
+    <div class="cwhen"><b>Serve when</b> user reports &#x27;can&#x27;t focus&#x27;, evening scrolling/phone collapse, distraction, or blames willpower and laziness for lost time</div>
+    <div class="csrc">lemuelmcd · mattdavella · jayshetty · notirene.exe</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">05</span>
+      <span class="cname">If-then plans</span>
+      <span class="cbadge">11 reels</span></div>
+    <div class="crule">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Tonight, write one if-then on a sticky note and put it where you&#x27;ll hit the trigger: &quot;When I walk in the door, I put my phone on the kitchen counter and start [your one task] for 10 minutes.&quot; Run that exact line every evening for 7 days.</div>
+    <div class="cwhy"><b>Why</b> A pre-set trigger-action pair removes the in-the-moment decision, so the right move fires automatically instead of competing with a depleted brain.</div>
+    <div class="cwhen"><b>Serve when</b> User says they &#x27;fall apart after work&#x27;, collapse into scrolling at night, or can&#x27;t get started in the evening even when they meant to.</div>
+    <div class="csrc">lemuelmcd · you (saved)</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">06</span>
+      <span class="cname">Accountability</span>
+      <span class="cbadge">2 reels</span></div>
+    <div class="crule">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Text one person tonight your single goal for this week and ask them to check in on it Friday. Make the target specific enough that they can tell if you hit it.</div>
+    <div class="cwhy"><b>Why</b> External visibility raises the social cost of quitting and removes the single point of failure of relying only on your own willpower.</div>
+    <div class="cwhen"><b>Serve when</b> When you keep restarting alone, breaking private promises, or notice no one would know if you quit.</div>
+    <div class="csrc">davidgoggins · you (saved)</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">07</span>
+      <span class="cname">Momentum &amp; small wins</span>
+      <span class="cbadge">13 reels</span></div>
+    <div class="crule">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Pick the one task you keep deferring and set a 5-minute timer on it right now. No setup, no new app, no reorganizing. Just 5 minutes, today.</div>
+    <div class="cwhy"><b>Why</b> Starting breaks the activation barrier and the brain back-fills motivation once it sees motion, so tiny visible wins compound into real momentum.</div>
+    <div class="cwhen"><b>Serve when</b> When you&#x27;re stuck planning, waiting to feel ready, or telling yourself you have no time.</div>
+    <div class="csrc">lemuelmcd · mattdavella · davidgoggins · hubermanlab</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">08</span>
+      <span class="cname">Rest &amp; recovery</span>
+      <span class="cbadge">11 reels</span></div>
+    <div class="crule">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Tonight, set a hard &#x27;leave work&#x27; / shutdown time and start winding down so you&#x27;re actually in bed 7.5 hours before your alarm. Phone charges outside the bedroom.</div>
+    <div class="cwhy"><b>Why</b> Sleep debt wrecks hormones, focus, and willpower the next day, so guarding it makes every other habit perform better for almost zero extra effort.</div>
+    <div class="cwhen"><b>Serve when</b> User says they&#x27;re constantly tired, snoozing the alarm, crashing into the phone after work, or trying to add more habits while running on empty.</div>
+    <div class="csrc">lemuelmcd · hubermanlab · mattdavella · notirene.exe</div>
+  </div>
+  <div class="card s1">
+    <div class="chead"><span class="cnum">09</span>
+      <span class="cname">Away-motivation</span>
+      <span class="cbadge">2 reels</span></div>
+    <div class="crule">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Tonight, write one paragraph describing the exact life and version of you that you&#x27;d hate to wake up as in 5 years. Keep it where you&#x27;ll see it each morning.</div>
+    <div class="cwhy"><b>Why</b> Loss-aversion is wired deeper than reward-seeking, so a vivid &#x27;away-from&#x27; is a stronger and more durable trigger than an abstract &#x27;toward&#x27;.</div>
+    <div class="cwhen"><b>Serve when</b> When you feel drifting, complacent, or can&#x27;t find a reason to push and positive goals feel flat.</div>
+    <div class="csrc">davidgoggins · lemuelmcd</div>
+  </div></div>
+  </div>
+  <div class="stage opt">
+    <div class="sh"><span class="n">STAGE 2</span><h2>Optimize</h2>
+      <span class="d">System runs — now get more leverage from it.</span></div>
+    <div class="gate">Unlocks after Stage 1 graduation</div>
+    <div class="grid">
+  <div class="card s2">
+    <div class="chead"><span class="cnum">01</span>
+      <span class="cname">Attention &amp; focus</span>
+      <span class="cbadge">23 reels</span></div>
+    <div class="crule">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Before you sit down to work, write your single priority for the session on paper and put your phone in another room. Do that one task first, before any scrolling, every day for 7 days.</div>
+    <div class="cwhy"><b>Why</b> Defining the priority before you sit closes the decision gap distraction exploits, and physically removing the phone cuts the strongest pull on your attention.</div>
+    <div class="cwhen"><b>Serve when</b> User reports scattered focus, constant phone-checking, &#x27;I get nothing done even when I sit down&#x27;, or doing busywork to avoid the real task.</div>
+    <div class="csrc">lemuelmcd · notirene.exe · mattdavella · theflintmind</div>
+  </div>
+  <div class="card s2">
+    <div class="chead"><span class="cnum">02</span>
+      <span class="cname">Embrace discomfort</span>
+      <span class="cbadge">21 reels</span></div>
+    <div class="crule">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Pick the one hard thing you&#x27;ve been parking for &#x27;later&#x27; and do the smallest real version of it today, before any scrolling. Don&#x27;t wait to feel ready.</div>
+    <div class="cwhy"><b>Why</b> Acting before you feel ready proves to your brain that discomfort is survivable, which shrinks the avoidance and builds real self-trust instead of postponed hope.</div>
+    <div class="cwhen"><b>Serve when</b> User keeps deferring a hard task, waits for the &#x27;right time&#x27; or certainty, polishes instead of shipping, or escapes into easy busywork.</div>
+    <div class="csrc">theflintmind · notirene.exe · lemuelmcd · davidgoggins</div>
+  </div>
+  <div class="card s2">
+    <div class="chead"><span class="cnum">03</span>
+      <span class="cname">Systems over goals</span>
+      <span class="cbadge">15 reels</span></div>
+    <div class="crule">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Pick ONE habit and shrink it to a version you can finish in 5-10 minutes, then run it every day for 7 days straight, no skips, no scaling up. If you miss a day, do it the very next day instead of restarting from zero.</div>
+    <div class="cwhy"><b>Why</b> A tiny repeatable system rebuilds self-trust through unbroken reps, and a continuation rule kills the all-or-nothing spiral that ends most streaks.</div>
+    <div class="cwhen"><b>Serve when</b> User keeps restarting, sets ambitious goals that fizzle, or says &#x27;I always fall off after a few days&#x27; / &#x27;I need more motivation&#x27;.</div>
+    <div class="csrc">lemuelmcd · jamesclear · mattdavella · jayshetty</div>
+  </div>
+  <div class="card s2">
+    <div class="chead"><span class="cnum">04</span>
+      <span class="cname">Long game</span>
+      <span class="cbadge">5 reels</span></div>
+    <div class="crule">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Pick one habit you can finish in under 10 minutes and do it every day for 7 days straight, scaling it down (not skipping) on bad days instead of breaking the streak.</div>
+    <div class="cwhy"><b>Why</b> Small repeatable actions compound while overcomplicated plans get abandoned; staying in motion past setbacks is what builds the long arc.</div>
+    <div class="cwhen"><b>Serve when</b> When you feel impatient, like progress is too slow, or you&#x27;re tempted to quit because results aren&#x27;t showing yet.</div>
+    <div class="csrc">theflintmind · lemuelmcd · davidgoggins · jayshetty</div>
+  </div>
+  <div class="card s2">
+    <div class="chead"><span class="cnum">05</span>
+      <span class="cname">Identity-based</span>
+      <span class="cbadge">17 reels</span></div>
+    <div class="crule">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Each morning, make one small promise to yourself and keep it before the day ends (e.g. &#x27;I&#x27;ll read one page&#x27;). Track 7 kept promises in a row. The goal is the streak of keeping your word, not the size of the act.</div>
+    <div class="cwhy"><b>Why</b> Self-trust and identity are built by evidence; every promise you keep proves to yourself who you&#x27;re becoming, while hesitation trains an identity around delay.</div>
+    <div class="cwhen"><b>Serve when</b> user says &#x27;I&#x27;m not that kind of person&#x27;, doubts they can change, breaks promises to themselves, or chases outcomes while feeling like an impostor</div>
+    <div class="csrc">notirene.exe · theflintmind · lemuelmcd · jayshetty</div>
+  </div>
+  <div class="card s2">
+    <div class="chead"><span class="cnum">06</span>
+      <span class="cname">Vision clarity</span>
+      <span class="cbadge">4 reels</span></div>
+    <div class="crule">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</div>
+    <div class="cdo"><span class="dolabel">TRY · 7 DAYS</span>Tonight, journal three lines: what&#x27;s blocking your growth, what you&#x27;d attempt if you couldn&#x27;t fail, and the one step you&#x27;ll take tomorrow. Reread it each morning for 7 days.</div>
+    <div class="cwhy"><b>Why</b> A concrete future self creates a pull stronger than willpower, and writing it filters borrowed goals from the ones that are actually yours.</div>
+    <div class="cwhen"><b>Serve when</b> When you feel directionless, stuck on &#x27;shoulds&#x27;, or are doom-scrolling other people&#x27;s lives and feeling behind.</div>
+    <div class="csrc">you (saved) · notirene.exe</div>
+  </div></div>
+  </div>
+</div></body></html>
