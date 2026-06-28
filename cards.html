@@ -31,26 +31,26 @@
   .grid{display:flex;flex-direction:column;gap:18px}
 
   /* book: a 2-page spread under a hinged cover, on an Aceternity-style 3D tilt */
-  .card{position:relative;perspective:1400px;outline:none;border-radius:20px}
+  .card{position:relative;perspective:1400px;outline:none;border-radius:20px;cursor:pointer}
   .card:focus-visible{box-shadow:0 0 0 2px var(--ac)}
   .tilt{display:grid;transform-style:preserve-3d;transition:transform .3s ease-out;border-radius:20px}
-  [data-z]{transition:transform .3s ease-out}
+  [data-z]{transition:transform .35s cubic-bezier(.2,.7,.2,1);transform-origin:left center}
 
   /* the open spread (revealed under the cover) */
   .spread{grid-area:1/1;display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:hidden;
-    transform-style:preserve-3d;background:var(--glass);border:1px solid var(--line);min-height:300px;
+    background:var(--glass);border:1px solid var(--line);min-height:300px;backface-visibility:hidden;
     box-shadow:0 16px 54px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.14);
     backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%)}
   .spread::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
     background:linear-gradient(180deg,transparent,var(--line),transparent);transform:translateX(-50%)}
-  .page{position:relative;padding:30px 30px;display:flex;flex-direction:column;transform-style:preserve-3d;
+  .page{position:relative;padding:30px 30px;display:flex;flex-direction:column;
     opacity:0;transition:opacity .5s}
-  .card:hover .page,.card:focus-within .page{opacity:1}
+  .card.open .page{opacity:1}
   /* gutter shadows + stagger */
   .lpage{box-shadow:inset -26px 0 36px -26px rgba(0,0,0,.8);transform:translateX(-10px);transition:opacity .5s .15s,transform .55s .15s}
   .rpage{box-shadow:inset 26px 0 36px -26px rgba(0,0,0,.8);transform:translateX(10px);transition:opacity .5s .28s,transform .55s .28s;
     border-left:1px solid color-mix(in srgb,var(--ac) 22%,transparent)}
-  .card:hover .lpage,.card:hover .rpage,.card:focus-within .lpage,.card:focus-within .rpage{transform:none}
+  .card.open .lpage,.card.open .rpage{transform:none}
   .wm{position:absolute;right:14px;top:-14px;font:800 130px var(--disp);line-height:1;
     color:color-mix(in srgb,var(--ac) 7%,transparent);pointer-events:none;letter-spacing:-.04em;z-index:0}
   .page>*,.cover>*{position:relative;z-index:1}
@@ -79,7 +79,7 @@
     border:1px solid var(--line);
     box-shadow:0 18px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.2),inset 5px 0 0 color-mix(in srgb,var(--ac) 65%,transparent);
     backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%)}
-  .card:hover .cover,.card:focus-within .cover{transform:rotateY(-165deg)}
+  .card.open .cover{transform:rotateY(-165deg)}
   .cover .name{font-size:clamp(30px,4.4vw,44px)}
   .cover .rule{max-width:48ch;color:var(--mut2)}
   .cue{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:24px;
@@ -88,7 +88,7 @@
   .sweep{position:absolute;inset:0;pointer-events:none;z-index:2;transform:translateX(-120%);
     background:linear-gradient(105deg,transparent 36%,rgba(255,255,255,.20) 48%,transparent 60%);
     transition:transform 1.05s cubic-bezier(.46,.03,.16,1)}
-  .card:hover .sweep,.card:focus-within .sweep{transform:translateX(120%)}
+  .card.open .sweep{transform:translateX(120%)}
 
   @media (max-width:620px){.spread{grid-template-columns:1fr} .rpage{border-left:none;border-top:1px solid color-mix(in srgb,var(--ac) 22%,transparent)}
     .cover,.page{padding:24px 22px} .wm{font-size:96px}}
@@ -125,11 +125,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">01</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;01</span><span class="reels">17 sources</span></div>
-        <h3 class="name" data-z="80">Minimum floor</h3>
-        <p class="rule" data-z="40">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">01</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;01</span><span class="reels">17 sources</span></div>
+        <h3 class="name" data-z="130">Minimum floor</h3>
+        <p class="rule" data-z="55">Design your habits for your worst, most depleted day, not your best one. Discipline is refusing to drop below a tiny non-negotiable floor on bad days, not pushing harder on good ones.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -154,11 +154,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">02</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;02</span><span class="reels">5 sources</span></div>
-        <h3 class="name" data-z="80">No zero days</h3>
-        <p class="rule" data-z="40">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">02</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;02</span><span class="reels">5 sources</span></div>
+        <h3 class="name" data-z="130">No zero days</h3>
+        <p class="rule" data-z="55">A missed day isn&#x27;t failure, it&#x27;s a signal you still want it; what&#x27;s missing is a plan for the moment right after a slip. Kill all-or-nothing by keeping a floor low enough to hit on your worst day, so one bad day never becomes a quit.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -183,11 +183,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">03</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;03</span><span class="reels">8 sources</span></div>
-        <h3 class="name" data-z="80">Anti-shame</h3>
-        <p class="rule" data-z="40">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">03</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;03</span><span class="reels">8 sources</span></div>
+        <h3 class="name" data-z="130">Anti-shame</h3>
+        <p class="rule" data-z="55">Your evening collapse, burnout, and constant self-scanning are biology and old survival wiring, not proof you&#x27;re lazy or broken. The brutal self-judgment you carry is one you&#x27;d never aim at anyone else.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -212,11 +212,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">04</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;04</span><span class="reels">25 sources</span></div>
-        <h3 class="name" data-z="80">Environment design</h3>
-        <p class="rule" data-z="40">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">04</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;04</span><span class="reels">25 sources</span></div>
+        <h3 class="name" data-z="130">Environment design</h3>
+        <p class="rule" data-z="55">Willpower depletes like a muscle and runs out by evening, so stop relying on it. Engineer your surroundings so the right behavior is the easiest one and the wrong one takes effort, then pre-decide tonight what tomorrow looks like.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -241,11 +241,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">05</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;05</span><span class="reels">11 sources</span></div>
-        <h3 class="name" data-z="80">If-then plans</h3>
-        <p class="rule" data-z="40">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">05</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;05</span><span class="reels">11 sources</span></div>
+        <h3 class="name" data-z="130">If-then plans</h3>
+        <p class="rule" data-z="55">Your evening doesn&#x27;t collapse from weak discipline, it collapses because the trigger (walking in the door, closing the laptop) hits an undecided brain and defaults to the phone. Decide the trigger-to-action link in advance so the moment runs itself.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -270,11 +270,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">06</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;06</span><span class="reels">2 sources</span></div>
-        <h3 class="name" data-z="80">Accountability</h3>
-        <p class="rule" data-z="40">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">06</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;06</span><span class="reels">2 sources</span></div>
+        <h3 class="name" data-z="130">Accountability</h3>
+        <p class="rule" data-z="55">What stays private stays optional. Making your goals, metrics, and progress visible to someone else turns intention into a commitment you&#x27;ll actually keep, and the right support lets you finish even when you&#x27;re spent.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -299,11 +299,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">07</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;07</span><span class="reels">13 sources</span></div>
-        <h3 class="name" data-z="80">Momentum &amp; small wins</h3>
-        <p class="rule" data-z="40">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">07</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;07</span><span class="reels">13 sources</span></div>
+        <h3 class="name" data-z="130">Momentum &amp; small wins</h3>
+        <p class="rule" data-z="55">Readiness, focus, and clarity arrive after you start, never before. The hardest part is the first move, not the work itself, so the win is simply beginning before you feel like it.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -328,11 +328,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">08</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;08</span><span class="reels">11 sources</span></div>
-        <h3 class="name" data-z="80">Rest &amp; recovery</h3>
-        <p class="rule" data-z="40">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">08</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;08</span><span class="reels">11 sources</span></div>
+        <h3 class="name" data-z="130">Rest &amp; recovery</h3>
+        <p class="rule" data-z="55">Sleep and genuine downtime are the multiplier on every other habit, not the reward you earn after them. Most evening collapse is a depleted nervous system, not weak discipline, so protect recovery upstream instead of stacking more effort.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -357,11 +357,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">09</span>
-        <div class="eyebrow" data-z="60"><span>FIX PROTOCOL · N&ordm;09</span><span class="reels">2 sources</span></div>
-        <h3 class="name" data-z="80">Away-motivation</h3>
-        <p class="rule" data-z="40">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">09</span>
+        <div class="eyebrow" data-z="75"><span>FIX PROTOCOL · N&ordm;09</span><span class="reels">2 sources</span></div>
+        <h3 class="name" data-z="130">Away-motivation</h3>
+        <p class="rule" data-z="55">A clear picture of the person you&#x27;d hate becoming pulls harder than a vague dream of who you want to be. Comfort without effort is what leaves you empty at the end.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -390,11 +390,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">01</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;01</span><span class="reels">23 sources</span></div>
-        <h3 class="name" data-z="80">Attention &amp; focus</h3>
-        <p class="rule" data-z="40">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">01</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;01</span><span class="reels">23 sources</span></div>
+        <h3 class="name" data-z="130">Attention &amp; focus</h3>
+        <p class="rule" data-z="55">Focus leaks aren&#x27;t a willpower problem, they&#x27;re open loops and unguarded inputs: unfinished threads (attention residue), a phone built like a casino, and no defined priority before you sit. Close the loops and name the one thing before distraction can fill the gap.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -419,11 +419,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">02</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;02</span><span class="reels">21 sources</span></div>
-        <h3 class="name" data-z="80">Embrace discomfort</h3>
-        <p class="rule" data-z="40">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">02</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;02</span><span class="reels">21 sources</span></div>
+        <h3 class="name" data-z="130">Embrace discomfort</h3>
+        <p class="rule" data-z="55">Growth comes from staying inside the hard thing and studying yourself there, not escaping it; comfort and waiting for certainty are the real risks. The hard action handed to &#x27;future you&#x27; never gets done, because that person never arrives.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -448,11 +448,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">03</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;03</span><span class="reels">15 sources</span></div>
-        <h3 class="name" data-z="80">Systems over goals</h3>
-        <p class="rule" data-z="40">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">03</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;03</span><span class="reels">15 sources</span></div>
+        <h3 class="name" data-z="130">Systems over goals</h3>
+        <p class="rule" data-z="55">Big goals and perfect routines get abandoned the first time life breaks one variable; what survives is a system small enough to run on a bad day and a plan for the moment right after you slip. Build the infrastructure, not the one-time target.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -477,11 +477,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">04</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;04</span><span class="reels">5 sources</span></div>
-        <h3 class="name" data-z="80">Long game</h3>
-        <p class="rule" data-z="40">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">04</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;04</span><span class="reels">5 sources</span></div>
+        <h3 class="name" data-z="130">Long game</h3>
+        <p class="rule" data-z="55">Results come from a simple routine you can actually sustain and keep adjusting through setbacks, not from grand systems or guarantees. The everyday default choices you barely notice are what compound into your direction over years.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -506,11 +506,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">05</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;05</span><span class="reels">17 sources</span></div>
-        <h3 class="name" data-z="80">Identity-based</h3>
-        <p class="rule" data-z="40">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">05</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;05</span><span class="reels">17 sources</span></div>
+        <h3 class="name" data-z="130">Identity-based</h3>
+        <p class="rule" data-z="55">You don&#x27;t reach goals by chasing outcomes; you become the person who already does the thing. Your self-image is just the story you&#x27;ve repeated longest, and you rewrite it through small kept promises, not big declarations.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -535,11 +535,11 @@
         </div>
       </div>
       <div class="cover">
-        <span class="wm" data-z="30">06</span>
-        <div class="eyebrow" data-z="60"><span>OPTIMIZE PROTOCOL · N&ordm;06</span><span class="reels">4 sources</span></div>
-        <h3 class="name" data-z="80">Vision clarity</h3>
-        <p class="rule" data-z="40">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</p>
-        <div class="cue" data-z="55"><span>open the protocol</span><span class="chev">&rarr;</span></div>
+        <span class="wm" data-z="40">06</span>
+        <div class="eyebrow" data-z="75"><span>OPTIMIZE PROTOCOL · N&ordm;06</span><span class="reels">4 sources</span></div>
+        <h3 class="name" data-z="130">Vision clarity</h3>
+        <p class="rule" data-z="55">A vivid picture of your next-level self makes your current life feel too small to stay in and points your direction. But check whether a craving is real desire or just relief from feeling behind.</p>
+        <div class="cue" data-z="70"><span>open the protocol</span><span class="chev">&rarr;</span></div>
         <span class="sweep"></span>
       </div>
     </div>
@@ -573,15 +573,18 @@ document.querySelectorAll('.card').forEach(card=>{
   let raf=null;
   function set(rx,ry,active){
     tilt.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
-    layers.forEach(el=>{el.style.transform=active?`translateZ(${el.dataset.z}px)`:'translateZ(0)';});
+    layers.forEach(el=>{const z=+el.dataset.z;
+      el.style.transform=active?`translateZ(${z}px) scale(${1+z*0.0018})`:'translateZ(0) scale(1)';});
   }
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
     const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
     if(raf)cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(()=>set(-py*9, px*11, true));
+    raf=requestAnimationFrame(()=>set(-py*10, px*12, true));
   });
   card.addEventListener('mouseleave',()=>set(0,0,false));
+  card.addEventListener('click',()=>card.classList.toggle('open'));
+  card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.classList.toggle('open');}});
 });
 </script>
 </body></html>
